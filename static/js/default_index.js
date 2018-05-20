@@ -1,7 +1,5 @@
 // This is the js for the default/index.html view.
 
-
-
 var app = function() {
 
     var self = {};
