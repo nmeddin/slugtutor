@@ -1,0 +1,65 @@
+tutor and student profile and evreything else is differed
+
+Two databases
+
+A tutor database and a student database
+
+its ok if they're both students
+
+
+I can manage both easily, I can have some team members work on one database 
+
+i wouldnt need databases for class or session
+
+Those would fields of both tutor, student databases
+
+ Big opening page, asks if student or tutor
+
+ Each student has to register
+ validating ucsc address
+
+ Tutor can set an hourly rate
+ name, about me, hourly rate
+
+ 50% payment up front, 50 after session
+
+ 3-4 hour reschedule window
+
+ Facilitate collaborative tutoring sessions
+
+ One person can signup for a session, and say how many people are coming
+
+ tutor can choose to offer ind or group tutoring
+
+ Getting everything to display is tricky
+
+ I need to limit the size of image prof pic uploads
+
+ Dont worry about cropping tool
+
+ 5 star rating option, maybe also have likes
+
+ Stretch to built in messaging
+
+ Right now, an email is good for communication
+
+ ***** Class profiles, what the class is about, resources for the class,
+ class links to the UCSC webpage, class instructor's email, TA, *****
+
+ Might need an independent class database. This can be a public database.
+
+ Peer tutor validation?
+
+ Consecutive low ratings -> qualifaction test, ask why hes getting low ratings
+
+ Initial testing would drive the tutors away
+
+ Have ppl sign academic integerity policy
+
+ Google Cloud appengine hosting
+
+ Make sure to learn how to hosting stuff
+
+ Look at components in vue that are creating templates
+
+ Switch components
