@@ -129,3 +129,38 @@ CREATE TABLE "web2py_session_slugtutor183"(
     "session_data" BLOB
 );
 success!
+timestamp: 2018-05-21T17:39:55.125995
+CREATE TABLE "appointments"(
+    "appointment" TIMESTAMP NOT NULL,
+    "tutor" CHAR(512) NOT NULL,
+    "can_reschedule" CHAR(1),
+    "student" CHAR(512),
+    "rate" DOUBLE,
+    PRIMARY KEY("appointment", "tutor")) ;
+success!
+timestamp: 2018-05-21T17:41:23.109624
+CREATE TABLE "classes"(
+    "title" CHAR(512) NOT NULL,
+    "class_number" INTEGER NOT NULL,
+    "professor" CHAR(512),
+    "department" CHAR(512) NOT NULL,
+    PRIMARY KEY("title", "class_number", "department")) ;
+success!
+timestamp: 2018-05-21T17:42:51.583889
+CREATE TABLE "student"(
+    "name" CHAR(512) NOT NULL,
+    "email" CHAR(512) NOT NULL,
+    "major" CHAR(512),
+    "acadmic_year" INTEGER NOT NULL,
+    PRIMARY KEY("name", "email", "acadmic_year")) ;
+success!
+timestamp: 2018-05-21T17:42:51.590272
+CREATE TABLE "tutor"(
+    "name" CHAR(512) NOT NULL,
+    "email" CHAR(512) NOT NULL,
+    "major" CHAR(512) NOT NULL,
+    "academic_year" CHAR(512),
+    "classes" CHAR(512),
+    "rating" DOUBLE,
+    PRIMARY KEY("name", "email", "major")) ;
+success!
