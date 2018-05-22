@@ -50,7 +50,7 @@
 
 
   </div>
-    <div class = "container">
+  <div class = "container">
     <div class = "half"></div><div class = "half"></div>
     <div class="quarter"><div class="padded "></div></div>
     <div class="half"><div class="padded "><div class = "help drop down">
@@ -61,6 +61,25 @@
 		  
     </select>
 
+
+    </div></div></div>
+    <div class="quarter"><div class="padded "></div></div>
+
+
+
+  </div>
+	 
+  <div class = "container">
+    <div class = "half"></div><div class = "half"></div>
+    <div class="quarter"><div class="padded "></div></div>
+    <div class="half"><div class="padded "><div class = "help drop down">
+
+    Random inspirational quote: <p>${ quoteText }, ${ quoteAuthor }</p>
+
+		<div id="new-quote">
+		  <!-- `greet` is the name of a method defined below -->
+		  <button v-on:click="getQuote(); updateQuote();">New Quote</button>
+		</div>
 
     </div></div></div>
     <div class="quarter"><div class="padded "></div></div>
