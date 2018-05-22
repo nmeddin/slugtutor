@@ -2,6 +2,7 @@
 
 var app = function() {
 
+	
     var self = {};
 
     Vue.config.silent = false; // show all warnings
@@ -12,6 +13,25 @@ var app = function() {
             a.push(b[i]);
         }
     };
+
+	//This is the random quote generator 
+
+	
+		const endpoint = 'https://talaikis.com/api/quotes/random/';
+		//const newQuoteButton = document.querySelector('.new-quote');
+		//newQuoteButton.addEventListener('click', getQuote);
+		function getQuote() {
+		  fetch(endpoint)
+			 .then(function (response) {
+				return response.json();
+			 })
+			 .then(function (data) {
+				console.log(data);
+			 })
+			 .catch(function () {
+				console.log("An error occurred");
+			 });
+		}
 
     // Some classes.
     var CMPS109 = {id: 1, title: 'Advanced Programming', 'demand': 0};
@@ -72,11 +92,32 @@ var app = function() {
             return {
             message: 'hello world',
             class_list: class_list,
-				selected: ''
+				selected: '',
+				quoteText: 'hello',
+				quoteAuthor: 'world'
             }
         },
         methods: {
-//            increment()
+			  getQuote: function() {
+
+				  fetch(endpoint)
+					 .then(function (response) {
+						return response.json();
+					 })
+					 .then(function (data) {						
+							console.log(data.quote);
+					  		self.quoteText = data.quote;
+						
+					 })
+					 .catch(function () {
+						console.log('An error occurred');
+					 });
+			  	},
+			  updateQuote: function() {
+				  console.log('update quote');
+				  alert(self.quoteText);
+			  }
+
         }
 
     });
