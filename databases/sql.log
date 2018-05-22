@@ -1,5 +1,5 @@
-timestamp: 2018-05-15T22:09:57.221000
-CREATE TABLE "web2py_session_slugtutor183"(
+timestamp: 2018-04-24T19:59:13.965000
+CREATE TABLE "web2py_session_start"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "locked" CHAR(1),
     "client_ip" CHAR(64),
@@ -9,7 +9,7 @@ CREATE TABLE "web2py_session_slugtutor183"(
     "session_data" BLOB
 );
 success!
-timestamp: 2018-05-15T22:09:57.427000
+timestamp: 2018-04-24T19:59:14.018000
 CREATE TABLE "auth_user"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "first_name" CHAR(128),
@@ -21,21 +21,21 @@ CREATE TABLE "auth_user"(
     "registration_id" CHAR(512)
 );
 success!
-timestamp: 2018-05-15T22:09:57.599000
+timestamp: 2018-04-24T19:59:14.049000
 CREATE TABLE "auth_group"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "role" CHAR(512),
     "description" TEXT
 );
 success!
-timestamp: 2018-05-15T22:09:57.728000
+timestamp: 2018-04-24T19:59:14.082000
 CREATE TABLE "auth_membership"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
     "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  
 );
 success!
-timestamp: 2018-05-15T22:09:57.881000
+timestamp: 2018-04-24T19:59:14.109000
 CREATE TABLE "auth_permission"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  ,
@@ -44,7 +44,7 @@ CREATE TABLE "auth_permission"(
     "record_id" INTEGER
 );
 success!
-timestamp: 2018-05-15T22:09:58.016000
+timestamp: 2018-04-24T19:59:14.135000
 CREATE TABLE "auth_event"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "time_stamp" TIMESTAMP,
@@ -54,7 +54,7 @@ CREATE TABLE "auth_event"(
     "description" TEXT
 );
 success!
-timestamp: 2018-05-15T22:09:58.152000
+timestamp: 2018-04-24T19:59:14.166000
 CREATE TABLE "auth_cas"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
@@ -64,13 +64,106 @@ CREATE TABLE "auth_cas"(
     "renew" CHAR(1)
 );
 success!
-timestamp: 2018-05-15T22:09:58.285000
+timestamp: 2018-04-24T19:59:14.197000
 CREATE TABLE "checklist"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "user_email" CHAR(512),
     "title" CHAR(512),
     "memo" TEXT,
-    "updated_on" TIMESTAMP,
-    "is_public" CHAR(1)
+    "updated_on" TIMESTAMP
 );
+success!
+timestamp: 2018-04-24T20:03:46.069000
+ALTER TABLE "checklist" ADD "is_public" CHAR(1);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2018-05-02T19:26:21.739000
+CREATE TABLE "web2py_session_Slugtutorio"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "locked" CHAR(1),
+    "client_ip" CHAR(64),
+    "created_datetime" TIMESTAMP,
+    "modified_datetime" TIMESTAMP,
+    "unique_key" CHAR(64),
+    "session_data" BLOB
+);
+success!
+timestamp: 2018-05-02T19:41:12.860000
+CREATE TABLE "web2py_session_slugtutor183"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "locked" CHAR(1),
+    "client_ip" CHAR(64),
+    "created_datetime" TIMESTAMP,
+    "modified_datetime" TIMESTAMP,
+    "unique_key" CHAR(64),
+    "session_data" BLOB
+);
+success!
+timestamp: 2018-05-21T17:39:55.125995
+CREATE TABLE "appointments"(
+    "appointment" TIMESTAMP NOT NULL,
+    "tutor" CHAR(512) NOT NULL,
+    "can_reschedule" CHAR(1),
+    "student" CHAR(512),
+    "rate" DOUBLE,
+    PRIMARY KEY("appointment", "tutor")) ;
+success!
+timestamp: 2018-05-21T17:41:23.109624
+CREATE TABLE "classes"(
+    "title" CHAR(512) NOT NULL,
+    "class_number" INTEGER NOT NULL,
+    "professor" CHAR(512),
+    "department" CHAR(512) NOT NULL,
+    PRIMARY KEY("title", "class_number", "department")) ;
+success!
+timestamp: 2018-05-21T17:42:51.583889
+CREATE TABLE "student"(
+    "name" CHAR(512) NOT NULL,
+    "email" CHAR(512) NOT NULL,
+    "major" CHAR(512),
+    "acadmic_year" INTEGER NOT NULL,
+    PRIMARY KEY("name", "email", "acadmic_year")) ;
+success!
+timestamp: 2018-05-21T17:42:51.590272
+CREATE TABLE "tutor"(
+    "name" CHAR(512) NOT NULL,
+    "email" CHAR(512) NOT NULL,
+    "major" CHAR(512) NOT NULL,
+    "academic_year" CHAR(512),
+    "classes" CHAR(512),
+    "rating" DOUBLE,
+    PRIMARY KEY("name", "email", "major")) ;
+success!
+timestamp: 2018-05-21T17:52:17.191757
+ALTER TABLE "appointments" ADD "can_cancel" CHAR(1);
 success!
