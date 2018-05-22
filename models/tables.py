@@ -33,7 +33,7 @@ db.checklist.id.writable = db.checklist.id.readable = False
 db.define_table('appointments',
 	           Field('appointment', 'datetime'),
 	           Field('tutor'),
-	           Field('can_reschedule', 'boolean'),
+	           Field('can_cancel', 'boolean', default=True),
 	           Field('student'),
 	           Field('rate', 'double', default=11.00),
 	           primarykey=['appointment', 'tutor']
@@ -41,8 +41,8 @@ db.define_table('appointments',
 
 db.appointments.tutor.writable = False
 db.appointments.tutor.readable = False
-db.appointments.can_reschedule.writable = False
-db.appointments.can_reschedule.readable = False
+db.appointments.can_cancel.writable = False
+db.appointments.can_cancel.readable = False
 
 # Things that should be done about this table
 # Populate it with all classes that are on the registery
