@@ -41,7 +41,9 @@ div.memo div.button_list div.buttons {
 div.memo div.button_list a.btn {
   padding: 10px;
 }
-
+a.menu {
+  
+}
 footer {
   background-color: #4c535e !important; 
 }

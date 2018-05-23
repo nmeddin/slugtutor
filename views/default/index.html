@@ -7,9 +7,6 @@
 <div class="main_content">
 
   <div id="vue-div" class="display:none">
-    <!-- <div>${salutation}</div> -->
-    <!--     <child :text="message"></child>
-  <child :text="message"></child> -->
 
     <!-- Here goes your main HTML code. -->
     <div class="container-fluid">
@@ -18,7 +15,7 @@
           <p>Classes in demand:</p>
 
           <class>
-            
+
           </class>
           <!-- <div v-for="class in in_demand"></div> -->
         </div>
@@ -38,6 +35,16 @@
             <select v-model="tutor_search">
               <option v-for="c in class_list">${c.title}</option>
             </select>
+          </div>
+
+
+          Random inspirational quote:
+
+
+          <div id="new-quote">
+            <!-- `greet` is the name of a method defined below -->
+            <button v-on:click="getQuote">New Quote</button>
+            <p>${ quoteText } ${ quoteAuthor }</p>
           </div>
         </div>
       </div>
