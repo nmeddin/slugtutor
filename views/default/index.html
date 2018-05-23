@@ -1,105 +1,48 @@
-{{extend 'layout.html'}}
-
-
-{{block head}}
-        <script src="{{=URL('static', 'js/vue.js')}}"></script>
-        
-        <link href="stupid.css" rel="stylesheet"/>
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
-		
+{{extend 'layout.html'}} {{block head}}
+<script>
+  var get_in_demand = "{{=URL('api', 'get_memos')}}";
+</script>
 {{end}}
 
 <div class="main_content">
 
   <div id="vue-div" class="display:none">
-  <!-- <div>${salutation}</div> -->
-<!--     <child :text="message"></child>
+    <!-- <div>${salutation}</div> -->
+    <!--     <child :text="message"></child>
   <child :text="message"></child> -->
 
-  <!-- Here goes your main HTML code. -->
-  <div class = "container">
-     
-    <div class = "half"></div><div class = "half"></div>
-    <div class="quarter">
-        <p>Classes in demand:<p>
-        <class-demand
-          v-for="post in class_list"
-          v-bind:key="post.id"
-          v-bind:title="post.title"
-          v-bind:demand="post.demand"
-        ></class-demand>
-    <div class="padded "></div>
-    </div>
-    <div class="half"><div class="padded "><div class = "help drop down">
+    <!-- Here goes your main HTML code. -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-3">
+          <p>Classes in demand:</p>
 
-    I want help with...
-
-    <select v-model="selected">
-      <option v-for="c in class_list">${c.title}</option>
-
-    </select>
-    <div id = "help_b">
-        <button v-on:click="">Go</button>
-    </div>
-    {{for cl in checklists:}}
-    <div>testing 1 2 3</div>
-    {{pass }}
-    <div></div>
-    
-		  <span>Selected: ${ selected }</span>
-
-
-
-    </div></div></div>
-    <div class="quarter"><div class="padded"></div></div>
-
-
-
-  </div>
-  <div class = "container">
-    <div class = "half"></div><div class = "half"></div>
-    <div class="quarter"><div class="padded "></div></div>
-    <div class="half"><div class="padded "><div class = "help drop down">
-
-    I can help with...
-    <select>
-      <option v-for="c in class_list">${c.title}</option>
-      
-    </select>
-    <div class="add_btn">
-        <a class="btn red rounded" href="{{=URL('default', 'add')}}"><i class="fa fa-plus"></i> Go</a>
+          <class>
+            
+          </class>
+          <!-- <div v-for="class in in_demand"></div> -->
+        </div>
+        <div class="col-md-6">
+          <div class="help drop down">
+            I want help with...
+            <select v-model="student_search">
+              <option v-for="c in class_list">${c.title}</option>
+            </select>
+            <div id="help_b">
+              <button v-on:click="console.log(student_search)">Go</button>
+            </div>
+            <span>Searched: ${ student_search }</span>
+          </div>
+          <div class="help drop down">
+            I can help with...
+            <select v-model="tutor_search">
+              <option v-for="c in class_list">${c.title}</option>
+            </select>
+          </div>
+        </div>
       </div>
-
-    </div></div></div>
-    <div class="quarter"><div class="padded "></div></div>
-
-
-
-  </div>
-	 
-  <div class = "container">
-    <div class = "half"></div><div class = "half"></div>
-    <div class="quarter"><div class="padded "></div></div>
-    <div class="half"><div class="padded "><div class = "help drop down">
-
-    Random inspirational quote: <p>${ quoteText }, ${ quoteAuthor }</p>
-
-		<div id="new-quote">
-		  <!-- `greet` is the name of a method defined below -->
-		  <button v-on:click="getQuote(); updateQuote(); testing123();">New Quote</button>
-		</div>
-
-    </div></div></div>
-    <div class="quarter"><div class="padded "></div></div>
-
-
-
-  </div>
-
-
-
+    </div>
   </div>
 </div>
-
 
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>

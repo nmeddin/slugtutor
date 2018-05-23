@@ -63,7 +63,7 @@ var app = function() {
 		}
 	 });
     
-    Vue.component('class-demand', {
+    Vue.component('class', {
         data: function () {
             return {
                 count: 0
@@ -72,58 +72,46 @@ var app = function() {
         props: ['title'],
         template: 
             `<div align = "justify">{{ title }}: {{count}}</div>`
-    })
+    });
 
-    // Vue.component('class_demand,' {
-    //     props: {
-    //         propA: String,
-    //         propB: Number,
-
+    // Vue.component('student_class_search', {
+    //     data: function () {
+    //         return {
+    //             count: 0
+    //         }
     //     },
     //     template: '<p>${ title }: ${ demand }</p>'
     // });
+    self.get_in_demand_classes = function(){
+        // $.getJSON(get_memos_url(0, 10), function (data) {
+        //     self.vue.in_demand = data.memos;
+
+        // });
+        self.vue.in_demand = self.vue.class_list;
+
+    }
 
     // Complete as needed.
     self.vue = new Vue({
         el: "#vue-div",
         delimiters: ['${', '}'],
         unsafeDelimiters: ['!{', '}'],
-        data: function () {
-            return {
-            message: 'hello world',
+        data: {
             class_list: class_list,
-				selected: '',
-				quoteText: 'hello',
-				quoteAuthor: 'world'
-            }
+            student_search: "",
+            tutor_search: "",
+            in_demand: [],
         },
         methods: {
-			  getQuote: function() {
-
-				  fetch(endpoint)
-					 .then(function (response) {
-						return response.json();
-					 })
-					 .then(function (data) {						
-							console.log(data.quote);
-					  		self.quoteText = data.quote;
-						
-					 })
-					 .catch(function () {
-						console.log('An error occurred');
-					 });
-			  	},
-			  updateQuote: function() {
-				  console.log('update quote');
-				  alert(self.quoteText);
-              },
-              input_tutor_session: function() {
-                  console.log('testing 1 2 3')
-              }
-
-        }
-
-    });
+            
+            //on student class search submit -> match_tutors()
+            //on tutor class search -> match_students()
+        },
+        // created: function(){
+        //     self.get_in_demand_classes();
+        // }
+    }
+);
 
 
     return self;
