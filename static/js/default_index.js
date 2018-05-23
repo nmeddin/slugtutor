@@ -119,7 +119,10 @@ var app = function() {
 			  updateQuote: function() {
 				  console.log('update quote');
 				  alert(self.quoteText);
-			  }
+              },
+              input_tutor_session: function() {
+                  console.log('testing 1 2 3')
+              }
 
         }
 
