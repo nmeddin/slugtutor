@@ -41,9 +41,24 @@ div.memo div.button_list div.buttons {
 div.memo div.button_list a.btn {
   padding: 10px;
 }
-a.menu {
-  
+main {
+  background-color: white;
+  color: black;
 }
+
 footer {
-  background-color: #4c535e !important; 
+  position:absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;
 }
+
+.btn, button, [type=button], [type=submit] {background-color:whitesmoke; color:green}
+
+.slugtutor {
+  list-style-type: none;
+}
+
+
+

@@ -1,6 +1,6 @@
 {{extend 'layout.html'}} {{block head}}
 <script>
-  var get_in_demand = "{{=URL('api', 'get_memos')}}";
+  var search_tutors_url = "{{=URL('api', 'search_tutors')}}";
 </script>
 {{end}}
 
@@ -26,7 +26,7 @@
               <option v-for="c in class_list">${c.title}</option>
             </select>
             <div id="help_b">
-              <button v-on:click="console.log(student_search)">Go</button>
+              <button v-on:click="search_for_tutors">Go</button>
             </div>
             <span>Searched: ${ student_search }</span>
           </div>
@@ -36,11 +36,7 @@
               <option v-for="c in class_list">${c.title}</option>
             </select>
           </div>
-
-
           Random inspirational quote:
-
-
           <div id="new-quote">
             <!-- `greet` is the name of a method defined below -->
             <button v-on:click="getQuote">New Quote</button>

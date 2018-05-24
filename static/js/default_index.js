@@ -87,6 +87,13 @@ var app = function () {
 
     }
 
+    self.search_for_tutors = function(){
+                // $.getJSON(get_memos_url(0, 10), function (data) {
+        //     self.vue.in_demand = data.memos;
+
+        // });
+    }
+
     // Complete as needed.
     self.vue = new Vue({
         el: "#vue-div",
@@ -109,6 +116,7 @@ var app = function () {
                     self.vue.quoteAuthor = data.author;
                 });
             },
+            search_for_tutors: self.search_for_tutors
             //on student class search submit -> match_tutors()
             //on tutor class search -> match_students()
         },
