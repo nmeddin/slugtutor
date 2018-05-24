@@ -49,10 +49,10 @@ db.appointments.can_cancel.readable = False
 # Create a 'add_class function where someone can add a class to the database' 
 db.define_table('classes',
 	            Field('title'),
-	            Field('class_number', 'integer'),
+	            Field('class_id'),
 	            Field('professor'),
 	            Field('department'),
-	            primarykey=['title', 'class_number', 'department'],
+	            primarykey=['title', 'class_id', 'department'],
 	            )
 
 db.define_table('student',

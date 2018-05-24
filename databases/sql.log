@@ -222,3 +222,35 @@ success!
 success!
 success!
 success!
+success!
+DROP TABLE "classes";
+success!
+success!
+timestamp: 2018-05-24T13:08:49.661120
+CREATE TABLE "classes"(
+    "title" CHAR(512) NOT NULL,
+    "class_number" INTEGER NOT NULL,
+    "professor" CHAR(512),
+    "department" CHAR(512) NOT NULL,
+    PRIMARY KEY("title", "class_number", "department")) ;
+success!
+DROP TABLE "classes";
+success!
+success!
+timestamp: 2018-05-24T13:13:27.347917
+CREATE TABLE "classes"(
+    "title" CHAR(512) NOT NULL,
+    "class_id" CHAR(512) NOT NULL,
+    "professor" CHAR(512),
+    "department" CHAR(512) NOT NULL,
+    PRIMARY KEY("title", "class_id", "department")) ;
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
