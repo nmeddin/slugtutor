@@ -1,8 +1,78 @@
 {{extend 'layout.html'}}
 
+
 {{block head}}
-  <script src="{{=URL('static', 'js/vue.js')}}"></script>		
+        <script src="{{=URL('static', 'js/vue.js')}}"></script>
+        
+        <link href="stupid.css" rel="stylesheet"/>
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+		
 {{end}}
-<div id="app"></div>
-{{pass}}
-<script src="{{=URL('static', 'js/index.js')}}"></script>
+
+<div class="main_content">
+
+  <div id="vue-div" class="display:none">
+  <!-- <div>${salutation}</div> -->
+<!--     <child :text="message"></child>
+  <child :text="message"></child> -->
+
+  <!-- Here goes your main HTML code. -->
+  <div class = "container">
+    <div class = "half"></div><div class = "half"></div>
+    <div class="quarter">
+        <p>Classes in demand:<p>
+        <class-demand
+          v-for="post in class_list"
+          v-bind:key="post.id"
+          v-bind:title="post.title"
+          v-bind:demand="post.demand"
+        ></class-demand>
+    <div class="padded "></div>
+    </div>
+    <div class="half"><div class="padded "><div class = "help drop down">
+
+    I want help with...
+
+    <select v-model="selected">
+      <option v-for="c in class_list">${c.title}</option>
+
+    </select>
+    <div id = "help_b">
+        <button v-on:click="console.log(selected)">Go</button>
+    </div>
+		  <span>Selected: ${ selected }</span>
+
+
+
+    </div></div></div>
+    <div class="quarter"><div class="padded"></div></div>
+
+
+
+  </div>
+    <div class = "container">
+    <div class = "half"></div><div class = "half"></div>
+    <div class="quarter"><div class="padded "></div></div>
+    <div class="half"><div class="padded "><div class = "help drop down">
+
+    I can help with...
+    <select>
+      <option v-for="c in class_list">${c.title}</option>
+		  
+    </select>
+
+
+    </div></div></div>
+    <div class="quarter"><div class="padded "></div></div>
+
+
+
+  </div>
+
+
+
+  </div>
+</div>
+
+
+<script src="{{=URL('static', 'js/default_index.js')}}"></script>
