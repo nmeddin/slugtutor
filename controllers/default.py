@@ -27,6 +27,10 @@ def index():
 		
     return dict(checklists=checklists)
 
+def test():
+    logger.info('Here we are displaying the classes database.')
+    for row in db(db.classes.title).select():
+        logger.info('%r' % row)
 
 def no_swearing(form):
     if 'fool' in form.vars.memo:

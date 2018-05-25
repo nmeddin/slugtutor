@@ -30,38 +30,37 @@ db.checklist.updated_on.writable = db.checklist.updated_on.readable = False
 db.checklist.id.writable = db.checklist.id.readable = False
 
 
-# db.define_table('appointments',
-# 	           Field('date', 'datetime'),
-# 	           Field('tutor'),
-# 	           Field('can_reschedule', 'boolean'),
-# 	           Field('student'),
-# 	           Field('rate', 'double', default=11.00),
-# 	           primarykey = ['date', 'tutor']
-# 	           )
+db.define_table('appointments',
+	           Field('appointment', 'datetime'),
+	           Field('tutor'),
+	           Field('can_cancel', 'boolean', default=True),
+	           Field('student'),
+	           Field('rate', 'double', default=11.00),
+	           primarykey=['appointment', 'tutor']
+	           )
 
-# db.appointments.tutor.writable = False
-# db.appointments.tutor.readable = False
-# db.appointments.can_reschedule.writable = False
-# db.appointments.can_reschedule.readable = False
-# db.appointments.id.writable = db.appointments.id.readable = False
+db.appointments.tutor.writable = False
+db.appointments.tutor.readable = False
+db.appointments.can_cancel.writable = False
+db.appointments.can_cancel.readable = False
 
 # Things that should be done about this table
 # Populate it with all classes that are on the registery
 # Create a 'add_class function where someone can add a class to the database' 
 db.define_table('classes',
-	            Field('name'),
-	            Field('num', 'integer'),
+	            Field('title'),
+	            Field('class_id'),
 	            Field('professor'),
 	            Field('department'),
-	            primarykey = ['name', 'num', 'department'],
+	            primarykey=['title', 'class_id', 'department'],
 	            )
 
 db.define_table('student',
 	            Field('name'),
 	            Field('email', default=get_user_email()),
 	            Field('major'),
-	            Field('yr'),
-                primarykey = ['name', 'email', 'yr']
+	            Field('acadmic_year', 'integer'),
+                primarykey=['name', 'email', 'acadmic_year']
 	            )
 
 db.student.email.readable = False
@@ -71,10 +70,10 @@ db.define_table('tutor',
                 Field('name'),
                 Field('email'),
                 Field('major'),
-                Field('yr'),
+                Field('academic_year'),
                 Field('classes'),
                 Field('rating', 'double', default=0.0),
-                primarykey = ['name', 'email', 'major']
+                primarykey=['name', 'email', 'major']
 	            )
 
 # after defining tables, uncomment below to enable auditing
