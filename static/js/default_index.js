@@ -18,23 +18,24 @@ var app = function() {
     };
 
 	//This is the random quote generator 
+	self.get_quote = function() {
 
+				  fetch(endpoint)
+					 .then(function (response) {
+						return response.json();
+					 })
+					 .then(function (data) {						
+							console.log(data.quote);
+					  		self.quoteText = data.quote;
+						
+					 })
+					 .catch(function () {
+						console.log('An error occurred');
+					 });
+			  	}
 	
-		const endpoint = 'https://talaikis.com/api/quotes/random/';
-		//const newQuoteButton = document.querySelector('.new-quote');
-		//newQuoteButton.addEventListener('click', getQuote);
-		function getQuote() {
-		  fetch(endpoint)
-			 .then(function (response) {
-				return response.json();
-			 })
-			 .then(function (data) {
-				console.log(data);
-			 })
-			 .catch(function () {
-				console.log("An error occurred");
-			 });
-		}
+	const endpoint = 'https://talaikis.com/api/quotes/random/';
+
 
     // Some classes.
     var CMPS109 = {id: 1, title: 'Advanced Programming', 'demand': 0};
@@ -43,28 +44,8 @@ var app = function() {
     var class_list = [CMPS109, CMPS121, CMPS183];
 
     // Compenent testing.
-
-    Vue.component('child', {
-      props: ['cla'],
-      template: '<p>{{ cla.title }}</p>'
-        
-    });
 	 
 	 
-	 Vue.component('my-checkbox', {
-		template: '#checkbox-template',
-		data() {
-		  return {
-			 checked: false,
-			 title: 'Check me'
-		  }
-		},
-		methods: {
-		  check() {
-			 this.checked = !this.checked;
-		  }
-		}
-	 });
     
     Vue.component('class-demand', {
         data: function () {
@@ -77,14 +58,7 @@ var app = function() {
             `<div align = "justify">{{ title }}: {{count}}</div>`
     })
 
-    // Vue.component('class_demand,' {
-    //     props: {
-    //         propA: String,
-    //         propB: Number,
 
-    //     },
-    //     template: '<p>${ title }: ${ demand }</p>'
-    // });
 
     // Complete as needed.
     self.vue = new Vue({
@@ -101,21 +75,7 @@ var app = function() {
             }
         },
         methods: {
-			  getQuote: function() {
-
-				  fetch(endpoint)
-					 .then(function (response) {
-						return response.json();
-					 })
-					 .then(function (data) {						
-							console.log(data.quote);
-					  		self.quoteText = data.quote;
-						
-					 })
-					 .catch(function () {
-						console.log('An error occurred');
-					 });
-			  	},
+			  getQuote: self.get_quote,
 			  updateQuote: function() {
 				  console.log('update quote');
 				  alert(self.quoteText);
