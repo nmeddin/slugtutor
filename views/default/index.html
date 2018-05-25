@@ -19,30 +19,34 @@
           </class>
           <!-- <div v-for="class in in_demand"></div> -->
         </div>
-        <div class="col-md-6">
-          <div class="help drop down">
-            I want help with...
+        <div class="col-md-6 col-sm-12">
+          <div class="row">
+            <h6 class="mx-2">I want help with...</h6>
             <select v-model="student_search">
               <option v-for="c in class_list">${c.title}</option>
             </select>
-            <div id="help_b">
-              <button v-on:click="search_for_tutors">Go</button>
-            </div>
-            <span>Searched: ${ student_search }</span>
+            <button class="btn btn-outline-success my-2 my-sm-0" v-on:click="search_for_tutors">Go</button>
           </div>
-          <div class="help drop down">
-            I can help with...
+          <div class="row">
+            <h6 class="mx-2">I can help with...</h6>
             <select v-model="tutor_search">
               <option v-for="c in class_list">${c.title}</option>
             </select>
           </div>
-          Random inspirational quote:
-          <div id="new-quote">
-            <!-- `greet` is the name of a method defined below -->
-            <button v-on:click="getQuote">New Quote</button>
-            <p>${ quoteText } ${ quoteAuthor }</p>
-          </div>
+          <div class="row">
+              <div class="">
+                  Random inspirational quote:
+                  <div id="new-quote">
+                    <!-- `greet` is the name of a method defined below -->
+                    <button class="btn btn-outline-success my-2 my-sm-0" v-on:click="getQuote">New Quote</button>
+                    <p>${ quoteText } ${ quoteAuthor }</p>
+                  </div>
+              </div>
+            </div>
         </div>
+        <div class="col-md-3">
+
+        </div>      
       </div>
     </div>
   </div>

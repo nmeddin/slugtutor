@@ -15,8 +15,7 @@
   <link rel="stylesheet" href="{{=URL('static', 'font-awesome-4.6.3/css/font-awesome.min.css')}}"> {{include "web2py_ajax.html"}}
 </head>
 
-<body class="black">
-
+<body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">
       <img src="{{=URL('static', 'images/transparent_small_logo.png')}}">
@@ -26,30 +25,38 @@
       aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-
+    {{nav = auth.navbar(mode='bare')}}
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home
-            <span class="sr-only">(current)</span>
-          </a>
+        <li class="nav-item">
+          <a class="nav-link" href="{{=URL('default', 'index.html')}}">home</a>
         </li>
-        {{=auth.navbar(mode='default')}}
+        {{for key in nav.keys():}} 
+          {{if key is not "user" and key is not "prefix":}}
+            <li class="nav-item">
+              <a class="nav-link" href="{{=nav[key]}}">{{=key}}</a>
+            </li>
+          {{pass}} 
+        {{pass}}
       </ul>
+
+      {{if nav["user"] is not None and nav["prefix"] is not None:}}
+        <span class="mx-2 ">{{response.write(nav["prefix"] + " " + nav["user"] + "!")}}</span>
+      {{pass}}
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
     </div>
   </nav>
-
   {{if response.flash:}}
-  <div class="alert alert-primary" role="alert">
+  <div class="alert alert-primary alert-dismissible" role="alert">
     {{=response.flash}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
   {{pass}}
-
-
   <main>
     {{include}}
   </main>
