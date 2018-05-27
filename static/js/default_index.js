@@ -14,9 +14,9 @@ var app = function () {
         }
     };
 
-    //This is the random quote generator 
+    //This is the random quote generator endpoint 
 
-    const quote_endpoint = 'https://talaikis.com/api/quotes/random/';
+    const quote_endpoint = 'http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1';
 
     // Some classes.
     var CMPS109 = {
