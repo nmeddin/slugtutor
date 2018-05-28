@@ -8,16 +8,40 @@
 
   <div id="vue-div" class="display:none">
 
-    <!-- Here goes your main HTML code. -->
-    <div class="container-fluid">
+	  <div class="container-fluid">
+		  container-fluid
+		  <div class="row"></div>
+		  <div class="col-sm-7">
+			  <div class="row">
+				  <div class="col-sm-4">
+					  <img src="https://cdn3.iconfinder.com/data/icons/sympletts-part-3/128/circle-user-2-128.png">
+				  </div>
+				  <div class="col-sm-5">
+				  Level 2: col-sm-5
+				  </div>
+			  </div>
+		  </div>
+	  </div>
+	 <p> <router-link to="/foo">Go to Foo</router-link>
+		 <router-link to="/bar">Go to Bar</router-link>  </p><router-view></router-view>
+
+    <!-- Here goes your main HTML code. --> 
+	<div v-if="tutor_result_page"> 
+		show tutor result page now
+		<button @click="go_home"> go home </button>
+	</div>
+	  
+    <div v-if="main_page" class="container-fluid">
       <div class="jumbotron">
         <!-- <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a> -->
 
         
         {{if auth.user is None:}}
           <h1 class="display-4">Learn More. Earn More.</h1>
+		  
+
           <hr class="my-4">
-          <p class="lead">Slugtutor is the easiest way for students to find the best tutors for their academic needs</p>
+          <p class="lead">Slugtutor is the easiest way for students to find the best tutors for their academic needs.</p>
           <p class="lead">Excel in a class? Interested in helping others and earning some extra cash? Sign in to add your availibility and expertise.</p>
         {{else:}}
           <h1 class="display-4">Welcome back {{=auth.user["first_name"]}}</h1>
@@ -39,25 +63,29 @@
                 <input v-model="student_search" placeholder="CMPS 183">
               </div>
               <div class="form-group">
-                <h6 class="mx-2">Random inspirational quote:</h6>
+                <h6 class="mx-2">Quote of the day:</h6>
                 <div id="new-quote">
 
 					<p>${ quoteText }</p> <i>${ quoteAuthor }</i>
 <!--                  <button class="btn btn-outline-success  my-sm-0" v-on:click="getQuote">New Quote</button>-->
                 </div>
               </div>
-            </div>
-          </form>
+
     
           <div class="col-md-3">
+
       
           </div>
-        </div>
-      </div>
-
-
+		  </form>
+		</div>
+	  </div>
     </div>
   </div>
+ </div>
 </div>
+
+
+
+
 
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>
