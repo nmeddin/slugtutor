@@ -16,58 +16,18 @@ var app = function () {
     //This is the random quote generator endpoint 
 
     const quote_endpoint = 'https://quotes.rest/qod?category=students';
+	
+	self.getQuote = function (){
+                $.getJSON(quote_endpoint, function (data) {
+                    console.log(data);
+                    console.log("getQuote called");
+                    self.vue.quoteText = data.contents.quotes[0].quote;
+					console.log(data.contents.quotes[0].quote);
+                    self.vue.quoteAuthor = data.contents.quotes[0].author;
+                });
+	}
+            
 
-    // Some classes.
-    var CMPS109 = {
-        id: 1,
-        title: 'Advanced Programming',
-        'demand': 0
-    };
-    var CMPS121 = {
-        id: 2,
-        title: 'Mobile Applications',
-        'demand': 0
-    };
-    var CMPS183 = {
-        id: 3,
-        title: 'Web Applications',
-        'demand': 0
-    };
-    var class_list = [CMPS109, CMPS121, CMPS183];
-
-    // Compenent testing.
-
-    Vue.component('child', {
-        props: ['cla'],
-        template: '<p>{{ cla.title }}</p>'
-
-    });
-
-
-    Vue.component('my-checkbox', {
-        template: '#checkbox-template',
-        data() {
-            return {
-                checked: false,
-                title: 'Check me'
-            }
-        },
-        methods: {
-            check() {
-                this.checked = !this.checked;
-            }
-        }
-    });
-
-    Vue.component('class', {
-        data: function () {
-            return {
-                count: 0
-            }
-        },
-        props: ['title'],
-        template: `<div align = "justify">{{ title }}: {{count}}</div>`
-    });
 
     // Vue.component('student_class_search', {
     //     data: function () {
@@ -88,6 +48,7 @@ var app = function () {
 
     self.search_for_tutors = function(){
 		console.log("search for tutors");
+		console.log(self.vue.student_search);
 		self.vue.tutor_result_page = true;
 		self.vue.main_page = false;
                 // $.getJSON(get_memos_url(0, 10), function (data) {
@@ -96,6 +57,11 @@ var app = function () {
         // });
     }
 
+	self.create_session = function(){
+		console.log("create session");
+	}
+	
+	
 	const Foo = { template: '<div>foo</div>' }
 	const Bar = { template: '<div>bar</div>' }
 	const Tutor = { template: '<div>tutor</div>'}
@@ -123,6 +89,13 @@ var app = function () {
 		self.vue.tutor_result_page = false;
 		self.vue.main_page = true;
 	}
+	
+	//datetime
+	var d = new Date();
+	d = d.toDateString();
+	d = d.slice(4)
+	d = d.slice(0,-4);
+	
     // Complete as needed.
     self.vue = new Vue({
         el: "#vue-div",
@@ -130,26 +103,19 @@ var app = function () {
         unsafeDelimiters: ['!{', '}'],
 		router,
         data: {
-            class_list: class_list,
             student_search: "",
             tutor_search: "",
             in_demand: [],
             quoteText: "",
             quoteAuthor: "",
 			main_page: true,
-			tutor_result_page: false
+			tutor_result_page: false,
+			day1: d,
         },
         methods: {
-            getQuote: function (){
-                $.getJSON(quote_endpoint, function (data) {
-                    console.log(data);
-                    console.log("getQuote called");
-                    self.vue.quoteText = data.contents.quotes[0].quote;
-					console.log(data.contents.quotes[0].quote);
-                    self.vue.quoteAuthor = data.contents.quotes[0].author;
-                });
-            },
+            getQuote: self.getQuote,
             search_for_tutors: self.search_for_tutors,
+			create_session: self.create_session,
 			go_home: self.go_home
             //on student class search submit -> match_tutors()
             //on tutor class search -> match_students()

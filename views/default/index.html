@@ -9,17 +9,37 @@
   <div id="vue-div" class="display:none">
 
 	  <div class="container-fluid">
-		  container-fluid
-		  <div class="row"></div>
+		  Tutor Card Container
 		  <div class="col-sm-7">
+			  <div class="border">
 			  <div class="row">
+				  
 				  <div class="col-sm-4">
 					  <img src="https://cdn3.iconfinder.com/data/icons/sympletts-part-3/128/circle-user-2-128.png">
+					  <p>five star rating</p>
+					  <p>Classname</p>
 				  </div>
-				  <div class="col-sm-5">
-				  Level 2: col-sm-5
+				  <div class="col-sm-8">
+				  <span>Firstname Lastname</span>
+					<p>email@ucsc.edu</p>
+					  <p>(123)456-7890</p>
+					  <div class="row">
+						  <div class ="col-sm-4">
+							  <row>${day1}</row>
+							  <row>10:00am</row>
+							  <row>3:00pm</row>
+						  </div>
+						  <div class ="col-sm-4">
+							  <row>day+2</row>
+							  <row>10:00am</row>
+							  <row>4:00pm</row></div>
+						  <div class ="col-sm-4">			<row>day+3</row>
+							  <row>10:00am</row>
+							  <row>2:00pm</row></div>
+					  </div>
 				  </div>
 			  </div>
+			</div>
 		  </div>
 	  </div>
 	 <p> <router-link to="/foo">Go to Foo</router-link>
@@ -55,13 +75,17 @@
               <div class="form-group">
                 <h4 class="mx-2 lead">Search for classes to find tutors who can help you:</h4>
                 <input class="w-80" v-model="student_search" placeholder="CMPS 183">
-                <button class="btn btn-outline-success w-20 my-sm-0" v-on:click="search_for_tutors">Search</button>
+                <button type="button" class="btn btn-outline-success w-20 my-sm-0" v-on:click="search_for_tutors">Search</button>
               </div>
+		    </form>
+			  <form>
               <div class="form-group">
                 <h4 class="mx-2 lead">Interested in becoming a tutor? Create a posting so students can find you.</h4>
                 <h6 class="mx-2">I can help with...</h6>
-                <input v-model="student_search" placeholder="CMPS 183">
+                <input v-model="tutor_search" placeholder="CMPS 183">
+				  <button type="button" class="btn btn-outline-success w-20 my-sm-0" v-on:click="create_session">Create Post</button>
               </div>
+   			  </form>
               <div class="form-group">
                 <h6 class="mx-2">Quote of the day:</h6>
                 <div id="new-quote">
@@ -76,7 +100,6 @@
 
       
           </div>
-		  </form>
 		</div>
 	  </div>
     </div>
