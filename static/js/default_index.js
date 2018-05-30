@@ -155,13 +155,19 @@ var app = function () {
             //on tutor class search -> match_students()
         },
         created: function(){
-            this.getQuote();
+			
+			console.log(this.quoteText);
+			if(this.quoteText == ""){
+            	this.getQuote();
+			}
         }
     });
 
 
     return self;
 };
+
+
 
 var APP = null;
 
