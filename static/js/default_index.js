@@ -65,7 +65,7 @@ var app = function () {
 		props: ['tutor'],
 		template: `<div class="container-fluid">
 		  Tutor Card Container
-		  <div class="col-sm-7">
+		  <div class="col-sm-5">
 			  <div class="border">
 			  <div class="row">
 				  
