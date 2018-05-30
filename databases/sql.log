@@ -1,0 +1,110 @@
+timestamp: 2018-05-29T19:06:42.533953
+CREATE TABLE "web2py_session_slugtutor183"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "locked" CHAR(1),
+    "client_ip" CHAR(64),
+    "created_datetime" TIMESTAMP,
+    "modified_datetime" TIMESTAMP,
+    "unique_key" CHAR(64),
+    "session_data" BLOB
+);
+success!
+timestamp: 2018-05-29T19:06:42.588402
+CREATE TABLE "auth_user"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "first_name" CHAR(128),
+    "last_name" CHAR(128),
+    "email" CHAR(512),
+    "password" CHAR(512),
+    "registration_key" CHAR(512),
+    "reset_password_key" CHAR(512),
+    "registration_id" CHAR(512)
+);
+success!
+timestamp: 2018-05-29T19:06:42.602138
+CREATE TABLE "auth_group"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "role" CHAR(512),
+    "description" TEXT
+);
+success!
+timestamp: 2018-05-29T19:06:42.615047
+CREATE TABLE "auth_membership"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2018-05-29T19:06:42.627462
+CREATE TABLE "auth_permission"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  ,
+    "name" CHAR(512),
+    "table_name" CHAR(512),
+    "record_id" INTEGER
+);
+success!
+timestamp: 2018-05-29T19:06:42.640051
+CREATE TABLE "auth_event"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "time_stamp" TIMESTAMP,
+    "client_ip" CHAR(512),
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "origin" CHAR(512),
+    "description" TEXT
+);
+success!
+timestamp: 2018-05-29T19:06:42.653819
+CREATE TABLE "auth_cas"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "created_on" TIMESTAMP,
+    "service" CHAR(512),
+    "ticket" CHAR(512),
+    "renew" CHAR(1)
+);
+success!
+timestamp: 2018-05-29T19:06:42.668243
+CREATE TABLE "checklist"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_email" CHAR(512),
+    "memo" TEXT,
+    "updated_on" TIMESTAMP,
+    "is_public" CHAR(1)
+);
+success!
+timestamp: 2018-05-29T19:06:42.677187
+CREATE TABLE "appointments"(
+    "appointment" TIMESTAMP NOT NULL,
+    "tutor" CHAR(512) NOT NULL,
+    "can_cancel" CHAR(1),
+    "student" CHAR(512),
+    "rate" DOUBLE,
+    PRIMARY KEY("appointment", "tutor")) ;
+success!
+timestamp: 2018-05-29T19:06:42.692181
+CREATE TABLE "student"(
+    "name" CHAR(512) NOT NULL,
+    "email" CHAR(512) NOT NULL,
+    "major" CHAR(512),
+    "acadmic_year" INTEGER NOT NULL,
+    PRIMARY KEY("name", "email", "acadmic_year")) ;
+success!
+timestamp: 2018-05-29T19:06:42.701269
+CREATE TABLE "tutor"(
+    "name" CHAR(512) NOT NULL,
+    "email" CHAR(512) NOT NULL,
+    "major" CHAR(512) NOT NULL,
+    "academic_year" CHAR(512),
+    "classes" CHAR(512),
+    "rating" DOUBLE,
+    PRIMARY KEY("name", "email", "major")) ;
+success!
+timestamp: 2018-05-29T19:13:17.332047
+CREATE TABLE "classes"(
+    "title" CHAR(512) NOT NULL,
+    "class_id" CHAR(512) NOT NULL,
+    "professor" CHAR(512),
+    "department" CHAR(512) NOT NULL,
+    PRIMARY KEY("title", "class_id", "department")) ;
+success!
