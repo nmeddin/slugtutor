@@ -8,15 +8,17 @@
 
   <div id="vue-div" class="display:none">
 
+	  <autocomplete :items="[ 'Apple', 'Banana', 'Orange', 'Mango', 'Pear', 'Peach', 'Grape', 'Tangerine', 'Pineapple']"></autocomplete>
+<!--
 	  
-	  <tutor-card></tutor-card>
-	  <tutor-card></tutor-card>
 	 <p> <router-link to="/foo">Go to Foo</router-link>
 		 <router-link to="/bar">Go to Bar</router-link>  </p><router-view></router-view>
+-->
 
     <!-- Here goes your main HTML code. --> 
 	<div v-if="tutor_result_page"> 
-		show tutor result page now
+		<tutor-card></tutor-card>
+		<tutor-card></tutor-card>
 		<button @click="go_home"> go home </button>
 	</div>
 	  

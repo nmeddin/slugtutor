@@ -61,10 +61,53 @@ var app = function () {
 		console.log("create session");
 	}
 
+	
+	Vue.component('autocomplete', {
+		props: {
+			items: {
+				type: Array,
+				required: false,
+				default: () => [],
+			},
+		},
+		data() {
+			return {
+				search: '',
+				results: [],
+				isOpen: false,
+			};
+		},
+		methods: {
+			onChange() {
+				this.isOpen = true;
+				this.filterResults();
+			},
+			filterResults() {
+				this.results = this.items.filter(item => item.toLowerCase().indexOf(this.search.toLowerCase()) > -1);
+			},
+		},
+		template: `<div class="autocomplete">
+    				<input type="text" />
+    					  <ul
+							v-show="isOpen"
+							class="autocomplete-results"
+						  >
+							<li
+							  v-for="(result, i) in results"
+							  :key="i"
+							  class="autocomplete-result"
+							>
+								{{ result }}
+							</li>
+						  </ul>
+  					</div>`
+
+
+	})
+
 	Vue.component('tutor-card', {
 		props: ['tutor'],
 		template: `<div class="container-fluid">
-		  Tutor Card Container
 		  <div class="col-sm-5">
 			  <div class="border">
 			  <div class="row">
@@ -75,9 +118,10 @@ var app = function () {
 					  <p>Classname</p>
 				  </div>
 				  <div class="col-sm-8">
-				  <span>Firstname Lastname</span>
+				  <p>Firstname Lastname</p>
 					<p>email@ucsc.edu</p>
 					  <p>(123)456-7890</p>
+					<!--
 					  <div class="row">
 						  <div class ="col-sm-4">
 							  <row>day+1</row>
@@ -93,6 +137,7 @@ var app = function () {
 							  <row>10:00am</row>
 							  <row>2:00pm</row></div>
 					  </div>
+					-->
 				  </div>
 			  </div>
 			</div>
@@ -144,12 +189,14 @@ var app = function () {
 		self.vue.main_page = true;
 	}
 
-	//datetime
-	var d = new Date();
-	d = d.toDateString();
-	d = d.slice(4)
-	d = d.slice(0, -4);
 
+	self.get_classes = function () {
+		$.get(api_get_classes_url,
+			function(data){
+			self.vue.class_list = data.class_list
+		})
+	}
+	
 	// Complete as needed.
 	self.vue = new Vue({
 		el: "#vue-div",
@@ -164,13 +211,16 @@ var app = function () {
 			quoteAuthor: "",
 			main_page: true,
 			tutor_result_page: false,
-			day1: d,
+			result: "hello",
+			items: [],
+			class_list: []
 		},
 		methods: {
 			getQuote: self.getQuote,
 			search_for_tutors: self.search_for_tutors,
 			create_session: self.create_session,
-			go_home: self.go_home
+			go_home: self.go_home,
+			get_classes: self.get_classes
 			//on student class search submit -> match_tutors()
 			//on tutor class search -> match_students()
 		},
