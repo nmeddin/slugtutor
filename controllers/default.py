@@ -46,6 +46,12 @@ def add():
         session.flash = T('Please correct the info')
     return dict(form=form)
 
+def profile():
+    """a temporary call to fetch profile.hmtl."""
+    form = SQLFORM(db.student)
+
+    return dict(form=form)
+
 
 @auth.requires_login()
 @auth.requires_signature()
