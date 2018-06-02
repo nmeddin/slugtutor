@@ -64,7 +64,6 @@ var app = function () {
 	Vue.component('tutor-card', {
 		props: ['tutor'],
 		template: `<div class="container-fluid">
-		  Tutor Card Container
 		  <div class="col-sm-5">
 			  <div class="border">
 			  <div class="row">
@@ -75,23 +74,11 @@ var app = function () {
 					  <p>Classname</p>
 				  </div>
 				  <div class="col-sm-8">
-				  <span>Firstname Lastname</span>
+				  <p>Firstname Lastname</p>
 					<p>email@ucsc.edu</p>
 					  <p>(123)456-7890</p>
 					  <div class="row">
-						  <div class ="col-sm-4">
-							  <row>day+1</row>
-							  <row>10:00am</row>
-							  <row>3:00pm</row>
-						  </div>
-						  <div class ="col-sm-4">
-							  <row>day+2</row>
-							  <row>10:00am</row>
-							  <row>4:00pm</row></div>
-						  <div class ="col-sm-4">			
-							  <row>day+3</row>
-							  <row>10:00am</row>
-							  <row>2:00pm</row></div>
+
 					  </div>
 				  </div>
 			  </div>
@@ -143,6 +130,13 @@ var app = function () {
 		self.vue.tutor_result_page = false;
 		self.vue.main_page = true;
 	}
+	
+	self.get_classes = function() {
+		$.get(api_get_classes_url,
+			 function(data){
+			self.vue.class_list = data.classes
+		});
+	};
 
 	//datetime
 	var d = new Date();
@@ -165,12 +159,14 @@ var app = function () {
 			main_page: true,
 			tutor_result_page: false,
 			day1: d,
+			class_list: []
 		},
 		methods: {
 			getQuote: self.getQuote,
 			search_for_tutors: self.search_for_tutors,
 			create_session: self.create_session,
-			go_home: self.go_home
+			go_home: self.go_home,
+			get_classes: self.get_classes
 			//on student class search submit -> match_tutors()
 			//on tutor class search -> match_students()
 		},
@@ -184,8 +180,11 @@ var app = function () {
 	});
 
 
+	self.get_classes();
+	
 	return self;
 };
+
 
 
 

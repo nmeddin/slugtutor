@@ -5,3 +5,11 @@
 #     "Accept": "application/json"
 #   }
 # )
+
+
+def get_classes():
+	classes = []
+	for row in db(db.classes).select(db.classes.ALL):
+		#print(row)
+		classes.append(row.title)
+	return response.json(dict(classes=classes))
