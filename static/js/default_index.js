@@ -2,6 +2,7 @@
 
 var app = function () {
 
+
 	var self = {};
 
 	Vue.config.silent = false; // show all warnings
@@ -46,9 +47,14 @@ var app = function () {
 
 	}
 
-	self.search_for_tutors = function () {
-		console.log("search for tutors");
-		console.log(self.vue.student_search);
+	self.search_for_tutors = function (search) {
+		console.log(search);
+		//console.log(self.vue.student_search);
+		if (search != "") {
+			self.get_search(search);
+		} else {
+			self.get_classes;
+		}
 		self.vue.tutor_result_page = true;
 		self.vue.main_page = false;
 		// $.getJSON(get_memos_url(0, 10), function (data) {
@@ -56,6 +62,8 @@ var app = function () {
 
 		// });
 	}
+
+
 
 	self.create_session = function () {
 		console.log("create session");
@@ -88,68 +96,37 @@ var app = function () {
 	})
 
 
-	const Foo = {
-		template: `<div>foo</div>`
-	}
-	const Bar = {
-		template: '<div>bar</div>'
-	}
-	const Tutor = {
-		template: '<div>tutor</div>'
-	}
-
-	// 2. Define some routes
-	// Each route should map to a component. The "component" can
-	// either be an actual component constructor created via
-	// `Vue.extend()`, or just a component options object.
-	// We'll talk about nested routes later.
-	const routes = [
-		{
-			path: '/foo',
-			component: Foo
-		},
-		{
-			path: '/bar',
-			component: Bar
-		}
-	]
-
-	// 3. Create the router instance and pass the `routes` option
-	// You can pass in additional options here, but let's
-	// keep it simple for now.
-	const router = new VueRouter({
-		routes: [
-			{
-				path: '/tutor/:id',
-				component: Tutor
-			}
-	  ]
-	})
-
 	self.go_home = function () {
 		self.vue.tutor_result_page = false;
 		self.vue.main_page = true;
 	}
-	
-	self.get_classes = function() {
+
+	self.get_classes = function () {
 		$.get(api_get_classes_url,
-			 function(data){
-			self.vue.class_list = data.classes
-		});
+			function (data) {
+				self.vue.class_list = data.classes
+			});
 	};
 
-	//datetime
-	var d = new Date();
-	d = d.toDateString();
-	d = d.slice(4)
-	d = d.slice(0, -4);
+	self.get_search = function (search) {
+		$.get(api_get_search_url, {
+				search: search
+			},
+			function (data) {
+				self.vue.class_list = data.results
+			}
+
+		);
+	};
+
+
 
 	// Complete as needed.
 	self.vue = new Vue({
 		el: "#vue-div",
 		delimiters: ['${', '}'],
 		unsafeDelimiters: ['!{', '}'],
-		router,
+
 		data: {
 			student_search: "",
 			tutor_search: "",
@@ -158,7 +135,6 @@ var app = function () {
 			quoteAuthor: "",
 			main_page: true,
 			tutor_result_page: false,
-			day1: d,
 			class_list: []
 		},
 		methods: {
@@ -166,7 +142,8 @@ var app = function () {
 			search_for_tutors: self.search_for_tutors,
 			create_session: self.create_session,
 			go_home: self.go_home,
-			get_classes: self.get_classes
+			get_classes: self.get_classes,
+			get_search: self.get_search
 			//on student class search submit -> match_tutors()
 			//on tutor class search -> match_students()
 		},
@@ -181,7 +158,7 @@ var app = function () {
 
 
 	self.get_classes();
-	
+
 	return self;
 };
 

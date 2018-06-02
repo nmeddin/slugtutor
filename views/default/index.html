@@ -2,6 +2,8 @@
 <script>
 	var search_tutors_url = "{{=URL('api', 'search_tutors')}}";
 	var api_get_classes_url = "{{=URL('api', 'get_classes')}}";
+	var api_get_search_url = "{{=URL('api', 'get_search')}}";
+
 
 </script>
 {{end}}
@@ -11,11 +13,6 @@
 	<div id="vue-div" class="display:none">
 
 
-		<!--
-
-	 <p> <router-link to="/foo">Go to Foo</router-link>
-		 <router-link to="/bar">Go to Bar</router-link>  </p><router-view></router-view>
--->
 
 		<!-- Here goes your main HTML code. -->
 		<div v-if="tutor_result_page">
@@ -50,7 +47,7 @@
 								<div class="form-group">
 									<h4 class="mx-2 lead">Search for classes to find tutors who can help you:</h4>
 									<input class="w-80" v-model="student_search" placeholder="CMPS 183">
-									<button type="button" class="btn btn-outline-success w-20 my-sm-0" v-on:click="search_for_tutors">Search</button>
+									<button type="button" class="btn btn-outline-success w-20 my-sm-0" v-on:click="search_for_tutors(student_search)">Search</button>
 								</div>
 							</form>
 							<form>
@@ -89,3 +86,4 @@
 
 
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>
+
