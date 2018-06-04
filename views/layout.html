@@ -14,7 +14,6 @@
   <link href="{{=URL('static','css/myapp.css')}}" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="{{=URL('static', 'font-awesome-4.6.3/css/font-awesome.min.css')}}"> {{include "web2py_ajax.html"}}
 </head>
-
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">
@@ -23,47 +22,42 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
       aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
-    </button>
-    {{nav = auth.navbar(mode='bare')}}
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="{{=URL('default', 'index.html')}}">home</a>
-        </li>
-        {{for key in nav.keys():}} 
-          {{if key is not "user" and key is not "prefix":}}
-            <li class="nav-item">
-              <a class="nav-link" href="{{=nav[key]}}">{{=key}}</a>
-            </li>
-          {{pass}} 
-        {{pass}}
-      </ul>
+    </button> {{nav = auth.navbar(mode='bare')}}
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item border rounded border-primary m-1 pl-1">
+					<a class="nav-link" href="{{=URL('default', 'index.html')}}">home</a>
+				</li>
+				{{for key in nav.keys():}} 
+				{{if key is not "user" and key is not "prefix":}}
+				<li class="nav-item border rounded border-primary m-1 pl-1">
+					<a class="nav-link" href="{{=nav[key]}}">{{=key}}</a>
+				</li>
+				{{pass}} {{pass}}
+			</ul>
+			<form class="form-inline my-2 my-lg-0">
+				<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+				<button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+			</form>
+		</div>
+	</nav>
 
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </div>
-  </nav>
+	<main>
+		{{if response.flash:}}
+		<div class="alert alert-primary alert-dismissible" role="alert">{{=response.flash}}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+		</div>
+		{{pass}} {{include}}
+	</main>
+	<footer>
 
-  <main>
-    {{if response.flash:}}
-      <div class="alert alert-primary alert-dismissible" role="alert">{{=response.flash}}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    {{pass}}
-    {{include}}
-  </main>
-  <footer>
     <div class="row">
       <div class="col-md-12 col-lg-12 col-sm-12 center">
-        <div class="center">
-          <a class="fa fa-facebook" href="https://www.facebook.com/sharer/sharer.php?u={url}"></a>
-          <a class="fa fa-twitter" href="https://twitter.com/home?status={url}"></a>
-          <a class="fa fa-google" href="https://plus.google.com/share?url={url}"></a>
-        </div>
+				<a class="fa fa-facebook" href="https://www.facebook.com/sharer/sharer.php?u={url}"></a>
+				<a class="fa fa-twitter" href="https://twitter.com/home?status={url}"></a>
+				<a class="fa fa-google" href="https://plus.google.com/share?url={url}"></a>
       </div>
     </div>
 

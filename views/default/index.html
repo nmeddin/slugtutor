@@ -6,58 +6,71 @@
 
 <div class="main_content">
 
-  <div id="vue-div" class="display:none">
-
-    <!-- Here goes your main HTML code. -->
-    <div class="container-fluid">
-      <div class="jumbotron">
-        <!-- <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a> -->
-
-        
-        {{if auth.user is None:}}
-          <h1 class="display-4">Learn More. Earn More.</h1>
-          <hr class="my-4">
-          <p class="lead">Slugtutor is the easiest way for students to find the best tutors for their academic needs</p>
-          <p class="lead">Excel in a class? Interested in helping others and earning some extra cash? Sign in to add your availibility and expertise.</p>
-        {{else:}}
-          <h1 class="display-4">Welcome back {{=auth.user["first_name"]}}</h1>
-          <hr class="my-4">
-        {{pass}}
-
-        <div class="row">
-
-          <div class="offset-md-3 col-md-6 col-sm-12">
-            <form>
-              <div class="form-group">
-                <h4 class="mx-2 lead">Search for classes to find tutors who can help you:</h4>
-                <input class="w-80" v-model="student_search" placeholder="CMPS 183">
-                <button class="btn btn-outline-success w-20 my-sm-0" v-on:click="search_for_tutors">Search</button>
-              </div>
-              <div class="form-group">
-                <h4 class="mx-2 lead">Interested in becoming a tutor? Create a posting so students can find you.</h4>
-                <h6 class="mx-2">I can help with...</h6>
-                <input v-model="student_search" placeholder="CMPS 183">
-              </div>
-              <div class="form-group">
-                <h6 class="mx-2">Random inspirational quote:</h6>
-                <div id="new-quote">
-                  <!-- `greet` is the name of a method defined below -->
-                  <p>${ quoteText } ${ quoteAuthor }</p>
-                  <button class="btn btn-outline-success  my-sm-0" v-on:click="getQuote">New Quote</button>
-                </div>
-              </div>
-            </div>
-          </form>
-    
-          <div class="col-md-3">
-      
-          </div>
-        </div>
-      </div>
+	<div id="vue-div" class="display:none">
 
 
-    </div>
-  </div>
+		<!--
+
+	 <p> <router-link to="/foo">Go to Foo</router-link>
+		 <router-link to="/bar">Go to Bar</router-link>  </p><router-view></router-view>
+-->
+
+		<!-- Here goes your main HTML code. -->
+		<div v-if="tutor_result_page">
+
+			<li v-for="value in class_list">
+				${ value }
+			</li>
+
+			<button @click="go_home"> go home </button>
+		</div>
+		<transition name="fade">
+			<div v-if="main_page" class="container-fluid">
+				<div class="jumbotron">
+					<!-- <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a> -->
+
+
+					{{if auth.user is None:}}
+					<h1 class="display-4">Learn More. Earn More.</h1>
+
+
+					<hr class="my-4">
+					<p class="lead">Slugtutor is the easiest way for students to find the best tutors for their academic needs.</p>
+					<p class="lead">Excel in a class? Interested in helping others and earning some extra cash? Sign in to add your availability and expertise.</p>
+					{{else:}}
+					<h1 class="display-4">Welcome back {{=auth.user["first_name"]}}</h1>
+					<hr class="my-4"> {{pass}}
+				</div>
+				<div class="row">
+					<div class="offset-md-3 col-md-6 col-sm-12">
+						<div class="form-group border p-3">
+							<h3 class="mx-2 font-weight-light">Need help in a class?</h3>
+							<p class="mx-2 font-weight-light">We'll match you with tutors that can help.</p>
+							<input class="w-80" v-model="student_search" placeholder="CMPS 183">
+							<button type="button" class="btn btn-primary w-20 my-sm-0" v-on:click="search_for_tutors">Search</button>
+						</div>
+						<div class="form-group border p-3 ">
+							<h3 class="mx-2 font-weight-light">Interested in becoming a tutor?</h3>
+							<p class="mx-2 font-weight-light">Add classes you have expertise in.</p>
+							<input v-model="tutor_search" class="w-80" placeholder="CMPS 183">
+							<button type="button" class="btn btn-primary w-20 my-sm-0" v-on:click="create_session">Create Post</button>
+						</div>
+						<div class="form-group">
+							<h6 class="mx-2">Quote of the day:</h6>
+							<div id="new-quote">
+								<p>${ quoteText }</p> <i>${ quoteAuthor }</i>
+								<!--                  <button class="btn btn-outline-success  my-sm-0" v-on:click="getQuote">New Quote</button>-->
+							</div>
+						</div>
+						<div class="col-md-3">
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</transition>
+	</div>
 </div>
 
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>

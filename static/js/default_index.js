@@ -103,6 +103,7 @@ var app = function () {
             class_list: class_list,
             student_search: "",
             tutor_search: "",
+            
             in_demand: [],
             quoteText: "",
             quoteAuthor: ""

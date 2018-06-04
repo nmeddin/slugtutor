@@ -60,5 +60,28 @@ footer {
   list-style-type: none;
 }
 
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 
+.navbar {
+  background-color: #ced5e0 !important;
+}
 
+.border-primary {
+  border-color:#babdc1 !important;
+}
+.btn-primary {
+  border-color:#babdc1 !important;
+  color:#8a8b8c !important;
+  background-color:#ced5e0 !important;
+  
+}
+
+.btn-primary:hover {
+  background-color:#ced5e0!important;
+  border-color:#babdc1 !important;
+}
