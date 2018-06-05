@@ -31,11 +31,12 @@ db.checklist.id.writable = db.checklist.id.readable = False
 
 
 db.define_table('appointments',
+			   Field('classname'),
 	           Field('appointment', 'datetime'),
 	           Field('tutor'),
 	           Field('can_cancel', 'boolean', default=True),
 	           Field('student'),
-	           Field('rate', 'double', default=11.00),
+	           Field('rate', 'double', default=20.00),
 	           primarykey=['appointment', 'tutor']
 	           )
 

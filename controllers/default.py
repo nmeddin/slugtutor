@@ -33,7 +33,7 @@ def test():
         logger.info('%r' % row)
 
 def no_swearing(form):
-    if 'fool' in form.vars.memo:
+    if 'fool' in form.vars.department:
         form.errors.memo = T('No swearing please')
 		
 def add_post():
@@ -41,11 +41,11 @@ def add_post():
 	return dict(form=form)
 
 
-def add():
+def add_class():
     """Adds a checklist."""
-    form = SQLFORM(db.appointments)
+    form = SQLFORM(db.classes)
     if form.process(onvalidation=no_swearing).accepted:
-        session.flash = T("Checklist added.")
+        session.flash = T("Class added.")
         redirect(URL('default','index'))
     elif form.errors:
         session.flash = T('Please correct the info')
