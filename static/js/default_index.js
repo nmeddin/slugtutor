@@ -55,8 +55,7 @@ var app = function () {
 		} else {
 			self.get_classes;
 		}
-		self.vue.tutor_result_page = true;
-		self.vue.main_page = false;
+		self.goto('tutor_result_page');
 		// $.getJSON(get_memos_url(0, 10), function (data) {
 		//     self.vue.in_demand = data.memos;
 
@@ -65,8 +64,16 @@ var app = function () {
 
 
 
-	self.create_session = function () {
-		console.log("create session");
+	self.add_post = function (c_id) {
+		console.log("add post");
+		$.post(api_add_post_url, {
+				c_id: c_id
+			},
+
+			function (data) {
+				console.log("adding_post")
+			}
+		);
 	}
 
 	Vue.component('tutor-card', {
@@ -96,6 +103,7 @@ var app = function () {
 	})
 
 
+
 	self.go_home = function () {
 		self.vue.tutor_result_page = false;
 		self.vue.main_page = true;
@@ -119,6 +127,17 @@ var app = function () {
 		);
 	};
 
+	self.goto = function (page) {
+		self.vue.page = page;
+//		if (page == 'main') {
+//
+//		};
+//		if (page == 'search_results'){
+//			
+//		};...
+		
+
+	};
 
 
 	// Complete as needed.
@@ -129,21 +148,24 @@ var app = function () {
 
 		data: {
 			student_search: "",
-			tutor_search: "",
+			tutor_input: "",
 			in_demand: [],
 			quoteText: "",
 			quoteAuthor: "",
 			main_page: true,
 			tutor_result_page: false,
-			class_list: []
+			class_list: [],
+			page: 'main',
+			tutor_cards: []
 		},
 		methods: {
 			getQuote: self.getQuote,
 			search_for_tutors: self.search_for_tutors,
-			create_session: self.create_session,
+			add_post: self.add_post,
 			go_home: self.go_home,
 			get_classes: self.get_classes,
-			get_search: self.get_search
+			get_search: self.get_search,
+			goto: self.goto
 			//on student class search submit -> match_tutors()
 			//on tutor class search -> match_students()
 		},

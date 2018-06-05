@@ -7,6 +7,7 @@
 # )
 
 
+
 def get_classes():
 	classes = []
 	for row in db(db.classes).select(db.classes.ALL):
@@ -25,3 +26,7 @@ def get_search():
 		
 	print(results)
 	return response.json(dict(results=results))
+
+def add_post():
+	form = SQLFORM(db.appointments)
+	return dict(form=form)

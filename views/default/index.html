@@ -3,7 +3,7 @@
 	var search_tutors_url = "{{=URL('api', 'search_tutors')}}";
 	var api_get_classes_url = "{{=URL('api', 'get_classes')}}";
 	var api_get_search_url = "{{=URL('api', 'get_search')}}";
-
+	var api_add_post_url = "{{=URL('api', 'add_post')}}";
 
 </script>
 {{end}}
@@ -15,16 +15,16 @@
 
 
 		<!-- Here goes your main HTML code. -->
-		<div v-if="tutor_result_page">
+		<div v-if="page=='tutor_result_page'">
 
 			<li v-for="value in class_list">
 				${ value }
 			</li>
 
-			<button @click="go_home"> go home </button>
+			<button @click="goto('main')"> go home </button>
 		</div>
 		<transition name="fade">
-			<div v-if="main_page" class="container-fluid">
+			<div v-if="page=='main'" class="container-fluid">
 				<div class="jumbotron">
 					<!-- <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a> -->
 
@@ -54,8 +54,8 @@
 								<div class="form-group">
 									<h4 class="mx-2 lead">Interested in becoming a tutor? Create a posting so students can find you.</h4>
 									<h6 class="mx-2">I can help with...</h6>
-									<input v-model="tutor_search" placeholder="CMPS 183">
-									<button type="button" class="btn btn-outline-success w-20 my-sm-0" v-on:click="create_session">Create Post</button>
+									<input v-model="tutor_input" placeholder="CMPS 183">
+									<button class="btn btn-outline-success w-20 my-sm-0" v-on:click="">Create</button>
 								</div>
 							</form>
 							<div class="form-group">
@@ -77,6 +77,9 @@
 				</div>
 			</div>
 		</transition>
+		<div v-if="page=='create_post_page'">
+
+		</div>
 	</div>
 </div>
 
@@ -86,4 +89,3 @@
 
 
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>
-

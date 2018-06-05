@@ -35,10 +35,15 @@ def test():
 def no_swearing(form):
     if 'fool' in form.vars.memo:
         form.errors.memo = T('No swearing please')
+		
+def add_post():
+	form = SQLFORM(db.appointments)
+	return dict(form=form)
+
 
 def add():
     """Adds a checklist."""
-    form = SQLFORM(db.checklist)
+    form = SQLFORM(db.appointments)
     if form.process(onvalidation=no_swearing).accepted:
         session.flash = T("Checklist added.")
         redirect(URL('default','index'))
@@ -48,6 +53,7 @@ def add():
 
 def profile():
     """a temporary call to fetch profile.hmtl."""
+
     form = SQLFORM(db.student)
 
     return dict(form=form)

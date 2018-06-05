@@ -26,6 +26,12 @@
 				<li class="nav-item">
 					<a class="nav-link" href="{{=URL('default', 'index.html')}}">home</a>
 				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{=URL('default', 'profile.html')}}">profile</a>
+				</li>				
+				<li class="nav-item">
+					<a class="nav-link" href="{{=URL('default', 'add.html')}}">ADD</a>
+				</li>
 				{{for key in nav.keys():}} {{if key is not "user" and key is not "prefix":}}
 				<li class="nav-item">
 					<a class="nav-link" href="{{=nav[key]}}">{{=key}}</a>
