@@ -1,80 +1,122 @@
 {{extend 'layout.html'}} {{block head}}
 <script>
-  var search_tutors_url = "{{=URL('api', 'search_tutors')}}";
+	var search_tutors_url = "{{=URL('api', 'search_tutors')}}";
+	var api_get_classes_url = "{{=URL('api', 'get_classes')}}";
+	var api_get_search_url = "{{=URL('api', 'get_search')}}";
+	var api_add_post_url = "{{=URL('api', 'add_post')}}";
+
 </script>
 {{end}}
 
 <div class="main_content">
 
-  <div id="vue-div" class="display:none">
-
-    <autocomplete :items="[ 'Apple', 'Banana', 'Orange', 'Mango', 'Pear', 'Peach', 'Grape', 'Tangerine', 'Pineapple']"></autocomplete>
-
-    <!-- Here goes your main HTML code. -->
-    <div v-if="page === 'tutor_results'">
-      <tutor-card></tutor-card>
-      <tutor-card></tutor-card>
-      <button class="padded" v-on:click="goto('home')"> Return </button>
-    </div>
-
-    <div v-if="page === 'home'" class="container-fluid">
-      <div class="jumbotron">
-        <!-- <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a> -->
+	<div id="vue-div" class="display:none">
 
 
-        {{if auth.user is None:}}
-        <h1 class="display-4">Learn More. Earn More.</h1>
+
+		<!-- Here goes your main HTML code. -->
+		<div v-if="page=='tutor_result_page'">
+
+			<li v-for="value in class_list">
+				${ value }
+			</li>
+
+			<button @click="goto('main')"> go home </button>
+		</div>
+		<transition name="fade">
+			<div v-if="page=='main'" class="container-fluid">
+				<div class="jumbotron">
+					<!-- <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a> -->
 
 
-        <hr class="my-4">
-        <p class="lead">Slugtutor is the easiest way for students to find the best tutors for their academic needs.</p>
-        <p class="lead">Excel in a class? Interested in helping others and earning some extra cash? Sign in to add your availibility and
-          expertise.</p>
-        {{else:}}
-        <h1 class="display-4">Welcome back {{=auth.user["first_name"]}}</h1>
-        <hr class="my-4"> {{pass}}
+					{{if auth.user is None:}}
+					<h1 class="display-4">Learn More. Earn More.</h1>
 
 
-      </div>
-      <div class="row">
+					<hr class="my-4">
+					<p class="lead">Slugtutor is the easiest way for students to find the best tutors for their academic needs.</p>
+					<p class="lead">Excel in a class? Interested in helping others and earning some extra cash? Sign in to add your availibility and expertise.</p>
+					{{else:}}
+					<h1 class="display-4">Welcome back {{=auth.user["first_name"]}}</h1>
+					<hr class="my-4"> {{pass}}
 
-        <div class="offset-md-3 col-md-6 col-sm-12">
-          <form>
-            <div class="form-group">
-              <h4 class="mx-2 lead">Search for classes to find tutors who can help you:</h4>
-              <input class="w-80" v-model="student_search" placeholder="CMPS 183">
-              <button type="button" class="btn btn-outline-success w-20 my-sm-0" v-on:click="goto('tutor_results')">Search</button>
-            </div>
-          </form>
-          <form>
-            <div class="form-group">
-              <h4 class="mx-2 lead">Interested in becoming a tutor? Create a posting so students can find you.</h4>
-              <h6 class="mx-2">I can help with...</h6>
-              <input v-model="tutor_search" placeholder="CMPS 183">
-              <button type="button" class="btn btn-outline-success w-20 my-sm-0" v-on:click="create_session">Create Post</button>
-            </div>
-          </form>
-          <div class="form-group">
-            <h6 class="mx-2">Quote of the day:</h6>
-            <div id="new-quote">
+					<div class="row">
 
-              <p>${ quoteText }</p>
-              <i>${ quoteAuthor }</i>
+						<div class="offset-md-3 col-md-6 col-sm-12">
+							<form>
+								<div class="form-group">
+									<h4 class="mx-2 lead">Search for classes to find tutors who can help you:</h4>
+									<h6 class="mx-2">Find me help for...</h6>
+									<input class="w-80" v-model="student_search" placeholder="CMPS 183">
+									<button type="button" class="btn btn-outline-success w-20 my-sm-0" v-on:click="search_for_tutors(student_search)">Search</button>
+								</div>
+							</form>
+							<form>
+								<div class="form-group">
+									<h4 class="mx-2 lead">Interested in becoming a tutor? Create a posting so students can find you.</h4>
+									<input v-model="tutor_input" placeholder="CMPS 183">
+									<button class="btn btn-outline-success w-20 my-sm-0" v-on:click="add_post(tutor_input)">Create</button>
+								</div>
+							</form>
+							<div class="form-group">
+								<h6 class="mx-2">Quote of the day:</h6>
+								<div id="new-quote">
 
-            </div>
-          </div>
-
-
-          <div class="col-md-3">
+									<p>${ quoteText }</p> <i>${ quoteAuthor }</i>
+									<!--                  <button class="btn btn-outline-success  my-sm-0" v-on:click="getQuote">New Quote</button>-->
+								</div>
+							</div>
 
 
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+							<div class="col-md-3">
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</transition>
+		<div v-if="page=='create_post_page'">
+			<form>
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label for="inputTitle">Title</label>
+						<input type="text" class="form-control" id="inputTitle" placeholder="Web Applications">
+					</div>
+					<div class="form-group col-md-6">
+						<label for="inputClassNum">Class Number</label>
+						<input type="number" class="form-control" id="inputClassNumber" placeholder="183">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputDayOf">Day</label>
+					<input type="datetime" class="form-control" id="inputDayOf">
+				</div>
+				<div class="form-group">
+					<label for="inputStartTime">Time</label>
+					<input type="text" class="form-control" id="inputStarTime">
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label for="inputGroupOrInd"></label>
+						<input type="radio" id="one" value="One" v-model="picked">
+						<label for="one">Individual</label>
+						<br>
+						<input type="radio" id="two" value="Two" v-model="picked">
+						<label for="two">Group</label>
+						<br>
+					</div>
+				</div>
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+	</div>
 </div>
 
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
 
 
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>

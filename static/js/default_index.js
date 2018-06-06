@@ -2,6 +2,7 @@
 
 var app = function () {
 
+
 	var self = {};
 
 	Vue.config.silent = false; // show all warnings
@@ -46,19 +47,35 @@ var app = function () {
 
 	}
 
-	self.search_for_tutors = function () {
-		console.log("search for tutors");
-		console.log(self.vue.student_search);
-		self.vue.tutor_result_page = true;
-		self.vue.main_page = false;
+	self.search_for_tutors = function (search) {
+		console.log(search);
+		//console.log(self.vue.student_search);
+		if (search != "") {
+			self.get_search(search);
+		} else {
+			self.get_classes;
+		}
+		self.goto('tutor_result_page');
 		// $.getJSON(get_memos_url(0, 10), function (data) {
 		//     self.vue.in_demand = data.memos;
 
 		// });
 	}
 
-	self.create_session = function () {
-		console.log("create session");
+
+
+	self.add_post = function (c_id) {
+		console.log("add post");
+		$.post(api_add_post_url, {
+				c_id: c_id
+			},
+
+			function (data) {
+				console.log("adding_post")
+			}
+		);
+		
+		self.goto('create_post_page')
 	}
 
 	
@@ -122,19 +139,7 @@ var app = function () {
 					  <p>(123)456-7890</p>
 					<!--
 					  <div class="row">
-						  <div class ="col-sm-4">
-							  <row>day+1</row>
-							  <row>10:00am</row>
-							  <row>3:00pm</row>
-						  </div>
-						  <div class ="col-sm-4">
-							  <row>day+2</row>
-							  <row>10:00am</row>
-							  <row>4:00pm</row></div>
-						  <div class ="col-sm-4">			
-							  <row>day+3</row>
-							  <row>10:00am</row>
-							  <row>2:00pm</row></div>
+
 					  </div>
 					-->
 				  </div>
@@ -145,48 +150,41 @@ var app = function () {
 	})
 
 
-	const Foo = {
-		template: `<div>foo</div>`
-	}
-	const Bar = {
-		template: '<div>bar</div>'
-	}
-	const Tutor = {
-		template: '<div>tutor</div>'
-	}
-
-	// 2. Define some routes
-	// Each route should map to a component. The "component" can
-	// either be an actual component constructor created via
-	// `Vue.extend()`, or just a component options object.
-	// We'll talk about nested routes later.
-	const routes = [
-		{
-			path: '/foo',
-			component: Foo
-		},
-		{
-			path: '/bar',
-			component: Bar
-		}
-	]
-
-	// 3. Create the router instance and pass the `routes` option
-	// You can pass in additional options here, but let's
-	// keep it simple for now.
-	const router = new VueRouter({
-		routes: [
-			{
-				path: '/tutor/:id',
-				component: Tutor
-			}
-	  ]
-	})
 
 	self.goto = function (page) {
         // console.log(page);
 		self.vue.page = page;
     }
+
+	self.get_classes = function () {
+		$.get(api_get_classes_url,
+			function (data) {
+				self.vue.class_list = data.classes
+			});
+	};
+
+	self.get_search = function (search) {
+		$.get(api_get_search_url, {
+				search: search
+			},
+			function (data) {
+				self.vue.class_list = data.results
+			}
+
+		);
+	};
+
+	self.goto = function (page) {
+		self.vue.page = page;
+//		if (page == 'main') {
+//
+//		};
+//		if (page == 'search_results'){
+//			
+//		};...
+		
+
+	};
 
 
 	self.get_classes = function () {
@@ -201,26 +199,29 @@ var app = function () {
 		el: "#vue-div",
 		delimiters: ['${', '}'],
 		unsafeDelimiters: ['!{', '}'],
-		router,
+
 		data: {
 			student_search: "",
-			tutor_search: "",
+			tutor_input: "",
 			in_demand: [],
 			quoteText: "",
 			quoteAuthor: "",
-			// main_page: true,
-			// tutor_result_page: false,
-            items: [],
-            page: "home",
+			main_page: true,
+			tutor_result_page: false,
 			class_list: [],
+			page: 'main',
+			tutor_cards: [],
+			picked: ""
+			
 		},
 		methods: {
 			getQuote: self.getQuote,
 			search_for_tutors: self.search_for_tutors,
-			create_session: self.create_session,
+			add_post: self.add_post,
 			go_home: self.go_home,
-            get_classes: self.get_classes,
-            goto: self.goto,
+			get_classes: self.get_classes,
+			get_search: self.get_search,
+			goto: self.goto
 			//on student class search submit -> match_tutors()
 			//on tutor class search -> match_students()
 		},
@@ -234,8 +235,11 @@ var app = function () {
 	});
 
 
+	self.get_classes();
+
 	return self;
 };
+
 
 
 

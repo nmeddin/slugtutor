@@ -31,11 +31,12 @@ db.checklist.id.writable = db.checklist.id.readable = False
 
 
 db.define_table('appointments',
+			   Field('classname'),
 	           Field('appointment', 'datetime'),
 	           Field('tutor'),
 	           Field('can_cancel', 'boolean', default=True),
 	           Field('student'),
-	           Field('rate', 'double', default=11.00),
+	           Field('rate', 'double', default=20.00),
 	           primarykey=['appointment', 'tutor']
 	           )
 
@@ -75,6 +76,16 @@ db.define_table('tutor',
                 Field('rating', 'double', default=0.0),
                 primarykey=['name', 'email', 'major']
 	            )
+
+db.define_table('post',
+			   Field('classname'),
+			   Field('leader'),
+				Field('day_of', 'date'),
+				Field('start_time', 'time'),
+				Field('end_time', 'time'),
+				
+			   
+			   )
 
 # after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
