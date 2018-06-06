@@ -41,3 +41,64 @@ div.memo div.button_list div.buttons {
 div.memo div.button_list a.btn {
   padding: 10px;
 }
+main {
+  background-color: white;
+  color: black;
+}
+
+footer {
+  position:absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;
+}
+
+.btn, button, [type=button], [type=submit] {background-color:whitesmoke; color:green}
+
+.slugtutor {
+  list-style-type: none;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+.navbar {
+  background-color: #ced5e0 !important;
+}
+
+.border-primary {
+  border-color:#babdc1 !important;
+}
+.btn-primary {
+  border-color:#babdc1 !important;
+  color:#8a8b8c !important;
+  background-color:#ced5e0 !important;
+  
+}
+
+.btn-primary:hover {
+  background-color:#ced5e0!important;
+  border-color:#babdc1 !important;
+}
+
+#wrap {
+  min-height: 100%;
+}
+
+#main {
+  overflow:auto;
+  padding-bottom:150px; /* this needs to be bigger than footer height*/
+}
+
+.footer {
+  position: relative;
+  margin-top: -150px; /* negative value of footer height */
+  height: 150px;
+  clear:both;
+  padding-top:20px;
+} 
