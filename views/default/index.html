@@ -4,7 +4,6 @@
 	var api_get_classes_url = "{{=URL('api', 'get_classes')}}";
 	var api_get_search_url = "{{=URL('api', 'get_search')}}";
 	var api_add_post_url = "{{=URL('api', 'add_post')}}";
-
 </script>
 {{end}}
 
@@ -35,46 +34,63 @@
 
 					<hr class="my-4">
 					<p class="lead">Slugtutor is the easiest way for students to find the best tutors for their academic needs.</p>
-					<p class="lead">Excel in a class? Interested in helping others and earning some extra cash? Sign in to add your availibility and expertise.</p>
+					<p class="lead">Excel in a class? Interested in helping others and earning some extra cash? Sign in to add your availability and expertise.</p>
 					{{else:}}
 					<h1 class="display-4">Welcome back {{=auth.user["first_name"]}}</h1>
 					<hr class="my-4"> {{pass}}
+				</div>
+				<div class="row">
 
-					<div class="row">
+						<div class="offset-md-2 col-md-8 col-sm-12 ">
 
-						<div class="offset-md-3 col-md-6 col-sm-12">
-							<form>
-								<div class="form-group">
-									<h4 class="mx-2 lead">Search for classes to find tutors who can help you:</h4>
-									<h6 class="mx-2">Find me help for...</h6>
+								<div class="module-primary rounded">
+									<h4 class="mx-2 font-weight-light">Search for classes to find tutors who can help you:</h4>
+									<h6 class="mx-2 font-weight-light">Find me help for...</h6>
 									<input class="w-80" v-model="student_search" placeholder="CMPS 183">
 									<button type="button" class="btn btn-outline-success w-20 my-sm-0" v-on:click="search_for_tutors(student_search)">Search</button>
 								</div>
-							</form>
-							<form>
-								<div class="form-group">
-									<h4 class="mx-2 lead">Interested in becoming a tutor? Create a posting so students can find you.</h4>
-									<input v-model="tutor_input" placeholder="CMPS 183">
-									<button class="btn btn-outline-success w-20 my-sm-0" v-on:click="add_post(tutor_input)">Create</button>
+
+								<div class="module-primary rounded">
+									<h4 class="mx-2 font-weight-light">Interested in becoming a tutor?</h4>
+									{{if auth.user is None:}}
+										<h6 class="mx-2 font-weight-light">Login or Sign up to create a new posting.</h6>
+									{{else:}}
+									<h5 class="mx-2 font-weight-light">Create a posting so students can find you.</h5>
+									<div class="font-weight-light">
+											{{=form.custom.begin}}
+											Department: <div class="py-2">{{=form.custom.widget.department}}</div>
+											Class Name: <div class="py-2">{{=form.custom.widget.classname}}</div>
+											On: <div class="py-2">{{=form.custom.widget.day_of}}</div>
+											From: <div class="py-2">{{=form.custom.widget.start_time}}</div>
+											To: <div class="py-2">{{=form.custom.widget.end_time}}</div>
+											<div class="py-2 w-20 my-sm-0">{{=form.custom.submit}}</div>
+											{{=form.custom.end}}
+									</div>
+
+	
+									{{pass}}
+
+
+									<!-- <button class="btn btn-outline-success w-20 my-sm-0" v-on:click="add_post(tutor_input)">Create</button> -->
 								</div>
-							</form>
-							<div class="form-group">
+							<div class="module-primary rounded">
 								<h6 class="mx-2">Quote of the day:</h6>
 								<div id="new-quote">
 
-									<p>${ quoteText }</p> <i>${ quoteAuthor }</i>
+									<p>${ quoteText }</p>
+									<i>${ quoteAuthor }</i>
 									<!--                  <button class="btn btn-outline-success  my-sm-0" v-on:click="getQuote">New Quote</button>-->
 								</div>
 							</div>
 
 
-							<div class="col-md-3">
+
+						</div>
+						<div class="col-md-2">
 
 
-							</div>
 						</div>
 					</div>
-				</div>
 			</div>
 		</transition>
 		<div v-if="page=='create_post_page'">

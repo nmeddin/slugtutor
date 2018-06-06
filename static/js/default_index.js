@@ -202,7 +202,6 @@ var app = function () {
 
 		data: {
 			student_search: "",
-			tutor_input: "",
 			in_demand: [],
 			quoteText: "",
 			quoteAuthor: "",
@@ -241,9 +240,8 @@ var app = function () {
 };
 
 
-
-
 var APP = null;
+
 
 // This will make everything accessible from the js console;
 // for instance, self.x above would be accessible as APP.x

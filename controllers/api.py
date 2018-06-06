@@ -30,7 +30,7 @@ def get_search():
 def add_post():
     """Adds a tutoring post."""
     form = SQLFORM(db.post)
-    if form.process(onvalidation=no_swearing).accepted:
+    if form.process().accepted:
         session.flash = T("Session posted.")
         redirect(URL('default','index'))
     elif form.errors:

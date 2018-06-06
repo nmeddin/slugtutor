@@ -22,10 +22,18 @@ def index():
     """
     logger.info('The session is: %r' % session)
     checklists = db(db.checklist.is_public == True).select(db.checklist.ALL)
-    if auth.user is not None:
-        checklists = db((db.checklist.user_email == auth.user.email) | (db.checklist.is_public == True)).select(db.checklist.ALL)
-		
-    return dict(checklists=checklists)
+
+    form = SQLFORM(db.post)
+
+    if form.process().accepted:
+        session.flash = T("Session posted.")
+    elif form.errors:
+        session.flash = T('Please correct the info')
+    else:
+        session.flash = T('please fill out the form')
+
+    form.element(_type='submit')['_class']='btn btn-outline-success'
+    return dict(form=form)
 
 def test():
     logger.info('Here we are displaying the classes database.')
@@ -39,17 +47,19 @@ def no_swearing(form):
 def add_post():
     """Adds a tutoring post."""
     form = SQLFORM(db.post)
-    if form.process(onvalidation=no_swearing).accepted:
+    if form.process().accepted:
         session.flash = T("Session posted.")
         redirect(URL('default','index'))
     elif form.errors:
         session.flash = T('Please correct the info')
+    else:
+        session.flash = T('please fill out the form')
     return dict(form=form)
 
 def add_class():
     """Adds a class."""
     form = SQLFORM(db.classes)
-    if form.process(onvalidation=no_swearing).accepted:
+    if form.process().accepted:
         session.flash = T("Class added.")
         redirect(URL('default','index'))
     elif form.errors:

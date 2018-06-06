@@ -78,12 +78,12 @@ db.define_table('tutor',
 	            )
 
 db.define_table('post',
-			   Field('classname'),
-			   Field('leader'),
+				Field('department'),
+			  Field('classname'),
 				Field('day_of', 'date'),
 				Field('start_time', 'time'),
 				Field('end_time', 'time'),
-				
+				Field('created_by', 'reference auth_user', default=auth.user_id),
 			   
 			   )
 
