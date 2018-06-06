@@ -111,7 +111,6 @@ var app = function () {
 		  <div class="col-sm-5">
 			  <div class="border">
 			  <div class="row">
-				  
 				  <div class="col-sm-4">
 					  <img src="https://cdn3.iconfinder.com/data/icons/sympletts-part-3/128/circle-user-2-128.png">
 					  <p>five star rating</p>
@@ -184,10 +183,10 @@ var app = function () {
 	  ]
 	})
 
-	self.go_home = function () {
-		self.vue.tutor_result_page = false;
-		self.vue.main_page = true;
-	}
+	self.goto = function (page) {
+        // console.log(page);
+		self.vue.page = page;
+    }
 
 
 	self.get_classes = function () {
@@ -209,18 +208,19 @@ var app = function () {
 			in_demand: [],
 			quoteText: "",
 			quoteAuthor: "",
-			main_page: true,
-			tutor_result_page: false,
-			result: "hello",
-			items: [],
-			class_list: []
+			// main_page: true,
+			// tutor_result_page: false,
+            items: [],
+            page: "home",
+			class_list: [],
 		},
 		methods: {
 			getQuote: self.getQuote,
 			search_for_tutors: self.search_for_tutors,
 			create_session: self.create_session,
 			go_home: self.go_home,
-			get_classes: self.get_classes
+            get_classes: self.get_classes,
+            goto: self.goto,
 			//on student class search submit -> match_tutors()
 			//on tutor class search -> match_students()
 		},
