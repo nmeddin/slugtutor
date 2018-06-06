@@ -77,5 +77,15 @@ db.define_table('tutor',
                 primarykey=['name', 'email', 'major']
 	            )
 
+db.define_table('post',
+			   Field('classname'),
+			   Field('leader'),
+				Field('day_of', 'date'),
+				Field('start_time', 'time'),
+				Field('end_time', 'time'),
+				
+			   
+			   )
+
 # after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)

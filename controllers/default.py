@@ -37,12 +37,17 @@ def no_swearing(form):
         form.errors.memo = T('No swearing please')
 		
 def add_post():
-	form = SQLFORM(db.appointments)
-	return dict(form=form)
-
+    """Adds a tutoring post."""
+    form = SQLFORM(db.post)
+    if form.process(onvalidation=no_swearing).accepted:
+        session.flash = T("Session posted.")
+        redirect(URL('default','index'))
+    elif form.errors:
+        session.flash = T('Please correct the info')
+    return dict(form=form)
 
 def add_class():
-    """Adds a checklist."""
+    """Adds a class."""
     form = SQLFORM(db.classes)
     if form.process(onvalidation=no_swearing).accepted:
         session.flash = T("Class added.")

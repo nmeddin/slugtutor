@@ -74,6 +74,8 @@ var app = function () {
 				console.log("adding_post")
 			}
 		);
+		
+		self.goto('create_post_page')
 	}
 
 	Vue.component('tutor-card', {
@@ -156,7 +158,9 @@ var app = function () {
 			tutor_result_page: false,
 			class_list: [],
 			page: 'main',
-			tutor_cards: []
+			tutor_cards: [],
+			picked: ""
+			
 		},
 		methods: {
 			getQuote: self.getQuote,

@@ -46,6 +46,7 @@
 							<form>
 								<div class="form-group">
 									<h4 class="mx-2 lead">Search for classes to find tutors who can help you:</h4>
+									<h6 class="mx-2">Find me help for...</h6>
 									<input class="w-80" v-model="student_search" placeholder="CMPS 183">
 									<button type="button" class="btn btn-outline-success w-20 my-sm-0" v-on:click="search_for_tutors(student_search)">Search</button>
 								</div>
@@ -53,9 +54,8 @@
 							<form>
 								<div class="form-group">
 									<h4 class="mx-2 lead">Interested in becoming a tutor? Create a posting so students can find you.</h4>
-									<h6 class="mx-2">I can help with...</h6>
 									<input v-model="tutor_input" placeholder="CMPS 183">
-									<button class="btn btn-outline-success w-20 my-sm-0" v-on:click="">Create</button>
+									<button class="btn btn-outline-success w-20 my-sm-0" v-on:click="add_post(tutor_input)">Create</button>
 								</div>
 							</form>
 							<div class="form-group">
@@ -78,7 +78,38 @@
 			</div>
 		</transition>
 		<div v-if="page=='create_post_page'">
-
+			<form>
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label for="inputTitle">Title</label>
+						<input type="text" class="form-control" id="inputTitle" placeholder="Web Applications">
+					</div>
+					<div class="form-group col-md-6">
+						<label for="inputClassNum">Class Number</label>
+						<input type="number" class="form-control" id="inputClassNumber" placeholder="183">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputDayOf">Day</label>
+					<input type="datetime" class="form-control" id="inputDayOf">
+				</div>
+				<div class="form-group">
+					<label for="inputStartTime">Time</label>
+					<input type="text" class="form-control" id="inputStarTime">
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label for="inputGroupOrInd"></label>
+						<input type="radio" id="one" value="One" v-model="picked">
+						<label for="one">Individual</label>
+						<br>
+						<input type="radio" id="two" value="Two" v-model="picked">
+						<label for="two">Group</label>
+						<br>
+					</div>
+				</div>
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
 		</div>
 	</div>
 </div>

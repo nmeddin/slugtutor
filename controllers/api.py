@@ -28,5 +28,11 @@ def get_search():
 	return response.json(dict(results=results))
 
 def add_post():
-	form = SQLFORM(db.appointments)
-	return dict(form=form)
+    """Adds a tutoring post."""
+    form = SQLFORM(db.post)
+    if form.process(onvalidation=no_swearing).accepted:
+        session.flash = T("Session posted.")
+        redirect(URL('default','index'))
+    elif form.errors:
+        session.flash = T('Please correct the info')
+    return dict(form=form)
