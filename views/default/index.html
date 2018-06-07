@@ -4,6 +4,8 @@
 	var api_get_classes_url = "{{=URL('api', 'get_classes')}}";
 	var api_get_search_url = "{{=URL('api', 'get_search')}}";
 	var api_add_post_url = "{{=URL('api', 'add_post')}}";
+	var api_get_initial_user_info_url = "{{=URL('api', 'get_initial_user_info', user_signature=True)}}";
+
 </script>
 {{end}}
 
@@ -37,102 +39,88 @@
 					<p class="lead">Excel in a class? Interested in helping others and earning some extra cash? Sign in to add your availability and expertise.</p>
 					{{else:}}
 					<h1 class="display-4">Welcome back {{=auth.user["first_name"]}}</h1>
+					<button @click="goto('tutor_dashboard')" v-if="post_array.length > 0">
+										View your postings</button>
 					<hr class="my-4"> {{pass}}
 				</div>
 				<div class="row">
 
-						<div class="offset-md-2 col-md-8 col-sm-12 ">
 
-								<div class="module-primary rounded">
-									<h4 class="mx-2 font-weight-light">Search for classes to find tutors who can help you:</h4>
-									<h6 class="mx-2 font-weight-light">Find me help for...</h6>
-									<input class="w-80" v-model="student_search" placeholder="CMPS 183">
-									<button type="button" class="btn btn-outline-success w-20 my-sm-0" v-on:click="search_for_tutors(student_search)">Search</button>
-								</div>
-
-								<div class="module-primary rounded">
-									<h4 class="mx-2 font-weight-light">Interested in becoming a tutor?</h4>
-									{{if auth.user is None:}}
-										<h6 class="mx-2 font-weight-light">Login or Sign up to create a new posting.</h6>
-									{{else:}}
-									<h5 class="mx-2 font-weight-light">Create a posting so students can find you.</h5>
-									<div class="font-weight-light">
-											{{=form.custom.begin}}
-											Department: <div class="py-2">{{=form.custom.widget.department}}</div>
-											Class Name: <div class="py-2">{{=form.custom.widget.classname}}</div>
-											On: <div class="py-2">{{=form.custom.widget.day_of}}</div>
-											From: <div class="py-2">{{=form.custom.widget.start_time}}</div>
-											To: <div class="py-2">{{=form.custom.widget.end_time}}</div>
-											<div class="py-2 w-20 my-sm-0">{{=form.custom.submit}}</div>
-											{{=form.custom.end}}
-									</div>
-
-	
-									{{pass}}
+					<div class="offset-md-2 col-md-8 col-sm-12 ">
 
 
-									<!-- <button class="btn btn-outline-success w-20 my-sm-0" v-on:click="add_post(tutor_input)">Create</button> -->
-								</div>
-							<div class="module-primary rounded">
-								<h6 class="mx-2">Quote of the day:</h6>
-								<div id="new-quote">
 
-									<p>${ quoteText }</p>
-									<i>${ quoteAuthor }</i>
-									<!--                  <button class="btn btn-outline-success  my-sm-0" v-on:click="getQuote">New Quote</button>-->
-								</div>
+						<div class="module-primary rounded">
+							<h4 class="mx-2 font-weight-light">Search for classes to find tutors who can help you:</h4>
+							<h6 class="mx-2 font-weight-light">Find me help for...</h6>
+							<input class="w-80" v-model="student_search" placeholder="CMPS 183">
+							<button type="button" class="btn btn-outline-success w-20 my-sm-0" v-on:click="search_for_tutors(student_search)">Search</button>
+						</div>
+
+						<div class="module-primary rounded">
+							<h4 class="mx-2 font-weight-light">Interested in becoming a tutor?</h4>
+							{{if auth.user is None:}}
+							<h6 class="mx-2 font-weight-light">Login or Sign up to create a new posting.</h6>
+							{{else:}}
+							<h5 class="mx-2 font-weight-light">Create a posting so students can find you.</h5>
+							<div class="font-weight-light">
+								{{=form.custom.begin}} Department:
+								<div class="py-2">{{=form.custom.widget.department}}</div>
+								Class Number:
+								<div class="py-2">{{=form.custom.widget.classnum}}</div>
+								Class Name:
+								<div class="py-2">{{=form.custom.widget.classname}}</div>
+								On:
+								<div class="py-2">{{=form.custom.widget.day_of}}</div>
+								From:
+								<div class="py-2">{{=form.custom.widget.start_time}}</div>
+								To:
+								<div class="py-2">{{=form.custom.widget.end_time}}</div>
+								<div class="py-2 w-20 my-sm-0">{{=form.custom.submit}}</div>
+								{{=form.custom.end}}
+
 							</div>
 
 
+							{{pass}}
 
+
+							<!-- <button class="btn btn-outline-success w-20 my-sm-0" v-on:click="add_post(tutor_input)">Create</button> -->
 						</div>
-						<div class="col-md-2">
+						<div class="module-primary rounded">
+							<h6 class="mx-2">Quote of the day:</h6>
+							<div id="new-quote">
 
-
+								<p>${ quoteText }</p>
+								<i>${ quoteAuthor }</i>
+								<!--                  <button class="btn btn-outline-success  my-sm-0" v-on:click="getQuote">New Quote</button>-->
+							</div>
 						</div>
+
+
+
 					</div>
+					<div class="col-md-2">
+
+
+					</div>
+				</div>
 			</div>
 		</transition>
-		<div v-if="page=='create_post_page'">
-			<form>
-				<div class="form-row">
-					<div class="form-group col-md-6">
-						<label for="inputTitle">Title</label>
-						<input type="text" class="form-control" id="inputTitle" placeholder="Web Applications">
-					</div>
-					<div class="form-group col-md-6">
-						<label for="inputClassNum">Class Number</label>
-						<input type="number" class="form-control" id="inputClassNumber" placeholder="183">
-					</div>
+
+		<transition name="fade">
+			<div id="tutor_dash" v-if="page=='tutor_dashboard'">
+				<div class="jumbotron">
+
+					<button @click="goto('main')"> go home </button>
+					<post-card v-for="post in post_array" v-bind:post="post"></post-card>
+
 				</div>
-				<div class="form-group">
-					<label for="inputDayOf">Day</label>
-					<input type="datetime" class="form-control" id="inputDayOf">
-				</div>
-				<div class="form-group">
-					<label for="inputStartTime">Time</label>
-					<input type="text" class="form-control" id="inputStarTime">
-				</div>
-				<div class="form-row">
-					<div class="form-group col-md-6">
-						<label for="inputGroupOrInd"></label>
-						<input type="radio" id="one" value="One" v-model="picked">
-						<label for="one">Individual</label>
-						<br>
-						<input type="radio" id="two" value="Two" v-model="picked">
-						<label for="two">Group</label>
-						<br>
-					</div>
-				</div>
-				<button type="submit" class="btn btn-primary">Submit</button>
-			</form>
-		</div>
-	</div>
-</div>
+			</div>
+		</transition>
 
 
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
 
-
-<script src="{{=URL('static', 'js/default_index.js')}}"></script>
+		<script src="{{=URL('static', 'js/default_index.js')}}"></script>

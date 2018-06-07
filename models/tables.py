@@ -53,7 +53,8 @@ db.define_table('classes',
 	            Field('class_id'),
 	            Field('professor'),
 	            Field('department'),
-	            primarykey=['title', 'class_id', 'department'],
+				Field('department_id'),
+	            primarykey=['title', 'class_id', 'department']
 	            )
 
 db.define_table('student',
@@ -77,15 +78,23 @@ db.define_table('tutor',
                 primarykey=['name', 'email', 'major']
 	            )
 
+
+
+
 db.define_table('post',
 				Field('department'),
-			  Field('classname'),
+				Field('created_on', 'datetime', default=request.now),		Field('classnum', 'integer'),
+				Field('classname'),
 				Field('day_of', 'date'),
 				Field('start_time', 'time'),
 				Field('end_time', 'time'),
-				Field('created_by', 'reference auth_user', default=auth.user_id),
-			   
+				Field('created_by', 'reference auth_user',  default=auth.user_id),
 			   )
+
+#db.post.department.requires = IS_IN_DB(db, 'classes.department', "%(department)s", zero=T('choose one'))
+				
+db.post.created_by.writable = False
+
 
 # after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
