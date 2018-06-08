@@ -6,7 +6,16 @@
 #   }
 # )
 
-
+@auth.requires_signature()
+def get_initial_user_info():
+	print(auth.user.id)
+	posts = []
+	for row in db(db.post.created_by==auth.user.id).select(orderby=~db.post.day_of):
+		print(auth.user.first_name)
+		#print(row.image_url)
+		posts.append(row)
+		
+	return response.json(dict(posts=posts))
 
 def get_classes():
 	classes = []
