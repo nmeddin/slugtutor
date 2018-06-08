@@ -34,9 +34,9 @@ var app = function () {
 				self.vue.post_array = data.posts
 
 			});
-		
+
 		//if(self.vue.post_array.length>0)
-		
+
 	};
 
 	self.get_in_demand_classes = function () {
@@ -48,20 +48,7 @@ var app = function () {
 
 	}
 
-	self.search_for_tutors = function (search) {
-		console.log(search);
-		//console.log(self.vue.student_search);
-		if (search != "") {
-			self.get_search(search);
-		} else {
-			self.get_classes;
-		}
-		self.goto('tutor_result_page');
-		// $.getJSON(get_memos_url(0, 10), function (data) {
-		//     self.vue.in_demand = data.memos;
 
-		// });
-	}
 
 
 
@@ -161,13 +148,30 @@ var app = function () {
 				self.vue.class_list = data.classes
 			});
 	};
+	
+	self.search_for_tutors = function (search) {
+		console.log(search);
+		//console.log(self.vue.student_search);
+		if (search != "") {
+			self.get_search(search);
+		} else {
+			self.get_classes;
+		}
+		self.goto('tutor_result_page');
+		// $.getJSON(get_memos_url(0, 10), function (data) {
+		//     self.vue.in_demand = data.memos;
 
+		// });
+	}
+	
 	self.get_search = function (search) {
 		$.get(api_get_search_url, {
-				search: search
+				search: parseInt(search)
 			},
 			function (data) {
-				self.vue.class_list = data.results
+				console.log("in get search")
+				console.log(data.posts)
+				self.vue.post_array = data.posts
 			}
 
 		);
@@ -236,7 +240,7 @@ var app = function () {
 			//on tutor class search -> match_students()
 		},
 		created: function () {
-			
+
 			this.get_initial_user_info();
 			console.log(this.post_array);
 			if (this.quoteText == "") {

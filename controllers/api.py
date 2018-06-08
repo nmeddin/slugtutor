@@ -18,23 +18,19 @@ def get_initial_user_info():
 	return response.json(dict(posts=posts))
 
 def get_classes():
-	classes = []
-	for row in db(db.classes).select(db.classes.ALL):
+	posts = []
+	for row in db(db.post).select(db.post.classnum==request.vars.search):
 		#print(row)
-		classes.append(row.title)
-	return response.json(dict(classes=classes))
+		posts.append(row)
+	return response.json(dict(posts=posts))
 
 
 def get_search():
-	results = []
-	search = request.vars.search
-	print(search)
-	for row in db(db.classes.class_id==search).select(orderby=db.classes.title):
-
-		results.append(row.title)
-		
-	print(results)
-	return response.json(dict(results=results))
+	posts = []
+	for row in db(db.post.classnum==request.vars.search).select(db.post.ALL):
+		#print(row)
+		posts.append(row)
+	return response.json(dict(posts=posts))
 
 def add_post():
     """Adds a tutoring post."""

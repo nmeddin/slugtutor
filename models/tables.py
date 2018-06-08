@@ -83,12 +83,14 @@ db.define_table('tutor',
 
 db.define_table('post',
 				Field('department'),
-				Field('created_on', 'datetime', default=request.now),		Field('classnum', 'integer'),
+				Field('created_on', 'datetime', default=request.now),
+				Field('classnum', 'integer'),
 				Field('classname'),
 				Field('day_of', 'date'),
 				Field('start_time', 'time'),
 				Field('end_time', 'time'),
 				Field('created_by', 'reference auth_user',  default=auth.user_id),
+				Field('students_joined', 'reference auth_user')
 			   )
 
 #db.post.department.requires = IS_IN_DB(db, 'classes.department', "%(department)s", zero=T('choose one'))

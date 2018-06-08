@@ -18,9 +18,7 @@
 		<!-- Here goes your main HTML code. -->
 		<div v-if="page=='tutor_result_page'">
 
-			<li v-for="value in class_list">
-				${ value }
-			</li>
+			<post-card v-for="post in post_array" v-bind:post="post"></post-card>
 
 			<button @click="goto('main')"> go home </button>
 		</div>
