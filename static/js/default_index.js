@@ -106,6 +106,7 @@ var app = function () {
 
 
 	self.search_for_tutors = function (search) {
+		console.log(self.vue.selected_dept);
 		console.log(search);
 		self.get_initial_user_info();
 
@@ -187,7 +188,7 @@ var app = function () {
 			picked: "",
 			post_array: [],
 			departments: [],
-			selected_dept: ""
+			selected_dept: "CMPS"
 
 		},
 		events: {
