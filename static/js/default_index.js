@@ -51,65 +51,6 @@ var app = function () {
 
 
 
-
-	self.add_post = function (c_id) {
-		console.log("add post");
-		$.post(api_add_post_url, {
-				c_id: c_id
-			},
-
-			function (data) {
-				console.log("adding_post")
-			}
-		);
-
-		self.goto('create_post_page')
-	}
-
-
-	Vue.component('autocomplete', {
-		props: {
-			items: {
-				type: Array,
-				required: false,
-				default: () => [],
-			},
-		},
-		data() {
-			return {
-				search: '',
-				results: [],
-				isOpen: false,
-			};
-		},
-		methods: {
-			onChange() {
-				this.isOpen = true;
-				this.filterResults();
-			},
-			filterResults() {
-				this.results = this.items.filter(item => item.toLowerCase().indexOf(this.search.toLowerCase()) > -1);
-			},
-		},
-		template: `<div class="autocomplete">
-    				<input type="text" />
-    					  <ul
-							v-show="isOpen"
-							class="autocomplete-results"
-						  >
-							<li
-							  v-for="(result, i) in results"
-							  :key="i"
-							  class="autocomplete-result"
-							>
-								{{ result }}
-							</li>
-						  </ul>
-  					</div>`
-
-
-	})
-
 	Vue.component('post-card', {
 		props: ['post'],
 		template: `<div id="post-card" style="color:blue;padding:20px" class="container-fluid">
@@ -121,13 +62,8 @@ var app = function () {
 				  </div>
 				  <div class="col-sm-8">
 				  <p>{{post.created_by}}</p>
-					<p>email@ucsc.edu</p>
+					<p>{{post.leader_email}}</p>
 					  <p>(123)456-7890</p>
-					<!--
-					  <div class="row">
-
-					  </div>
-					-->
 				  </div>
 			  </div>
 			</div>
@@ -136,34 +72,30 @@ var app = function () {
 	})
 
 
+	self.update_posting = function () {
+		
+		console.log("update posting");
+		
+	}
 
 	self.goto = function (page) {
 		// console.log(page);
 		self.vue.page = page;
 	}
 
-	self.get_classes = function () {
-		$.get(api_get_classes_url,
-			function (data) {
-				self.vue.class_list = data.classes
-			});
-	};
-	
 	self.search_for_tutors = function (search) {
 		console.log(search);
 		//console.log(self.vue.student_search);
 		if (search != "") {
 			self.get_search(search);
-		} else {
-			self.get_classes;
+			self.goto('tutor_result_page');
 		}
-		self.goto('tutor_result_page');
 		// $.getJSON(get_memos_url(0, 10), function (data) {
 		//     self.vue.in_demand = data.memos;
 
 		// });
 	}
-	
+
 	self.get_search = function (search) {
 		$.get(api_get_search_url, {
 				search: parseInt(search)
@@ -178,14 +110,8 @@ var app = function () {
 	};
 
 	self.goto = function (page) {
+		
 		self.vue.page = page;
-		//		if (page == 'main') {
-		//
-		//		};
-		//		if (page == 'search_results'){
-		//			
-		//		};...
-
 
 	};
 
@@ -194,19 +120,13 @@ var app = function () {
 		$.get(api_get_initial_user_info_url,
 			function (data) {
 				self.vue.post_array = data.posts
-
+				self.vue.current_user = data.curr_user
+				console.log(self.vue.current_user)
 			});
 
 	};
-
-
-	self.get_classes = function () {
-		//console.log('get classes');
-		$.get(api_get_classes_url,
-			function (data) {
-				self.vue.class_list = data.class_list
-			})
-	}
+	
+	
 
 	// Complete as needed.
 	self.vue = new Vue({
@@ -215,6 +135,7 @@ var app = function () {
 		unsafeDelimiters: ['!{', '}'],
 
 		data: {
+			current_user: "",
 			student_search: "",
 			in_demand: [],
 			quoteText: "",
@@ -232,10 +153,10 @@ var app = function () {
 			search_for_tutors: self.search_for_tutors,
 			add_post: self.add_post,
 			go_home: self.go_home,
-			get_classes: self.get_classes,
 			get_search: self.get_search,
 			goto: self.goto,
-			get_initial_user_info: self.get_initial_user_info
+			get_initial_user_info: self.get_initial_user_info,
+			update_posting: self.update_posting
 			//on student class search submit -> match_tutors()
 			//on tutor class search -> match_students()
 		},
@@ -248,9 +169,6 @@ var app = function () {
 			}
 		}
 	});
-
-
-	self.get_classes();
 
 	self.get_initial_user_info();
 

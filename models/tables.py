@@ -13,6 +13,10 @@ import datetime
 def get_user_email():
     return auth.user.email if auth.user is not None else None
 
+def get_user_name():
+    return auth.user.first_name if auth.user is not None else None
+
+
 
 db.define_table('checklist',
                 Field('user_email', default=get_user_email()),
@@ -90,7 +94,8 @@ db.define_table('post',
 				Field('start_time', 'time'),
 				Field('end_time', 'time'),
 				Field('created_by', 'reference auth_user',  default=auth.user_id),
-				Field('students_joined', 'reference auth_user')
+				Field('students_joined', 'reference auth_user'),
+				Field('leader_email')
 			   )
 
 #db.post.department.requires = IS_IN_DB(db, 'classes.department', "%(department)s", zero=T('choose one'))

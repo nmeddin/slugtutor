@@ -15,7 +15,7 @@ def get_initial_user_info():
 		#print(row.image_url)
 		posts.append(row)
 		
-	return response.json(dict(posts=posts))
+	return response.json(dict(posts=posts,curr_user=auth.user.id))
 
 def get_classes():
 	posts = []
