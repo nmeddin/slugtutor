@@ -18,7 +18,7 @@
 		<!-- Here goes your main HTML code. -->
 		<div v-if="page=='tutor_result_page'">
 
-			<post-card v-for="post in post_array" v-bind:post="post"></post-card>
+			<post-card v-for="post in post_array" v-bind:post="post" :key="post.id"></post-card>
 
 			<button @click="goto('main')"> go home </button>
 		</div>

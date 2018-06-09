@@ -1,0 +1,16 @@
+`<div id="post-card" style="color:blue;padding:20px" class="container">
+		  <div class="col-sm-5">
+			  <div class="border">
+			  <div class="row">
+				  <div class="col-sm-5">
+					  <p>{{post.classname}}</p>
+					  <button v-on:click="this.$parent.join">Join</button>
+				  </div>
+				  <div class="col-sm-4">
+				  <p>{{post.leader_name}}&nbsp<i class="fa fa-star"><i class="fa fa-star"><i class="fa fa-star"><i class="fa fa-star"><i class="fa fa-star"></p>
+					<p>{{post.leader_email}}</p>
+				  </div>
+			  </div>
+			</div>
+		  </div>
+	  </div>`

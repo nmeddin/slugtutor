@@ -57,46 +57,58 @@ var app = function () {
 		},
 		data: function () {
 			return {
-				count: 0
+				classname: this.post.classname,
+				dept: this.post.department,
+				type: ''
 			}
+		},
+		events: {
+
 		},
 		methods: {
-			join: function() {
-				console.log('join')
+			join: function () {
+				//console.log(this.post.id);
+				console.log(self.vue.user_list[0].email + ' wants to join')
+
 			}
 		},
-		template: `<div id="post-card" style="color:blue;padding:20px" class="container-fluid">
-		  <div class="col-sm-5">
-			  <div class="border">
-			  <div class="row">
-				  <div class="col-sm-4">
-					  <p>{{post.classname}}</p>
-				  </div>
-				  <div class="col-sm-8">
-				  <p>{{post.leader_name}}</p>
-					<p>{{post.leader_email}}</p>
-					  <button v-on:click="this.$parent.join">Join</button>
-				  </div>
-			  </div>
-			</div>
-		  </div>
-	  </div>`
+		template: `<div class="card" style="width: 18rem;">
+  <img v-if="this.post.department=='CMPS'" class="card-img-top" src="https://comps.canstockphoto.com/happy-computer-drawing_csp1651204.jpg" alt="Card image cap">
+  <img v-if="this.post.department=='CMPE'" class="card-img-top" src="http://www.clipartquery.com/images/39/gallery-for-computer-engineering-clipart-IARWQW.jpg" alt="Card image cap">
+  <img v-if="this.post.department=='EE'" class="card-img-top" src="http://fscomps.fotosearch.com/compc/CSP/CSP500/dangerous-work-with-electricity-clipart__k40115174.jpg" alt="Card image cap">
+
+  <div class="card-body">
+    <h5 class="card-title">{{post.classname}}</h5>
+	<h6>{{post.department}}{{post.classnum}}</h6>
+    <p class="card-text">Tutor: {{post.leader_name}}<br>Email: {{post.leader_email}}<br>{{post.num_students_joined}}/5 students joined</p>
+    <a  v-on:click="this.join" class="btn btn-primary">Join</a>
+  </div>
+</div>`
 	})
 
+	self.update_post = function () {
 
-	self.join = function() {
+		var this_user = self.vue.user_list[self.vue.current_user - 1]
+		console.log(this_user.first_name)
+		console.log("update posting");
+		$.post(api_update_post_url, {
+			first_name: this_user.first_name,
+			email: this_user.email
+		})
+
+	}
+
+	self.join = function () {
 
 		console.log('join');
 
 	}
 
-	self.goto = function (page) {
-		// console.log(page);
-		self.vue.page = page;
-	}
 
 	self.search_for_tutors = function (search) {
 		console.log(search);
+		self.get_initial_user_info();
+
 		//console.log(self.vue.student_search);
 		if (search != "") {
 			self.get_search(search);
@@ -143,27 +155,6 @@ var app = function () {
 
 	};
 
-	//	self.set_price = function (i_id) {
-	//		console.log(self.vue.url_array[i_id])
-	//		console.log(self.vue.price_array[i_id])
-	//		$.post(api_set_price_url, {
-	//			image: self.vue.url_array[i_id],
-	//			new_price: self.vue.price_array[i_id]
-	//		})
-	//		self.get_links(self.vue.current_user);
-	//
-	//	}
-	self.update_post = function () {
-
-		var this_user = self.vue.user_list[self.vue.current_user - 1]
-		console.log(this_user.first_name)
-		console.log("update posting");
-		$.post(api_update_post_url, {
-			first_name: this_user.first_name,
-			email: this_user.email
-		})
-
-	}
 
 
 	// Complete as needed.
@@ -184,8 +175,14 @@ var app = function () {
 			class_list: [],
 			page: 'main',
 			picked: "",
-			post_array: []
+			post_array: [],
+			departments: []
 
+		},
+		events: {
+			'join-button-clicked': function (classname) {
+				console.log(classname)
+			}
 		},
 		methods: {
 			getQuote: self.getQuote,
