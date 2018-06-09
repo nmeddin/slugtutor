@@ -32,11 +32,8 @@ var app = function () {
 		$.get(api_get_initial_user_info_url,
 			function (data) {
 				self.vue.post_array = data.posts
-
 			});
-
 		//if(self.vue.post_array.length>0)
-
 	};
 
 	self.get_in_demand_classes = function () {
@@ -112,7 +109,8 @@ var app = function () {
 
 	Vue.component('post-card', {
 		props: ['post'],
-		template: `<div id="post-card" style="color:blue;padding:20px" class="container-fluid">
+		template: `
+		<div id="post-card" style="color:blue;padding:20px" class="container-fluid">
 		  <div class="col-sm-5">
 			  <div class="border">
 			  <div class="row">
@@ -132,15 +130,10 @@ var app = function () {
 			  </div>
 			</div>
 		  </div>
-	  </div>`
+		</div>
+		`
 	})
 
-
-
-	self.goto = function (page) {
-		// console.log(page);
-		self.vue.page = page;
-	}
 
 	self.get_classes = function () {
 		$.get(api_get_classes_url,
@@ -155,7 +148,7 @@ var app = function () {
 		if (search != "") {
 			self.get_search(search);
 		} else {
-			self.get_classes;
+			self.get_classes();
 		}
 		self.goto('tutor_result_page');
 		// $.getJSON(get_memos_url(0, 10), function (data) {
@@ -179,34 +172,8 @@ var app = function () {
 
 	self.goto = function (page) {
 		self.vue.page = page;
-		//		if (page == 'main') {
-		//
-		//		};
-		//		if (page == 'search_results'){
-		//			
-		//		};...
-
-
 	};
 
-	self.get_initial_user_info = function () {
-		//console.log("get initial user info");
-		$.get(api_get_initial_user_info_url,
-			function (data) {
-				self.vue.post_array = data.posts
-
-			});
-
-	};
-
-
-	self.get_classes = function () {
-		//console.log('get classes');
-		$.get(api_get_classes_url,
-			function (data) {
-				self.vue.class_list = data.class_list
-			})
-	}
 
 	// Complete as needed.
 	self.vue = new Vue({
@@ -250,7 +217,7 @@ var app = function () {
 	});
 
 
-	self.get_classes();
+	// self.get_classes();
 
 	self.get_initial_user_info();
 
