@@ -95,7 +95,8 @@ db.define_table('post',
 				Field('end_time', 'time'),
 				Field('created_by', 'reference auth_user',  default=auth.user_id),
 				Field('students_joined', 'reference auth_user'),
-				Field('leader_email')
+				Field('leader_email'),
+				Field('leader_name')
 			   )
 
 #db.post.department.requires = IS_IN_DB(db, 'classes.department', "%(department)s", zero=T('choose one'))

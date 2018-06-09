@@ -52,7 +52,19 @@ var app = function () {
 
 
 	Vue.component('post-card', {
-		props: ['post'],
+		props: {
+			post: Object,
+		},
+		data: function () {
+			return {
+				count: 0
+			}
+		},
+		methods: {
+			join: function() {
+				console.log('join')
+			}
+		},
 		template: `<div id="post-card" style="color:blue;padding:20px" class="container-fluid">
 		  <div class="col-sm-5">
 			  <div class="border">
@@ -61,9 +73,9 @@ var app = function () {
 					  <p>{{post.classname}}</p>
 				  </div>
 				  <div class="col-sm-8">
-				  <p>{{post.created_by}}</p>
+				  <p>{{post.leader_name}}</p>
 					<p>{{post.leader_email}}</p>
-					  <p>(123)456-7890</p>
+					  <button v-on:click="this.$parent.join">Join</button>
 				  </div>
 			  </div>
 			</div>
@@ -72,10 +84,10 @@ var app = function () {
 	})
 
 
-	self.update_posting = function () {
-		
-		console.log("update posting");
-		
+	self.join = function() {
+
+		console.log('join');
+
 	}
 
 	self.goto = function (page) {
@@ -90,10 +102,6 @@ var app = function () {
 			self.get_search(search);
 			self.goto('tutor_result_page');
 		}
-		// $.getJSON(get_memos_url(0, 10), function (data) {
-		//     self.vue.in_demand = data.memos;
-
-		// });
 	}
 
 	self.get_search = function (search) {
@@ -110,7 +118,7 @@ var app = function () {
 	};
 
 	self.goto = function (page) {
-		
+
 		self.vue.page = page;
 
 	};
@@ -125,8 +133,38 @@ var app = function () {
 			});
 
 	};
-	
-	
+
+	self.get_users = function () {
+
+		$.get(api_get_users_url,
+			function (data) {
+				self.vue.user_list = data.user_list
+			});
+
+	};
+
+	//	self.set_price = function (i_id) {
+	//		console.log(self.vue.url_array[i_id])
+	//		console.log(self.vue.price_array[i_id])
+	//		$.post(api_set_price_url, {
+	//			image: self.vue.url_array[i_id],
+	//			new_price: self.vue.price_array[i_id]
+	//		})
+	//		self.get_links(self.vue.current_user);
+	//
+	//	}
+	self.update_post = function () {
+
+		var this_user = self.vue.user_list[self.vue.current_user - 1]
+		console.log(this_user.first_name)
+		console.log("update posting");
+		$.post(api_update_post_url, {
+			first_name: this_user.first_name,
+			email: this_user.email
+		})
+
+	}
+
 
 	// Complete as needed.
 	self.vue = new Vue({
@@ -136,6 +174,7 @@ var app = function () {
 
 		data: {
 			current_user: "",
+			user_list: [],
 			student_search: "",
 			in_demand: [],
 			quoteText: "",
@@ -156,7 +195,8 @@ var app = function () {
 			get_search: self.get_search,
 			goto: self.goto,
 			get_initial_user_info: self.get_initial_user_info,
-			update_posting: self.update_posting
+			update_post: self.update_post,
+			join: self.join
 			//on student class search submit -> match_tutors()
 			//on tutor class search -> match_students()
 		},
@@ -171,6 +211,8 @@ var app = function () {
 	});
 
 	self.get_initial_user_info();
+
+	self.get_users();
 
 	return self;
 };

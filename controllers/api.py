@@ -8,14 +8,30 @@
 
 @auth.requires_signature()
 def get_initial_user_info():
-	print(auth.user.id)
 	posts = []
 	for row in db(db.post.created_by==auth.user.id).select(orderby=~db.post.day_of):
-		print(auth.user.first_name)
+		row.update_record(leader_name=auth.user.first_name)
+		row.update_record(leader_email=auth.user.email)
 		#print(row.image_url)
 		posts.append(row)
 		
 	return response.json(dict(posts=posts,curr_user=auth.user.id))
+
+def get_users():
+	user_list = []
+	u_id = auth.user_id
+	# user_email = auth.user.email
+	rows = db().select(orderby=db.auth_user.id != u_id)
+	for i,r in enumerate(rows):
+		m = dict(
+			id=r.id,
+			first_name=r.first_name,
+			last_name=r.last_name,
+			email = r.email
+		)
+		user_list.append(m)
+	return response.json(dict(user_list=user_list))
+
 
 def get_classes():
 	posts = []
@@ -31,6 +47,22 @@ def get_search():
 		#print(row)
 		posts.append(row)
 	return response.json(dict(posts=posts))
+
+
+#@auth.requires_signature()
+#def set_price():
+#	row = db(db.user_images.image_url == request.vars.image).select().first()
+#	row.update_record(image_price = request.vars.new_price)
+
+def update_post():
+	for row in db(db.post.created_by==auth.user.id).select(orderby=~db.post.day_of):
+		#print(row)
+		row.update_record(leader_name=request.vars.first_name)
+		row.update_record(email=request.vars.email)
+pass
+		
+
+
 
 def add_post():
     """Adds a tutoring post."""
