@@ -5,8 +5,8 @@
 	var api_get_search_url = "{{=URL('api', 'get_search')}}";
 	var api_update_post_url = "{{=URL('api', 'update_post')}}";
 	var api_get_initial_user_info_url = "{{=URL('api', 'get_initial_user_info', user_signature=True)}}";
+	var api_get_initial_class_info_url = "{{=URL('api', 'get_initial_class_info')}}";
 	var api_get_users_url = "{{=URL('api', 'get_users')}}";
-
 </script>
 {{end}}
 
@@ -14,7 +14,7 @@
 
 	<div id="vue-div" class="display:none">
 
-		
+
 		<!-- Here goes your main HTML code. -->
 		<div v-if="page=='tutor_result_page'">
 
@@ -51,7 +51,13 @@
 						<div class="module-primary rounded">
 							<h4 class="mx-2 font-weight-light">Search for classes to find tutors who can help you:</h4>
 							<h6 class="mx-2 font-weight-light">Find me help for...</h6>
-							<input class="w-80" v-model="student_search" placeholder="CMPS 183">
+							<select v-model="selected_dept">
+  								<option v-for="dept in departments">
+    								${ dept }
+  								</option>
+							</select>
+							<span>${ selected_dept }</span>
+							<input class="w-80" v-model.number="student_search" type="number" placeholder="183">
 							<button type="button" class="btn btn-outline-success w-20 my-sm-0" v-on:click="search_for_tutors(student_search)">Search</button>
 						</div>
 

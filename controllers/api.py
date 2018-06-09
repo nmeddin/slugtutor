@@ -17,6 +17,16 @@ def get_initial_user_info():
 		
 	return response.json(dict(posts=posts,curr_user=auth.user.id))
 
+def get_initial_class_info():
+	departments = []
+	for row in db().select(db.classes.department_id, distinct=True):
+		print(row.department_id)
+		departments.append(row.department_id)
+
+		
+	return response.json(dict(departments=departments))
+
+
 def get_users():
 	user_list = []
 	u_id = auth.user_id

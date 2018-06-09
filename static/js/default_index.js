@@ -145,6 +145,16 @@ var app = function () {
 			});
 
 	};
+	
+	self.get_initial_class_info = function () {
+		//console.log("get initial user info");
+		$.get(api_get_initial_class_info_url,
+			function (data) {
+				self.vue.departments = data.departments
+				console.log(self.vue.departments)
+			});
+
+	};
 
 	self.get_users = function () {
 
@@ -176,7 +186,8 @@ var app = function () {
 			page: 'main',
 			picked: "",
 			post_array: [],
-			departments: []
+			departments: [],
+			selected_dept: ""
 
 		},
 		events: {
@@ -192,6 +203,7 @@ var app = function () {
 			get_search: self.get_search,
 			goto: self.goto,
 			get_initial_user_info: self.get_initial_user_info,
+			get_initial_class_info: self.get_initial_class_info,
 			update_post: self.update_post,
 			join: self.join
 			//on student class search submit -> match_tutors()
@@ -208,6 +220,8 @@ var app = function () {
 	});
 
 	self.get_initial_user_info();
+
+	self.get_initial_class_info();
 
 	self.get_users();
 
