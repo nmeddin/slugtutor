@@ -116,7 +116,7 @@ var app = function () {
 
 	self.get_search = function (search) {
 		$.get(api_get_search_url, {
-				search: parseInt(search)
+				search: search
 			},
 			function (data) {
 				console.log("in get search")
@@ -131,13 +131,17 @@ var app = function () {
 
 		self.vue.page = page;
 
+		if (page == 'main') {
+			self.get_gridData();
+		}
+
 	};
 
 	self.get_initial_user_info = function () {
 		//console.log("get initial user info");
 		$.get(api_get_initial_user_info_url,
 			function (data) {
-				self.vue.post_array = data.posts
+				// self.vue.post_array = data.posts
 				self.vue.current_user = data.curr_user
 				console.log(self.vue.current_user)
 			});
@@ -182,7 +186,6 @@ var app = function () {
 			tutor_result_page: false,
 			class_list: [],
 			page: 'main',
-			picked: "",
 			post_array: [],
 			departments: [],
 			selected_dept: "CMPS"
@@ -222,6 +225,7 @@ var app = function () {
 	self.get_initial_class_info();
 
 	self.get_users();
+
 
 	return self;
 };

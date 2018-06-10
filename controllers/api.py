@@ -43,17 +43,17 @@ def get_users():
 	return response.json(dict(user_list=user_list))
 
 
-def get_classes():
-	posts = []
-	for row in db(db.post).select(db.post.classnum==request.vars.search):
-		#print(row)
-		posts.append(row)
-	return response.json(dict(posts=posts))
+# def get_classes():
+# 	posts = []
+# 	for row in db(db.post).select(db.post.classnum==request.vars.search):
+# 		#print(row)
+# 		posts.append(row)
+# 	return response.json(dict(posts=posts))
 
 
 def get_search():
 	posts = []
-	for row in db(db.post.classnum==request.vars.search).select(db.post.ALL):
+	for row in db(db.post.classnum==request.vars.search).select():
 		#print(row)
 		posts.append(row)
 	return response.json(dict(posts=posts))
