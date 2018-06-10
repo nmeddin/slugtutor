@@ -58,6 +58,16 @@ def get_search():
 		posts.append(row)
 	return response.json(dict(posts=posts))
 
+def get_demand():
+	row_info = {}
+#	search = request.vars.search.split()
+	query = (db.classes.class_id==request.vars.search) & (db.classes.department_id==request.vars.dept)
+	for row in db(query).select():
+		print('we matched something')
+		row_info = {'title' : row.title, 'department' : row.department, 'class_id' : row.class_id}
+		
+	return response.json(dict(row_info=row_info))
+
 
 #@auth.requires_signature()
 #def set_price():

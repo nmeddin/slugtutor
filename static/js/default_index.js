@@ -14,16 +14,21 @@ var app = function () {
 		}
 	};
 
+	self.contains = function (a, b) {
+		b_Object = JSON.stringify(b);
+		for (var i = 0; i < a.length; i++) {
+			if (JSON.stringify(a[i]) == b_Object) return true;
+			return false;
+		}
+	};
+
 	//This is the random quote generator endpoint 
 
 	const quote_endpoint = 'https://quotes.rest/qod?category=students';
 
 	self.getQuote = function () {
 		$.getJSON(quote_endpoint, function (data) {
-			//console.log(data);
-			//console.log("asdadasdsad called");
 			self.vue.quoteText = data.contents.quotes[0].quote;
-			//console.log(data.contents.quotes[0].quote);
 			self.vue.quoteAuthor = data.contents.quotes[0].author;
 		});
 	}
@@ -34,21 +39,13 @@ var app = function () {
 				self.vue.post_array = data.posts
 
 			});
-
-		//if(self.vue.post_array.length>0)
-
 	};
 
 	self.get_in_demand_classes = function () {
-		// $.getJSON(get_memos_url(0, 10), function (data) {
-		//     self.vue.in_demand = data.memos;
 
-		// });
 		self.vue.in_demand = self.vue.class_list;
 
 	}
-
-
 
 
 	Vue.component('post-card', {
@@ -86,6 +83,82 @@ var app = function () {
 </div>`
 	})
 
+
+
+	Vue.component('demo-grid', {
+		template: ` 
+	    <table>
+	    <thead>
+	      <tr>
+	        <th v-for="key in columns"
+	          @click="sortBy(key)"
+	          :class="{ active: sortKey == key }">
+	          {{ key | capitalize }}
+	          <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
+	          </span>
+	        </th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <tr v-for="entry in filteredData">
+	        <td v-for="key in columns">
+	          {{entry[key]}}
+	        </td>
+	      </tr>
+	    </tbody>
+	  </table>
+	  `,
+		props: {
+			data: Array,
+			columns: Array,
+			filterKey: String
+		},
+		data: function () {
+			var sortOrders = {}
+			this.columns.forEach(function (key) {
+				sortOrders[key] = 1
+			})
+			return {
+				sortKey: '',
+				sortOrders: sortOrders
+			}
+		},
+		computed: {
+			filteredData: function () {
+				var sortKey = this.sortKey
+				var filterKey = this.filterKey && this.filterKey.toLowerCase()
+				var order = this.sortOrders[sortKey] || 1
+				var data = this.data
+				if (filterKey) {
+					data = data.filter(function (row) {
+						return Object.keys(row).some(function (key) {
+							return String(row[key]).toLowerCase().indexOf(filterKey) > -1
+						})
+					})
+				}
+				if (sortKey) {
+					data = data.slice().sort(function (a, b) {
+						a = a[sortKey]
+						b = b[sortKey]
+						return (a === b ? 0 : a > b ? 1 : -1) * order
+					})
+				}
+				return data
+			}
+		},
+		filters: {
+			capitalize: function (str) {
+				return str.charAt(0).toUpperCase() + str.slice(1)
+			}
+		},
+		methods: {
+			sortBy: function (key) {
+				this.sortKey = key
+				this.sortOrders[key] = this.sortOrders[key] * -1
+			}
+		}
+	})
+
 	self.update_post = function () {
 
 		var this_user = self.vue.user_list[self.vue.current_user - 1]
@@ -113,7 +186,35 @@ var app = function () {
 		//console.log(self.vue.student_search);
 		if (search != "") {
 			self.get_search(search);
+			self.append_in_demand(search);
+
 			self.goto('tutor_result_page');
+		}
+	}
+
+
+	self.append_in_demand = function (search) {
+		$.get(api_get_demand_url, {
+				search: search,
+				dept: self.vue.selected_dept
+			},
+			function (data) {
+				if (data.row_info == null) return;
+				if (self.contains(self.vue.in_demand, data.row_info)) return;
+				if (self.vue.in_demand.length < 5) {
+					self.vue.in_demand.push(data.row_info);
+				} else {
+					self.vue.in_demand.shift();
+					self.vue.in_demand.push(data.row_info);
+				}
+			}
+		);
+	};
+
+	self.get_gridData = function () {
+		for (var i = 0; i < self.vue.in_demand.length; i++) {
+			if (self.vue.gridData.includes(self.vue.in_demand[i])) continue;
+			else self.vue.gridData[i] = self.vue.in_demand[i];
 		}
 	}
 
@@ -133,6 +234,10 @@ var app = function () {
 	self.goto = function (page) {
 
 		self.vue.page = page;
+		
+		if(page=='main'){
+			self.get_gridData();
+		}
 
 	};
 
@@ -146,7 +251,7 @@ var app = function () {
 			});
 
 	};
-	
+
 	self.get_initial_class_info = function () {
 		//console.log("get initial user info");
 		$.get(api_get_initial_class_info_url,
@@ -165,6 +270,9 @@ var app = function () {
 			});
 
 	};
+
+
+
 
 
 
@@ -188,7 +296,10 @@ var app = function () {
 			picked: "",
 			post_array: [],
 			departments: [],
-			selected_dept: "CMPS"
+			selected_dept: "CMPS",
+			gridColumns: ['department', 'class_id', 'title'],
+			gridData: [],
+			searchQuery: ""
 
 		},
 		events: {
@@ -206,9 +317,8 @@ var app = function () {
 			get_initial_user_info: self.get_initial_user_info,
 			get_initial_class_info: self.get_initial_class_info,
 			update_post: self.update_post,
-			join: self.join
-			//on student class search submit -> match_tutors()
-			//on tutor class search -> match_students()
+			join: self.join,
+			get_gridData: self.get_gridData
 		},
 		created: function () {
 
@@ -225,6 +335,8 @@ var app = function () {
 	self.get_initial_class_info();
 
 	self.get_users();
+	
+	self.get_gridData();
 
 	return self;
 };
