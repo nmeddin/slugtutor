@@ -19,9 +19,6 @@ var app = function () {
 	    console.log("Here is the list: " + a)
 		b_Object = JSON.stringify(b);
 		for (var i = 0; i<a.length; i++) {
-			console.log("Here is the object to insert: " + b_Object);
-			console.log("Here is the current element in the list" + JSON.stringify(a[i]))
-			console.log("Index: " + i)
 			if (JSON.stringify(a[i]) === b_Object) {
 				console.log("We found a duplicate!");
 				return true;
