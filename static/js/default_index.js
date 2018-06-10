@@ -48,115 +48,72 @@ var app = function () {
 
 
 
-
-	self.add_post = function (c_id) {
-		console.log("add post");
-		$.post(api_add_post_url, {
-				c_id: c_id
-			},
-
-			function (data) {
-				console.log("adding_post")
+	Vue.component('post-card', {
+		props: {
+			post: Object,
+		},
+		data: function () {
+			return {
+				classname: this.post.classname,
+				dept: this.post.department,
+				type: ''
 			}
-		);
+		},
+		events: {
 
-		self.goto('create_post_page')
+		},
+		methods: {
+			join: function () {
+				//console.log(this.post.id);
+				console.log(self.vue.user_list[0].email + ' wants to join')
+
+			}
+		},
+		template: `<div class="card" style="width: 18rem;">
+  <img v-if="this.post.department=='CMPS'" class="card-img-top" src="https://comps.canstockphoto.com/happy-computer-drawing_csp1651204.jpg" alt="Card image cap">
+  <img v-if="this.post.department=='CMPE'" class="card-img-top" src="http://www.clipartquery.com/images/39/gallery-for-computer-engineering-clipart-IARWQW.jpg" alt="Card image cap">
+  <img v-if="this.post.department=='EE'" class="card-img-top" src="http://fscomps.fotosearch.com/compc/CSP/CSP500/dangerous-work-with-electricity-clipart__k40115174.jpg" alt="Card image cap">
+
+  <div class="card-body">
+    <h5 class="card-title">{{post.classname}}</h5>
+	<h6>{{post.department}}{{post.classnum}}</h6>
+    <p class="card-text">Tutor: {{post.leader_name}}<br>Email: {{post.leader_email}}<br>{{post.num_students_joined}}/5 students joined</p>
+    <a  v-on:click="this.join" class="btn btn-primary">Join</a>
+  </div>
+</div>`
+	})
+
+	self.update_post = function () {
+
+		var this_user = self.vue.user_list[self.vue.current_user - 1]
+		console.log(this_user.first_name)
+		console.log("update posting");
+		$.post(api_update_post_url, {
+			first_name: this_user.first_name,
+			email: this_user.email
+		})
+
+	}
+
+	self.join = function () {
+
+		console.log('join');
+
 	}
 
 
-	Vue.component('autocomplete', {
-		props: {
-			items: {
-				type: Array,
-				required: false,
-				default: () => [],
-			},
-		},
-		data() {
-			return {
-				search: '',
-				results: [],
-				isOpen: false,
-			};
-		},
-		methods: {
-			onChange() {
-				this.isOpen = true;
-				this.filterResults();
-			},
-			filterResults() {
-				this.results = this.items.filter(item => item.toLowerCase().indexOf(this.search.toLowerCase()) > -1);
-			},
-		},
-		template: `<div class="autocomplete">
-    				<input type="text" />
-    					  <ul
-							v-show="isOpen"
-							class="autocomplete-results"
-						  >
-							<li
-							  v-for="(result, i) in results"
-							  :key="i"
-							  class="autocomplete-result"
-							>
-								{{ result }}
-							</li>
-						  </ul>
-  					</div>`
-
-
-	})
-
-	Vue.component('post-card', {
-		props: ['post'],
-		template: `
-		<div id="post-card" style="color:blue;padding:20px" class="container-fluid">
-		  <div class="col-sm-5">
-			  <div class="border">
-			  <div class="row">
-				  <div class="col-sm-4">
-					  <p>{{post.classname}}</p>
-				  </div>
-				  <div class="col-sm-8">
-				  <p>{{post.created_by}}</p>
-					<p>email@ucsc.edu</p>
-					  <p>(123)456-7890</p>
-					<!--
-					  <div class="row">
-
-					  </div>
-					-->
-				  </div>
-			  </div>
-			</div>
-		  </div>
-		</div>
-		`
-	})
-
-
-	self.get_classes = function () {
-		$.get(api_get_classes_url,
-			function (data) {
-				self.vue.class_list = data.classes
-			});
-	};
-	
 	self.search_for_tutors = function (search) {
+		console.log(self.vue.selected_dept);
 		console.log(search);
+		self.get_initial_user_info();
+
 		//console.log(self.vue.student_search);
 		if (search != "") {
 			self.get_search(search);
-		} else {
-			self.get_classes();
+			self.goto('tutor_result_page');
 		}
-		self.goto('tutor_result_page');
-		// $.getJSON(get_memos_url(0, 10), function (data) {
-		//     self.vue.in_demand = data.memos;
-
-		// });
 	}
-	
+
 	self.get_search = function (search) {
 		$.get(api_get_search_url, {
 				search: parseInt(search)
@@ -171,8 +128,41 @@ var app = function () {
 	};
 
 	self.goto = function (page) {
+
 		self.vue.page = page;
+
 	};
+
+	self.get_initial_user_info = function () {
+		//console.log("get initial user info");
+		$.get(api_get_initial_user_info_url,
+			function (data) {
+				self.vue.post_array = data.posts
+				self.vue.current_user = data.curr_user
+				console.log(self.vue.current_user)
+			});
+
+	};
+	
+	self.get_initial_class_info = function () {
+		//console.log("get initial user info");
+		$.get(api_get_initial_class_info_url,
+			function (data) {
+				self.vue.departments = data.departments
+				console.log(self.vue.departments)
+			});
+
+	};
+
+	self.get_users = function () {
+
+		$.get(api_get_users_url,
+			function (data) {
+				self.vue.user_list = data.user_list
+			});
+
+	};
+
 
 
 	// Complete as needed.
@@ -182,6 +172,8 @@ var app = function () {
 		unsafeDelimiters: ['!{', '}'],
 
 		data: {
+			current_user: "",
+			user_list: [],
 			student_search: "",
 			in_demand: [],
 			quoteText: "",
@@ -191,18 +183,27 @@ var app = function () {
 			class_list: [],
 			page: 'main',
 			picked: "",
-			post_array: []
+			post_array: [],
+			departments: [],
+			selected_dept: "CMPS"
 
+		},
+		events: {
+			'join-button-clicked': function (classname) {
+				console.log(classname)
+			}
 		},
 		methods: {
 			getQuote: self.getQuote,
 			search_for_tutors: self.search_for_tutors,
 			add_post: self.add_post,
 			go_home: self.go_home,
-			get_classes: self.get_classes,
 			get_search: self.get_search,
 			goto: self.goto,
-			get_initial_user_info: self.get_initial_user_info
+			get_initial_user_info: self.get_initial_user_info,
+			get_initial_class_info: self.get_initial_class_info,
+			update_post: self.update_post,
+			join: self.join
 			//on student class search submit -> match_tutors()
 			//on tutor class search -> match_students()
 		},
@@ -216,10 +217,11 @@ var app = function () {
 		}
 	});
 
-
-	// self.get_classes();
-
 	self.get_initial_user_info();
+
+	self.get_initial_class_info();
+
+	self.get_users();
 
 	return self;
 };

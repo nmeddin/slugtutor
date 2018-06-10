@@ -13,6 +13,10 @@ import datetime
 def get_user_email():
     return auth.user.email if auth.user is not None else None
 
+def get_user_name():
+    return auth.user.first_name if auth.user is not None else None
+
+
 
 db.define_table('checklist',
                 Field('user_email', default=get_user_email()),
@@ -45,6 +49,19 @@ db.appointments.tutor.readable = False
 db.appointments.can_cancel.writable = False
 db.appointments.can_cancel.readable = False
 
+
+
+
+db.define_table('tutor',
+                Field('name'),
+                Field('email'),
+                Field('major'),
+                Field('academic_year'),
+                Field('classes'),
+                Field('rating', 'double', default=0.0),
+                primarykey=['name', 'email', 'major']
+	            )
+
 # Things that should be done about this table
 # Populate it with all classes that are on the registery
 # Create a 'add_class function where someone can add a class to the database' 
@@ -57,6 +74,29 @@ db.define_table('classes',
 	            primarykey=['title', 'class_id', 'department']
 	            )
 
+
+db.define_table('post',
+				Field('department'),
+				Field('created_on', 'datetime', default=request.now),
+				Field('classnum', 'integer'),
+				Field('classname'),
+				Field('day_of', 'date'),
+				Field('start_time', 'time'),
+				Field('end_time', 'time'),
+				Field('rlocation'),
+				Field('created_by', 'reference auth_user',  default=auth.user_id),
+				Field('capacity', 'integer'),
+				Field('students_joined', 'reference auth_user'),
+				Field('num_students_joined', 'integer', default=0),
+				Field('leader_email'),
+				Field('leader_name')
+			   )
+
+db.post.classname.widget = SQLFORM.widgets.autocomplete(request, db.classes.title, limitby=(0,10), min_length=2)
+db.post.created_on.writable = False
+db.post.created_on.readable = False
+
+
 db.define_table('student',
 	            Field('name'),
 	            Field('email', default=get_user_email()),
@@ -68,30 +108,18 @@ db.define_table('student',
 db.student.email.readable = False
 db.student.email.writable = False
 
-db.define_table('tutor',
-                Field('name'),
-                Field('email'),
-                Field('major'),
-                Field('academic_year'),
-                Field('classes'),
-                Field('rating', 'double', default=0.0),
-                primarykey=['name', 'email', 'major']
-	            )
+db.define_table('ownership',
+                    Field('post', 'reference post'),
+                    Field('student', 'reference auth_user'))
 
 
+"""
+db.define_table('category',Field('name'))
+db.define_table('product',Field('name'),Field('category'))
+db.product.category.widget = SQLFORM.widgets.autocomplete(
+     request, db.category.name, limitby=(0,10), min_length=2)
 
-
-db.define_table('post',
-				Field('department'),
-				Field('created_on', 'datetime', default=request.now),
-				Field('classnum'),
-				Field('classname'),
-				Field('day_of', 'date'),
-				Field('start_time', 'time'),
-				Field('end_time', 'time'),
-				Field('created_by', 'reference auth_user',  default=auth.user_id),
-				Field('students_joined', 'reference auth_user')
-			   )
+"""
 
 #db.post.department.requires = IS_IN_DB(db, 'classes.department', "%(department)s", zero=T('choose one'))
 				

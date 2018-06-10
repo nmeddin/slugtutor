@@ -3,9 +3,10 @@
 	var search_tutors_url = "{{=URL('api', 'search_tutors')}}";
 	var api_get_classes_url = "{{=URL('api', 'get_classes')}}";
 	var api_get_search_url = "{{=URL('api', 'get_search')}}";
-	var api_add_post_url = "{{=URL('api', 'add_post')}}";
+	var api_update_post_url = "{{=URL('api', 'update_post')}}";
 	var api_get_initial_user_info_url = "{{=URL('api', 'get_initial_user_info', user_signature=True)}}";
-
+	var api_get_initial_class_info_url = "{{=URL('api', 'get_initial_class_info')}}";
+	var api_get_users_url = "{{=URL('api', 'get_users')}}";
 </script>
 {{end}}
 
@@ -14,11 +15,10 @@
 	<div id="vue-div" class="display:none">
 
 
-
 		<!-- Here goes your main HTML code. -->
 		<div v-if="page=='tutor_result_page'">
 
-			<post-card v-for="post in post_array" v-bind:post="post"></post-card>
+			<post-card v-for="post in post_array" v-bind:post="post" :key="post.id"></post-card>
 
 			<button @click="goto('main')"> go home </button>
 		</div>
@@ -51,7 +51,13 @@
 						<div class="module-primary rounded">
 							<h4 class="mx-2 font-weight-light">Search for classes to find tutors who can help you:</h4>
 							<h6 class="mx-2 font-weight-light">Find me help for...</h6>
-							<input class="w-80" v-model="student_search" placeholder="CMPS 183">
+							<select v-model="selected_dept">
+  								<option v-for="dept in departments">
+    								${ dept }
+  								</option>
+							</select>
+							<span></span>
+							<input class="w-80" v-model.number="student_search" type="number" placeholder="183">
 							<button type="button" class="btn btn-outline-success w-20 my-sm-0" v-on:click="search_for_tutors(student_search)">Search</button>
 						</div>
 
@@ -74,7 +80,7 @@
 								<div class="py-2">{{=form.custom.widget.start_time}}</div>
 								To:
 								<div class="py-2">{{=form.custom.widget.end_time}}</div>
-								<div class="py-2 w-20 my-sm-0" @click="goto('tutor_dashboard')">{{=form.custom.submit}}</div>
+								<div v-on:click="update_post" class="py-2 w-20 my-sm-0">{{=form.custom.submit}}</div>
 								{{=form.custom.end}}
 
 							</div>
