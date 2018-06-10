@@ -49,7 +49,7 @@
 					<div class="offset-md-2 col-md-8 col-sm-12 ">
 
 					<div class="form-group">
-						<h4 class="mx-2 lead"> Most Recent Classes Searched</h4>
+						<h4 class="mx-2 lead"> Most recently searched classes</h4>
 						<!-- <form id="search">
 									    Search <input name="query" v-model="searchQuery">
 									  </form> -->
@@ -66,7 +66,7 @@
   								</option>
 							</select>
 							<span></span>
-							<input class="w-80" v-model.number="student_search" type="number" placeholder="183">
+							<input class="w-80" v-model="student_search" placeholder="183">
 							<button type="button" class="btn btn-outline-success w-20 my-sm-0" v-on:click="search_for_tutors(student_search)">Search</button>
 						</div>
 

@@ -60,7 +60,6 @@ def get_search():
 
 def get_demand():
 	row_info = {}
-#	search = request.vars.search.split()
 	query = (db.classes.class_id==request.vars.search) & (db.classes.department_id==request.vars.dept)
 	for row in db(query).select():
 		print('we matched something')
