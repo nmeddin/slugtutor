@@ -15,7 +15,7 @@ def get_initial_user_info():
 		#print(row.image_url)
 		posts.append(row)
 		
-	return response.json(dict(posts=posts,curr_user=auth.user.id))
+	return response.json(dict(posts=posts,curr_user=auth.user.id,curr_email=auth.user.email))
 
 def get_initial_class_info():
 	departments = []
@@ -54,7 +54,7 @@ def get_classes():
 def get_search():
 	posts = []
 	for row in db(db.post.classnum==request.vars.search).select(db.post.ALL):
-		#print(row)
+		print(row)
 		posts.append(row)
 	return response.json(dict(posts=posts))
 
@@ -80,7 +80,34 @@ def update_post():
 		row.update_record(leader_name=request.vars.first_name)
 		row.update_record(email=request.vars.email)
 pass
-		
+
+def join_post():
+	print('this posting: ')
+	print(request.vars.posting)
+	print(' this user: ')
+	print(auth.user_id)
+	db.ownership.insert(post=request.vars.posting, student=auth.user_id)
+pass
+
+#@auth.requires_signature()
+#def get_initial_user_info():
+#	posts = []
+#	for row in db(db.post.created_by==auth.user.id).select(orderby=~db.post.day_of):
+#		row.update_record(leader_name=auth.user.first_name)
+#		row.update_record(leader_email=auth.user.email)
+#		#print(row.image_url)
+#		posts.append(row)
+#		
+#	return response.json(dict(posts=posts,curr_user=auth.user.id,curr_email=auth.user.email))
+
+@auth.requires_signature()
+def get_joined_posts():
+	results = []
+	for row in db(db.ownership.student==auth.user.id).select():
+		print(row.post)
+		results.append(row.post)
+	return response.json(dict(results=results))
+
 
 
 

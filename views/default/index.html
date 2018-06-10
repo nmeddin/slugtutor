@@ -5,7 +5,9 @@
 	var api_get_search_url = "{{=URL('api', 'get_search')}}";
 	var api_get_demand_url = "{{=URL('api', 'get_demand')}}";
 	var api_update_post_url = "{{=URL('api', 'update_post')}}";
+	var api_join_post_url = "{{=URL('api', 'join_post')}}";
 	var api_get_initial_user_info_url = "{{=URL('api', 'get_initial_user_info', user_signature=True)}}";
+	var api_get_joined_posts_url = "{{=URL('api', 'get_joined_posts', user_signature=True)}}";
 	var api_get_initial_class_info_url = "{{=URL('api', 'get_initial_class_info')}}";
 	var api_get_users_url = "{{=URL('api', 'get_users')}}";
 
@@ -48,14 +50,14 @@
 
 					<div class="offset-md-2 col-md-8 col-sm-12 ">
 
-					<div class="form-group">
-						<h4 class="mx-2 lead"> Most Recent Classes Searched</h4>
-						<!-- <form id="search">
+						<div class="form-group">
+							<h4 class="mx-2 lead"> Most Recent Classes Searched</h4>
+							<!-- <form id="search">
 									    Search <input name="query" v-model="searchQuery">
 									  </form> -->
-						<demo-grid :data="gridData" :columns="gridColumns" :filter-key="searchQuery">
-						</demo-grid>
-					</div>
+							<demo-grid :data="gridData" :columns="gridColumns" :filter-key="searchQuery">
+							</demo-grid>
+						</div>
 
 						<div class="module-primary rounded">
 							<h4 class="mx-2 font-weight-light">Search for classes to find tutors who can help you:</h4>
@@ -125,12 +127,21 @@
 			<div id="tutor_dash" v-if="page=='tutor_dashboard'">
 				<div class="jumbotron">
 
-					<button @click="goto('main')"> go home </button>
+
 					<post-card v-for="post in post_array" v-bind:post="post"></post-card>
+					<button @click="goto('main')"> go home </button>
 
 				</div>
 			</div>
 		</transition>
+
+		<div id="student_dash" v-if="page=='student_dashboard'">
+			<div class="jumbotron">
+
+
+
+			</div>
+		</div>
 
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>

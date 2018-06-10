@@ -33,13 +33,7 @@ var app = function () {
 		});
 	}
 
-	self.get_initial_user_info = function () {
-		$.get(api_get_initial_user_info_url,
-			function (data) {
-				self.vue.post_array = data.posts
 
-			});
-	};
 
 	self.get_in_demand_classes = function () {
 
@@ -56,6 +50,7 @@ var app = function () {
 			return {
 				classname: this.post.classname,
 				dept: this.post.department,
+				self_post: this.post.leader_email == self.vue.current_email,
 				type: ''
 			}
 		},
@@ -64,10 +59,18 @@ var app = function () {
 		},
 		methods: {
 			join: function () {
-				//console.log(this.post.id);
-				console.log(self.vue.user_list[0].email + ' wants to join')
+				console.log(self.vue.user_list[0].email + ' wants to join posting ' + this.post.id)
+				$.post(api_join_post_url, {
+					email: self.vue.current_email,
+					posting: this.post.id
+				})
+				self.vue.goto('student_dashboard');
 
+			},
+			edit: function () {
+				console.log('edit')
 			}
+
 		},
 		template: `<div class="card" style="width: 18rem;">
   <img v-if="this.post.department=='CMPS'" class="card-img-top" src="https://comps.canstockphoto.com/happy-computer-drawing_csp1651204.jpg" alt="Card image cap">
@@ -77,8 +80,10 @@ var app = function () {
   <div class="card-body">
     <h5 class="card-title">{{post.classname}}</h5>
 	<h6>{{post.department}}{{post.classnum}}</h6>
-    <p class="card-text">Tutor: {{post.leader_name}}<br>Email: {{post.leader_email}}<br>{{post.num_students_joined}}/5 students joined</p>
-    <a  v-on:click="this.join" class="btn btn-primary">Join</a>
+    <p class="card-text">Tutor: {{post.leader_name}}<br>Email: {{post.leader_email}}<br></p>
+    <a v-if="!this.self_post" v-on:click="this.join" class="btn btn-primary">Join</a>
+	<a v-if="this.self_post" v-on:click="this.edit" class="btn btn-primary">Edit</a>
+
   </div>
 </div>`
 	})
@@ -159,6 +164,25 @@ var app = function () {
 		}
 	})
 
+	self.get_joined_posts = function (u_id) {
+
+		console.log(u_id)
+		$.get(api_get_joined_posts_url, {
+			function (data) {
+				self.vue.joined_post_array = data.results
+			}
+		});
+
+	};
+
+	self.get_initial_user_info = function () {
+		$.get(api_get_initial_user_info_url,
+			function (data) {
+				self.vue.post_array = data.posts
+
+			});
+	};
+
 	self.update_post = function () {
 
 		var this_user = self.vue.user_list[self.vue.current_user - 1]
@@ -181,9 +205,7 @@ var app = function () {
 	self.search_for_tutors = function (search) {
 		console.log(self.vue.selected_dept);
 		console.log(search);
-		self.get_initial_user_info();
 
-		//console.log(self.vue.student_search);
 		if (search != "") {
 			self.get_search(search);
 			self.append_in_demand(search);
@@ -234,9 +256,13 @@ var app = function () {
 	self.goto = function (page) {
 
 		self.vue.page = page;
-		
-		if(page=='main'){
+
+		if (page == 'main') {
 			self.get_gridData();
+		}
+
+		if (page == 'tutor_dashboard') {
+			self.get_initial_user_info();
 		}
 
 	};
@@ -247,6 +273,7 @@ var app = function () {
 			function (data) {
 				self.vue.post_array = data.posts
 				self.vue.current_user = data.curr_user
+				self.vue.current_email = data.curr_email
 				console.log(self.vue.current_user)
 			});
 
@@ -284,6 +311,7 @@ var app = function () {
 
 		data: {
 			current_user: "",
+			current_email: "",
 			user_list: [],
 			student_search: "",
 			in_demand: [],
@@ -295,6 +323,7 @@ var app = function () {
 			page: 'main',
 			picked: "",
 			post_array: [],
+			joined_post_array: [],
 			departments: [],
 			selected_dept: "CMPS",
 			gridColumns: ['department', 'class_id', 'title'],
@@ -323,7 +352,7 @@ var app = function () {
 		created: function () {
 
 			this.get_initial_user_info();
-			console.log(this.post_array);
+			//console.log(this.post_array);
 			if (this.quoteText == "") {
 				this.getQuote();
 			}
@@ -335,7 +364,7 @@ var app = function () {
 	self.get_initial_class_info();
 
 	self.get_users();
-	
+
 	self.get_gridData();
 
 	return self;
