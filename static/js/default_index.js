@@ -15,11 +15,19 @@ var app = function () {
 	};
 
 	self.contains = function (a, b) {
+	    console.log("We are here in contains")
+	    console.log("Here is the list: " + a)
 		b_Object = JSON.stringify(b);
-		for (var i = 0; i < a.length; i++) {
-			if (JSON.stringify(a[i]) == b_Object) return true;
-			return false;
+		for (var i = 0; i<a.length; i++) {
+			console.log("Here is the object to insert: " + b_Object);
+			console.log("Here is the current element in the list" + JSON.stringify(a[i]))
+			console.log("Index: " + i)
+			if (JSON.stringify(a[i]) === b_Object) {
+				console.log("We found a duplicate!");
+				return true;
+			}
 		}
+		return false;
 	};
 
 	//This is the random quote generator endpoint
@@ -292,8 +300,8 @@ var app = function () {
 				if (self.vue.in_demand.length < 5) {
 					self.vue.in_demand.push(data.row_info);
 				} else {
-					self.vue.in_demand.shift();
 					self.vue.in_demand.push(data.row_info);
+					self.vue.in_demand.shift();
 				}
 			}
 		);
