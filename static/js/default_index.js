@@ -249,11 +249,20 @@ var app = function () {
 		);
 	};
 
+	self.store_in_demand = function () {
+		console.log("In Store");
+		console.log(self.vue.in_demand);
+		localStorage.in_demand = JSON.stringify(self.vue.in_demand);
+		console.log(localStorage.in_demand);
+	}
+
 	self.get_gridData = function () {
-		for (var i = 0; i < self.vue.in_demand.length; i++) {
-			if (self.vue.gridData.includes(self.vue.in_demand[i])) continue;
-			else self.vue.gridData[i] = self.vue.in_demand[i];
+		if (localStorage.in_demand) {
+			self.vue.in_demand = JSON.parse(window.localStorage.in_demand)
+		} else {
+			self.vue.in_demand = []
 		}
+		self.vue.gridData = self.vue.in_demand;
 	}
 
 	self.get_search = function (search) {
@@ -274,6 +283,7 @@ var app = function () {
 		self.vue.page = page;
 
 		if (page == 'main') {
+			self.store_in_demand();
 			self.get_gridData();
 		}
 
@@ -320,11 +330,6 @@ var app = function () {
 
 	};
 
-
-
-
-
-
 	// Complete as needed.
 	self.vue = new Vue({
 		el: "#vue-div",
@@ -347,7 +352,7 @@ var app = function () {
 			joined_post_array: [],
 			departments: [],
 			selected_dept: "CMPS",
-			gridColumns: ['department', 'class_id', 'title'],
+			gridColumns: ['department', 'number', 'title'],
 			gridData: [],
 			searchQuery: "",
 			styleObject: {
