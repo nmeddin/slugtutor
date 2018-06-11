@@ -50,7 +50,7 @@ var app = function () {
 				dept: this.post.department,
 				self_post: this.post.leader_email == self.vue.current_email,
 				already_joined: self.vue.joined_post_array.indexOf(this.post.id) >= 0,
-				rating: -1,
+				rating: 4,
 			}
 		},
 		events: {
@@ -89,7 +89,10 @@ var app = function () {
 						this.rating = data.rating;
 					})
 				},
-
+			numRand: function(){
+				rand = Math.floor((Math.random() *5) + 1);
+				return rand
+			},
 		},
 		template: `<div class="container" style="padding:30px; margin:10px">
 			<div class="row justify-content-md-left ">
@@ -100,9 +103,9 @@ var app = function () {
 				<div class="col-md-auto">
 					{{post.leader_name}}, {{post.leader_email}}<br>
 					Rating:
-					<div v-for="index in this.rating">
+					<span v-for="i in numRand()">
 						<i class="fa fa-star"></i>
-					</div>
+					</span>
 					<br>
 					{{post.start_time}}-{{post.end_time}}, {{post.meeting_location}}
 

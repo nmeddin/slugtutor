@@ -115,7 +115,7 @@ def get_joined_posts():
 def fetch_rating():
 	t_email = request.vars.tutor_email
 	rating = 0;
-	for row in db(db.tutor.email==t_email).select();
+	for row in db(db.tutor.email==t_email).select():
 		rating = row.rating
 
 	print(rating)
