@@ -43,9 +43,15 @@ var app = function () {
 
 		var jarray = self.vue.joined_post_array
 
+<<<<<<< HEAD
 		for(var i = 0; i < jarray.length; i++){
 
 			if(jarray[i].id == p_id) return true;
+=======
+		for (var i = 0; i < jarray.length; i++) {
+
+			if (jarray[i].id == p_id) return true;
+>>>>>>> e032c0bb1c18fbe5dc98a1e5e376662a285d3edf
 
 		}
 
@@ -57,7 +63,7 @@ var app = function () {
 		props: {
 			post: Object,
 		},
-		created: function (){
+		created: function () {
 			console.log("created post " + this.post.id);
 			console.log("already joined? " + (self.check_joined(this.post.id)));
 		},
@@ -94,6 +100,7 @@ var app = function () {
 				self.vue.goto('student_dashboard');
 
 			},
+
 			edit: function () {
 				console.log('edit')
 			},
@@ -111,6 +118,18 @@ var app = function () {
 				rand = Math.floor((Math.random() *5) + 1);
 				return rand
 			},
+
+			delete: function () {
+				console.log('delete')
+				$.post(api_delete_post_url, {
+					posting: this.post.id
+				})
+				self.get_inital_user_info();
+				self.goto('main');
+
+			}
+
+
 		},
 		template: `<div class="container" style="padding:30px; margin:10px">
 			<div class="row justify-content-md-left ">
@@ -132,7 +151,7 @@ var app = function () {
 					<br>
  						<a v-if="!this.self_post && !this.already_joined" v-on:click="this.join" class="btn btn-primary pull-right">Join</a>
 						<a v-if="this.already_joined && !this.self_post" class="btn btn-default disabled">Joined</a>
-						<a v-if="this.self_post" v-on:click="this.edit" class="btn btn-primary pull-right">Edit</a>
+						<a v-if="this.self_post" v-on:click="this.delete" class="btn btn-primary pull-right">Delete</a>
 				</div>
 			</div>
 		</div>`
