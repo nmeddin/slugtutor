@@ -51,7 +51,7 @@
 
 					<div class="offset-md-2 col-md-8 col-sm-12 ">
 
-<!--
+						<!--
 						<div class="form-group">
 							<h4 class="mx-2 lead"> Most Recent Classes Searched</h4>
 							 <form id="search">
@@ -71,7 +71,7 @@
   								</option>
 							</select>
 							<span></span>
-							<input class="w-80" v-model.number="student_search" type="number" placeholder="183">
+							<input class="w-80" v-model.number="student_search" placeholder="183">
 							<button type="button" class="btn btn-outline-success w-20 my-sm-0" v-on:click="search_for_tutors(student_search)">Search</button>
 						</div>
 
@@ -139,12 +139,12 @@
 		</transition>
 
 		<div id="student_dash" v-if="page=='student_dashboard'">
-			<div v-if="curr_post.leader_name.length>0" class="jumbotron">
+			<div v-if="show_join_success" class="jumbotron">
 
 				<h3>You're all signed up!</h3>
 				<h4>You're meeting ${curr_post.leader_name} at LOCATION on ${curr_post.day_of} at ${curr_post.start_time}.</h4>
 
-				<button @click="curr_post.show_this = false">Dismiss</button>
+				<button @click="show_join_success = false">Dismiss</button>
 
 			</div>
 			<div class="jumbotron">
@@ -152,6 +152,7 @@
 				<h3>Upcoming appointments</h3>
 
 				<post-card v-for="post in joined_post_array" v-bind:post="post" v-bind:style="styleObject"></post-card>
+				<button @click="goto('main')"> go home </button>
 
 
 			</div>
