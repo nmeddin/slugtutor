@@ -15,6 +15,8 @@ var app = function () {
 	};
 
 	self.contains = function (a, b) {
+	    console.log("We are here in contains")
+	    console.log("Here is the list: " + a)
 		b_Object = JSON.stringify(b);
 		for (var i = 0; i<a.length; i++) {
 			if (JSON.stringify(a[i]) === b_Object) {
