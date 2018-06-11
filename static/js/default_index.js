@@ -38,26 +38,26 @@ var app = function () {
 		self.vue.in_demand = self.vue.class_list;
 
 	}
-	
+
 	self.check_joined = function (p_id) {
-		
+
 		var jarray = self.vue.joined_post_array
-		
-		for(var i = 0; i < jarray.length; i++){
-			
-			if(jarray[i].id == p_id) return true;
-			
+
+		for (var i = 0; i < jarray.length; i++) {
+
+			if (jarray[i].id == p_id) return true;
+
 		}
-		
+
 		return false;
-		
+
 	}
 
 	Vue.component('post-card', {
 		props: {
 			post: Object,
 		},
-		created: function (){
+		created: function () {
 			console.log("created post " + this.post.id);
 			console.log("already joined? " + (self.check_joined(this.post.id)));
 		},
@@ -92,9 +92,14 @@ var app = function () {
 				self.vue.goto('student_dashboard');
 
 			},
-			edit: function () {
-				console.log('edit')
-				
+			delete: function () {
+				console.log('delete')
+				$.post(api_delete_post_url, {
+					posting: this.post.id
+				})
+				self.get_inital_user_info();
+				self.goto('main');
+
 			}
 
 		},
@@ -114,7 +119,7 @@ var app = function () {
 					<br>
  						<a v-if="!this.self_post && !this.already_joined" v-on:click="this.join" class="btn btn-primary pull-right">Join</a>
 						<a v-if="this.already_joined && !this.self_post" class="btn btn-default disabled">Joined</a>
-						<a v-if="this.self_post" v-on:click="this.edit" class="btn btn-primary pull-right">Edit</a>
+						<a v-if="this.self_post" v-on:click="this.delete" class="btn btn-primary pull-right">Delete</a>
 				</div>
 			</div>
 		</div>`
@@ -238,7 +243,7 @@ var app = function () {
 
 			self.goto('tutor_result_page');
 		} else {
-			
+
 			console.log('empty search');
 
 		}

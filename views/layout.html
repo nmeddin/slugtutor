@@ -45,11 +45,13 @@
 
 	<main>
 		{{if response.flash:}}
+<!--
 		<div class="alert alert-primary alert-dismissible" role="alert">{{=response.flash}}
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
 		</div>
+-->
 		{{pass}} {{include}}
 	</main>
 	<script src="{{=URL('static', 'js/jquery.js')}}"></script>

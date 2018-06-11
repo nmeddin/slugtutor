@@ -89,6 +89,17 @@ def join_post():
 	db.ownership.insert(post=request.vars.posting, student=auth.user_id)
 pass
 
+def delete_post():
+	print('this posting: ')
+	print(request.vars.posting)
+	print(' this user: ')
+	print(auth.user_id)
+	row = db(db.post.id==request.vars.posting).select().first()
+	row.delete_record()
+	
+	
+	pass
+
 #@auth.requires_signature()
 #def get_initial_user_info():
 #	posts = []
