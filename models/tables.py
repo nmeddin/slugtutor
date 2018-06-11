@@ -16,24 +16,6 @@ def get_user_email():
 def get_user_name():
     return auth.user.first_name + auth.user.last_name if auth.user is not None else None
 
-
-
-db.define_table('checklist',
-                Field('user_email', default=get_user_email()),
-
-                Field('memo', 'text'),
-                Field('updated_on', 'datetime', update=datetime.datetime.utcnow()),
-                Field('is_public', 'boolean', default=False)
-                )
-
-db.checklist.user_email.writable = False
-db.checklist.user_email.readable = False
-db.checklist.is_public.writable = False
-db.checklist.is_public.readable = False
-db.checklist.updated_on.writable = db.checklist.updated_on.readable = False
-db.checklist.id.writable = db.checklist.id.readable = False
-
-
 db.define_table('appointments',
 			   Field('classname'),
 	           Field('appointment', 'datetime'),
@@ -142,7 +124,7 @@ db.define_table('post',
 				Field('department'),
 				Field('created_on', 'datetime', default=request.now),
 				Field('classnum', requires=IS_NOT_EMPTY()),
-				Field('classname', requires=IS_NOT_EMPTY()),
+				Field('classname'),
 				Field('day_of', 'date', requires=IS_NOT_EMPTY()),
 				Field('start_time', requires=IS_IN_SET(times)),
 				Field('end_time', requires=IS_IN_SET(times)),

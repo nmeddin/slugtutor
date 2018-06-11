@@ -44,7 +44,7 @@
 					<h1 class="display-4">Learn More. Earn More.</h1>
 
 
-					<hr class="my-4">
+					<hr class="my-2">
 					<p class="lead">Slugtutor is the easiest way for students to find the best tutors for their academic needs.</p>
 					<p class="lead">Excel in a class? Interested in helping others and earning some extra cash? Sign in to add your availability and expertise.</p>
 					{{else:}}
@@ -52,24 +52,18 @@
 					<button @click="goto('tutor_dashboard')" v-if="post_array.length > 0">
 										View your postings</button>
 					<button @click="goto('student_dashboard')" v-if="joined_post_array.length > 0">View your upcoming appointments</button>
-					<hr class="my-4"> {{pass}}
+					{{pass}}
+					<hr class="my-2"> 
+					<div class="form-group">
+						<h4 class="mx-2 lead"> Most Recent Classes Searched</h4>
+							<!-- <form id="search">
+									    Search <input name="query" v-model="searchQuery">
+									  </form> -->
+						<demo-grid :data="gridData" :columns="gridColumns" :filter-key="searchQuery"></demo-grid>
+					</div>
 				</div>
 				<div class="row">
-
-
-					<div class="offset-md-2 col-md-8 col-sm-12 ">
-
-						<!--
-						<div class="form-group">
-							<h4 class="mx-2 lead"> Most Recent Classes Searched</h4>
-							 <form id="search">
-									    Search <input name="query" v-model="searchQuery">
-									  </form> 
-							<demo-grid :data="gridData" :columns="gridColumns" :filter-key="searchQuery">
-							</demo-grid>
-						</div>
--->
-
+					<div class="offset-md-3 col-md-6 offset-sm-2 col-sm-8 col-xs-12">
 						<div class="module-primary rounded">
 							<h4 class="mx-2 font-weight-light">Search for classes to find tutors who can help you:</h4>
 							<h6 class="mx-2 font-weight-light">Find me help for...</h6>
@@ -79,41 +73,42 @@
   								</option>
 							</select>
 							<span></span>
-							<input class="w-80" v-model.number="student_search" placeholder="183">
-
+							<input class="w-80" v-model="student_search" placeholder="183"  v-on:keyup.enter="search_for_tutors(student_search)">
 							<button type="button" class="btn btn-outline-success w-20 my-sm-0" v-on:click="search_for_tutors(student_search)">Search</button>
 						</div>
 
-						<div class="module-primary rounded">
+						<div class="module-primary rounded ">
 							<h4 class="mx-2 font-weight-light">Interested in becoming a tutor?</h4>
 							{{if auth.user is None:}}
 							<h6 class="mx-2 font-weight-light">Login or Sign up to create a new posting.</h6>
 							{{else:}}
 							<h5 class="mx-2 font-weight-light">Create a posting so students can find you.</h5>
-							<div class="font-weight-light">
-								{{=form.custom.begin}} Department:
-								<div class="py-2">{{=form.custom.widget.department}}</div>
-								Class Number:
-								<div class="py-2">{{=form.custom.widget.classnum}}</div>
-								Class Name:
-								<div class="py-2">{{=form.custom.widget.classname}}</div>
-								On:
-								<div class="py-2">{{=form.custom.widget.day_of}}</div>
-								From:
-								<div class="py-2">{{=form.custom.widget.start_time}}</div>
-								To:
-								<div class="py-2">{{=form.custom.widget.end_time}}</div>
-								Student Capacity:
-								<div class="py-2">{{=form.custom.widget.capacity}}</div>
-								Location:
-								<div class="py-2">{{=form.custom.widget.meeting_location}}</div>
-								<div v-on:click="update_post" class="py-2 w-20 my-sm-0">{{=form.custom.submit}}</div>
-								{{=form.custom.end}}
-
+							{{=form.custom.begin}}
+							<div class="row">
+								<div class="col-md-6 font-weight-light">
+										Department:
+										<div class="py-2">{{=form.custom.widget.department}}</div>
+										Class Number:
+										<div class="py-2">{{=form.custom.widget.classnum}}</div>
+										Class Name:
+										<div class="py-2">{{=form.custom.widget.classname}}</div>
+										Location:
+										<div class="py-2">{{=form.custom.widget.meeting_location}}</div>
+								</div>
+								<div class="col-md-6">
+										On:
+										<div class="py-2">{{=form.custom.widget.day_of}}</div>
+										From:
+										<div class="py-2">{{=form.custom.widget.start_time}}</div>
+										To:
+										<div class="py-2">{{=form.custom.widget.end_time}}</div>
+										Student Capacity:
+										<div class="py-2">{{=form.custom.widget.capacity}}</div>
+								</div>
 							</div>
-
-
-							{{pass}}
+							<div class="py-2 w-20 my-sm-0">{{=form.custom.submit}}</div>
+							{{=form.custom.end}}
+						{{pass}}
 
 
 							<!-- <button class="btn btn-outline-success w-20 my-sm-0" v-on:click="add_post(tutor_input)">Create</button> -->
@@ -156,24 +151,11 @@
 
 					<button @click="show_join_success = false">Dismiss</button>
 
-				</div>
-				<div class="jumbotron">
-
-					<h3>Upcoming appointments</h3>
-
-					<post-card v-for="post in joined_post_array" v-bind:post="post" v-bind:style="styleObject"></post-card>
-					<button @click="goto('main')"> go home </button>
-
-
-				</div>
+			</div>
+			<div class="jumbotron">
+				<h3>Upcoming appointments</h3>
+				<post-card v-for="post in joined_post_array" v-bind:post="post" v-bind:style="styleObject"></post-card>
 			</div>
 		</div>
-	</transition>
-</div>
-
-
-
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
-
-
-			<script src="{{=URL('static', 'js/default_index.js')}}"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
+		<script src="{{=URL('static', 'js/default_index.js')}}"></script>
