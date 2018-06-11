@@ -22,7 +22,7 @@ var app = function () {
 		}
 	};
 
-	//This is the random quote generator endpoint 
+	//This is the random quote generator endpoint
 
 	const quote_endpoint = 'https://quotes.rest/qod?category=students';
 
@@ -43,6 +43,10 @@ var app = function () {
 
 		var jarray = self.vue.joined_post_array
 
+		for(var i = 0; i < jarray.length; i++){
+
+			if(jarray[i].id == p_id) return true;
+
 		for (var i = 0; i < jarray.length; i++) {
 
 			if (jarray[i].id == p_id) return true;
@@ -52,6 +56,7 @@ var app = function () {
 		return false;
 
 	}
+}
 
 	Vue.component('post-card', {
 		props: {
@@ -65,7 +70,8 @@ var app = function () {
 			return {
 				dept: this.post.department,
 				self_post: this.post.leader_email == self.vue.current_email,
-				already_joined: self.check_joined(this.post.id)
+				already_joined: self.check_joined(this.post.id),
+				rating: -1
 			}
 		},
 		events: {
@@ -87,11 +93,31 @@ var app = function () {
 				self.vue.curr_post.meeting_location = this.post.meeting_location;
 				self.vue.curr_post.day_of = this.post.day_of;
 				self.vue.curr_post.start_time = this.post.start_time;
-
+				self.vue.curr_post.rating =this.post.rating;
 				self.vue.show_join_success = true;
+
 				self.vue.goto('student_dashboard');
 
 			},
+
+			edit: function () {
+				console.log('edit')
+			},
+			get_rating_for_post: function() {
+				$.get(api_get_tutor,
+					{
+						tutor_email: this.post.leader_email
+					},
+					function(data){
+						// self.vue.tutor_email = data.tutor_email;
+						this.rating = data.rating;
+					})
+				},
+			numRand: function(){
+				rand = Math.floor((Math.random() *5) + 1);
+				return rand
+			},
+
 			delete: function () {
 				console.log('delete')
 				$.post(api_delete_post_url, {
@@ -102,6 +128,7 @@ var app = function () {
 
 			}
 
+
 		},
 		template: `<div class="container" style="padding:30px; margin:10px">
 			<div class="row justify-content-md-left ">
@@ -111,9 +138,13 @@ var app = function () {
 				</div>
 				<div class="col-md-auto">
 					{{post.leader_name}}, {{post.leader_email}}<br>
-					*****<br>
+					Rating:
+					<span v-for="i in numRand()">
+						<i class="fa fa-star"></i>
+					</span>
+					<br>
 					{{post.start_time}}-{{post.end_time}}, {{post.meeting_location}}
-					
+
 				</div>
 				<div class="col col-lg-2 pull-right">
 					<br>
@@ -126,7 +157,7 @@ var app = function () {
 	})
 
 	Vue.component('demo-grid', {
-		template: ` 
+		template: `
 	    <table>
 	    <thead>
 	      <tr>
@@ -340,6 +371,9 @@ var app = function () {
 			});
 
 	};
+
+
+
 
 	// Complete as needed.
 	self.vue = new Vue({

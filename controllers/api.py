@@ -14,7 +14,7 @@ def get_initial_user_info():
 		row.update_record(leader_email=auth.user.email)
 		#print(row.image_url)
 		posts.append(row)
-		
+
 	return response.json(dict(posts=posts,curr_user=auth.user.id,curr_email=auth.user.email))
 
 def get_initial_class_info():
@@ -23,7 +23,7 @@ def get_initial_class_info():
 		print(row.department_id)
 		departments.append(row.department_id)
 
-		
+
 	return response.json(dict(departments=departments))
 
 
@@ -65,7 +65,7 @@ def get_demand():
 	for row in db(query).select():
 		print('we matched something')
 		row_info = {'title' : row.title, 'department' : row.department, 'class_id' : row.class_id}
-		
+
 	return response.json(dict(row_info=row_info))
 
 
@@ -108,7 +108,7 @@ def delete_post():
 #		row.update_record(leader_email=auth.user.email)
 #		#print(row.image_url)
 #		posts.append(row)
-#		
+#
 #	return response.json(dict(posts=posts,curr_user=auth.user.id,curr_email=auth.user.email))
 
 """
@@ -128,8 +128,14 @@ def get_joined_posts():
 		results.append(row.post)
 	return response.json(dict(results=results))
 
+def fetch_rating():
+	t_email = request.vars.tutor_email
+	rating = 0;
+	for row in db(db.tutor.email==t_email).select():
+		rating = row.rating
 
-
+	print(rating)
+	return response.json(rating=rating)
 
 def add_post():
     """Adds a tutoring post."""
