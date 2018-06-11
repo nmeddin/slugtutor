@@ -49,7 +49,7 @@
 				<div class="row">
 
 
-					<div class="offset-md-2 col-md-8 col-sm-12 ">
+					<div class="offset-md-3 col-md-6 offset-sm-2 col-sm-8 col-xs-12">
 
 						<div class="form-group">
 							<h4 class="mx-2 lead"> Most Recent Classes Searched</h4>
@@ -69,40 +69,41 @@
   								</option>
 							</select>
 							<span></span>
-							<input class="w-80" v-model="student_search" type="number" placeholder="183">
+							<input class="w-80" v-model="student_search" placeholder="183"  v-on:keyup.enter="search_for_tutors(student_search)">
 							<button type="button" class="btn btn-outline-success w-20 my-sm-0" v-on:click="search_for_tutors(student_search)">Search</button>
 						</div>
 
-						<div class="module-primary rounded">
+						<div class="module-primary rounded ">
 							<h4 class="mx-2 font-weight-light">Interested in becoming a tutor?</h4>
 							{{if auth.user is None:}}
 							<h6 class="mx-2 font-weight-light">Login or Sign up to create a new posting.</h6>
 							{{else:}}
 							<h5 class="mx-2 font-weight-light">Create a posting so students can find you.</h5>
-							<div class="font-weight-light">
-								{{=form.custom.begin}} Department:
-								<div class="py-2">{{=form.custom.widget.department}}</div>
-								Class Number:
-								<div class="py-2">{{=form.custom.widget.classnum}}</div>
-								Class Name:
-								<div class="py-2">{{=form.custom.widget.classname}}</div>
-								On:
-								<div class="py-2">{{=form.custom.widget.day_of}}</div>
-								From:
-								<div class="py-2">{{=form.custom.widget.start_time}}</div>
-								To:
-								<div class="py-2">{{=form.custom.widget.end_time}}</div>
-								Student Capacity:
-								<div class="py-2">{{=form.custom.widget.capacity}}</div>
-								Location:
-								<div class="py-2">{{=form.custom.widget.meeting_location}}</div>
-								<div v-on:click="update_post" class="py-2 w-20 my-sm-0">{{=form.custom.submit}}</div>
-								{{=form.custom.end}}
-
+							<div class="row">
+								<div class="col-md-6 font-weight-light">
+										{{=form.custom.begin}} Department:
+										<div class="py-2">{{=form.custom.widget.department}}</div>
+										Class Number:
+										<div class="py-2">{{=form.custom.widget.classnum}}</div>
+										Class Name:
+										<div class="py-2">{{=form.custom.widget.classname}}</div>
+										Location:
+										<div class="py-2">{{=form.custom.widget.meeting_location}}</div>
+								</div>
+								<div class="col-md-6">
+										On:
+										<div class="py-2">{{=form.custom.widget.day_of}}</div>
+										From:
+										<div class="py-2">{{=form.custom.widget.start_time}}</div>
+										To:
+										<div class="py-2">{{=form.custom.widget.end_time}}</div>
+										Student Capacity:
+										<div class="py-2">{{=form.custom.widget.capacity}}</div>
+								</div>
 							</div>
-
-
-							{{pass}}
+							<div class="py-2 w-20 my-sm-0">{{=form.custom.submit}}</div>
+							{{=form.custom.end}}
+						{{pass}}
 
 
 							<!-- <button class="btn btn-outline-success w-20 my-sm-0" v-on:click="add_post(tutor_input)">Create</button> -->
