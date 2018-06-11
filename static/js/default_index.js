@@ -43,21 +43,20 @@ var app = function () {
 
 		var jarray = self.vue.joined_post_array
 
-<<<<<<< HEAD
 		for(var i = 0; i < jarray.length; i++){
 
 			if(jarray[i].id == p_id) return true;
-=======
+
 		for (var i = 0; i < jarray.length; i++) {
 
 			if (jarray[i].id == p_id) return true;
->>>>>>> e032c0bb1c18fbe5dc98a1e5e376662a285d3edf
 
 		}
 
 		return false;
 
 	}
+}
 
 	Vue.component('post-card', {
 		props: {

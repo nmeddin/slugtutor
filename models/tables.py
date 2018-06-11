@@ -157,10 +157,6 @@ db.define_table('ownership',
                     Field('post', 'reference post'),
                     Field('student', 'reference auth_user'))
 
-
-
-"""
-
 #db.post.department.requires = IS_IN_DB(db, 'classes.department', "%(department)s", zero=T('choose one'))
 
 db.post.created_by.writable = False
