@@ -94,6 +94,7 @@ var app = function () {
 			},
 			edit: function () {
 				console.log('edit')
+				
 			}
 
 		},
@@ -195,7 +196,7 @@ var app = function () {
 
 	self.get_joined_posts = function () {
 
-		console.log('get joined posts')
+		//console.log('get joined posts')
 		$.get(api_get_joined_posts_url,
 			function (data) {
 				current_email: self.vue.current_email
@@ -310,7 +311,7 @@ var app = function () {
 				self.vue.post_array = data.posts
 				self.vue.current_user = data.curr_user
 				self.vue.current_email = data.curr_email
-				console.log(self.vue.current_user)
+				//console.log(self.vue.current_user)
 			});
 
 	};
@@ -320,7 +321,7 @@ var app = function () {
 		$.get(api_get_initial_class_info_url,
 			function (data) {
 				self.vue.departments = data.departments
-				console.log(self.vue.departments)
+				//console.log(self.vue.departments)
 			});
 
 

@@ -10,6 +10,13 @@ import datetime
 import copy
 import gluon.contenttype
 import gluon.fileutils
+from gluon.tools import Mail
+
+
+mail = Mail()
+mail.settings.server = 'smtp.example.com:25'
+mail.settings.sender = 'you@example.com'
+mail.settings.login = 'username:password'
 
 try:
     import pygraphviz as pgv
