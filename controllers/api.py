@@ -61,8 +61,8 @@ def get_demand():
 	row_info = {}
 	query = (db.classes.class_id==request.vars.search) & (db.classes.department_id==request.vars.dept)
 	for row in db(query).select():
-		row_info = {'title' : row.title, 'department' : row.department, 'class_id' : row.class_id}
-
+		row_info = {'title' : row.title, 'department' : row.department, 'number' : row.class_id}
+		
 	return response.json(dict(row_info=row_info))
 
 
