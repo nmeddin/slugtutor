@@ -6,6 +6,7 @@
 	var api_get_demand_url = "{{=URL('api', 'get_demand')}}";
 	var api_update_post_url = "{{=URL('api', 'update_post')}}";
 	var api_join_post_url = "{{=URL('api', 'join_post')}}";
+	var api_delete_post_url = "{{=URL('api', 'delete_post')}}";
 	var api_get_initial_user_info_url = "{{=URL('api', 'get_initial_user_info', user_signature=True)}}";
 	var api_get_joined_posts_url = "{{=URL('api', 'get_joined_posts')}}";
 	var api_get_initial_class_info_url = "{{=URL('api', 'get_initial_class_info')}}";
@@ -15,18 +16,24 @@
 {{end}}
 
 <div class="main_content">
+	
+	<transition name="fade">
 
-	<div id="vue-div" class="display:none">
+		<div id="vue-div" class="display:none">
 
 
-		<!-- Here goes your main HTML code. -->
-		<div v-if="page=='tutor_result_page'">
+			<!-- Here goes your main HTML code. -->
+			<div v-if="page=='tutor_result_page'">
 
-			<post-card v-for="post in post_array" v-bind:post="post" :key="post.id" v-bind:style="styleObject"></post-card>
+				<post-card v-for="post in post_array" v-bind:post="post" :key="post.id" v-bind:style="styleObject"></post-card>
 
-			<button @click="goto('main')"> go home </button>
-		</div>
-		<transition name="fade">
+				<div class="jumbotron" v-if="post_array.length < 1">
+					<h6>Sorry, no classes matched your search.</h6>
+					<h7>Your demand for ${selected_dept}${student_search} tutoring has been noted!</h7>
+				</div>
+
+				<button @click="goto('main')"> go home </button>
+			</div>
 			<div v-if="page=='main'" class="container-fluid">
 				<div class="jumbotron">
 					<!-- <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a> -->
@@ -124,9 +131,7 @@
 					</div>
 				</div>
 			</div>
-		</transition>
 
-		<transition name="fade">
 			<div id="tutor_dash" v-if="page=='tutor_dashboard'">
 				<div class="jumbotron">
 
@@ -136,15 +141,14 @@
 
 				</div>
 			</div>
-		</transition>
 
-		<div id="student_dash" v-if="page=='student_dashboard'">
-			<div v-if="curr_post.show_this" class="jumbotron">
+			<div id="student_dash" v-if="page=='student_dashboard'">
+				<div v-if="show_join_success" class="jumbotron">
 
-				<h3>You're all signed up!</h3>
-				<h4>You're meeting ${curr_post.leader_name} at LOCATION on ${curr_post.day_of} at ${curr_post.start_time}.</h4>
+					<h3>You're all signed up!</h3>
+					<h4>You're meeting ${curr_post.leader_name} at LOCATION on ${curr_post.day_of} at ${curr_post.start_time}.</h4>
 
-				<button @click="curr_post.show_this = false">Dismiss</button>
+					<button @click="show_join_success = false">Dismiss</button>
 
 			</div>
 			<div class="jumbotron">

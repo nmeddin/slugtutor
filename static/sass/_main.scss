@@ -1,35 +1,65 @@
 .colorful {
-  color: $clrHilight;
+	color: $clrHilight;
+}
+
+body, html {
+    height: 100%;
 }
 
 div.main_content {
-  padding: 10px;
+	padding: 10px;
+	/* The image used */
+	background-image: url("https://mdbootstrap.com/img/Photos/Horizontal/Nature/full page/img(11).jpg");
+
+	/* Full height */
+	height: 250%;
+
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: repeat;
+	background-size: cover;
+}
+
+.user_container {
+
+	padding: 10px;
+	/* The image used */
+	background-image: url("https://mdbootstrap.com/previews/docs/latest/html/images/full-bg-image.html");
+
+	/* Full height */
+	height: 100%;
+
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: repeat;
+	background-size: cover;
+
 }
 
 div.add_btn {
-  margin: 5px;
-  a {
-    padding: 10px;
-  }
+	margin: 5px;
+	a {
+		padding: 10px;
+	}
 }
 
 div.memo {
-  margin: 5px;
-  border: 2px solid gray;
-  padding: 5px;
+	margin: 5px;
+	border: 2px solid gray;
+	padding: 5px;
 
-  div.memo_title {
-    font-weight: bold;
-    font-size: 150%;
-  }
-  div.button_list {
-    text-align: right;
-    div.buttons {
-      display: inline-block;
-    }
-    margin-top: 10px;
-    a.btn {
-      padding: 10px;
-    }
-  }
+	div.memo_title {
+		font-weight: bold;
+		font-size: 150%;
+	}
+	div.button_list {
+		text-align: right;
+		div.buttons {
+			display: inline-block;
+		}
+		margin-top: 10px;
+		a.btn {
+			padding: 10px;
+		}
+	}
 }

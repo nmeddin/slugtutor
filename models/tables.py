@@ -126,9 +126,9 @@ db.define_table('post',
 				Field('classnum', requires=IS_NOT_EMPTY()),
 				Field('classname'),
 				Field('day_of', 'date', requires=IS_NOT_EMPTY()),
-				Field('start_time', requires=IS_IN_SET(times), zero=T('Choose a start time.')),
-				Field('end_time', requires=IS_IN_SET(times), zero=T('Choose a finish time.')),
-				Field('meeting_location', requires=IS_IN_SET(locations), zero=T('Choose a meeting location.')),
+				Field('start_time', requires=IS_IN_SET(times)),
+				Field('end_time', requires=IS_IN_SET(times)),
+				Field('meeting_location', requires=IS_IN_SET(locations)),
 				Field('created_by', 'reference auth_user',  default=auth.user_id),
 				Field('capacity', default=1),
 				Field('students_joined', 'reference auth_user'),
@@ -158,15 +158,7 @@ db.define_table('ownership',
                     Field('student', 'reference auth_user'))
 
 
-"""
-db.define_table('category',Field('name'))
-db.define_table('product',Field('name'),Field('category'))
-db.product.category.widget = SQLFORM.widgets.autocomplete(
-     request, db.category.name, limitby=(0,10), min_length=2)
 
-"""
-
-#db.post.department.requires = IS_IN_DB(db, 'classes.department', "%(department)s", zero=T('choose one'))
 				
 db.post.created_by.writable = False
 

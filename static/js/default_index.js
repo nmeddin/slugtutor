@@ -39,17 +39,33 @@ var app = function () {
 
 	}
 
+	self.check_joined = function (p_id) {
+
+		var jarray = self.vue.joined_post_array
+
+		for (var i = 0; i < jarray.length; i++) {
+
+			if (jarray[i].id == p_id) return true;
+
+		}
+
+		return false;
+
+	}
 
 	Vue.component('post-card', {
 		props: {
 			post: Object,
 		},
+		created: function () {
+			console.log("created post " + this.post.id);
+			console.log("already joined? " + (self.check_joined(this.post.id)));
+		},
 		data: function () {
 			return {
-				classname: this.post.classname,
 				dept: this.post.department,
 				self_post: this.post.leader_email == self.vue.current_email,
-				already_joined: self.vue.joined_post_array.indexOf(this.post.id) >= 0
+				already_joined: self.check_joined(this.post.id)
 			}
 		},
 		events: {
@@ -72,19 +88,26 @@ var app = function () {
 				self.vue.curr_post.day_of = this.post.day_of;
 				self.vue.curr_post.start_time = this.post.start_time;
 
+				self.vue.show_join_success = true;
 				self.vue.goto('student_dashboard');
 
 			},
-			edit: function () {
-				console.log('edit')
+			delete: function () {
+				console.log('delete')
+				$.post(api_delete_post_url, {
+					posting: this.post.id
+				})
+				self.get_inital_user_info();
+				self.goto('main');
+
 			}
 
 		},
 		template: `<div class="container" style="padding:30px; margin:10px">
 			<div class="row justify-content-md-left ">
 				<div class="col col-lg-2 border-top-0">
-					<h5>CMPS109</h5>
-					<h6>Advanced Programming</h6>
+					<h5>{{post.department}}{{post.classnum}}</h5>
+					<h6>{{post.classname}}</h6>
 				</div>
 				<div class="col-md-auto">
 					{{post.leader_name}}, {{post.leader_email}}<br>
@@ -96,13 +119,11 @@ var app = function () {
 					<br>
  						<a v-if="!this.self_post && !this.already_joined" v-on:click="this.join" class="btn btn-primary pull-right">Join</a>
 						<a v-if="this.already_joined && !this.self_post" class="btn btn-default disabled">Joined</a>
-						<a v-if="this.self_post" v-on:click="this.edit" class="btn btn-primary pull-right">Edit</a>
+						<a v-if="this.self_post" v-on:click="this.delete" class="btn btn-primary pull-right">Delete</a>
 				</div>
 			</div>
 		</div>`
 	})
-
-
 
 	Vue.component('demo-grid', {
 		template: ` 
@@ -180,7 +201,7 @@ var app = function () {
 
 	self.get_joined_posts = function () {
 
-		console.log('get joined posts')
+		//console.log('get joined posts')
 		$.get(api_get_joined_posts_url,
 			function (data) {
 				current_email: self.vue.current_email
@@ -190,13 +211,8 @@ var app = function () {
 
 	};
 
-	self.get_initial_user_info = function () {
-		$.get(api_get_initial_user_info_url,
-			function (data) {
-				self.vue.post_array = data.posts
 
-			});
-	};
+
 
 	self.update_post = function () {
 
@@ -226,6 +242,10 @@ var app = function () {
 			self.append_in_demand(search);
 
 			self.goto('tutor_result_page');
+		} else {
+
+			console.log('empty search');
+
 		}
 	}
 
@@ -278,6 +298,7 @@ var app = function () {
 
 		if (page == 'tutor_dashboard') {
 			self.get_initial_user_info();
+			//self.update_post();
 		}
 
 		if (page == 'student_dashboard') {
@@ -292,10 +313,10 @@ var app = function () {
 		//console.log("get initial user info");
 		$.get(api_get_initial_user_info_url,
 			function (data) {
-				// self.vue.post_array = data.posts
+				self.vue.post_array = data.posts
 				self.vue.current_user = data.curr_user
 				self.vue.current_email = data.curr_email
-				console.log(self.vue.current_user)
+				//console.log(self.vue.current_user)
 			});
 
 	};
@@ -305,8 +326,9 @@ var app = function () {
 		$.get(api_get_initial_class_info_url,
 			function (data) {
 				self.vue.departments = data.departments
-				console.log(self.vue.departments)
+				//console.log(self.vue.departments)
 			});
+
 
 	};
 
@@ -318,11 +340,6 @@ var app = function () {
 			});
 
 	};
-
-
-
-
-
 
 	// Complete as needed.
 	self.vue = new Vue({
@@ -361,7 +378,8 @@ var app = function () {
 				meeting_location: '',
 				day_of: '',
 				show_this: true
-			}
+			},
+			show_join_success: false
 
 
 		},
