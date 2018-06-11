@@ -27,7 +27,7 @@
 					<a class="nav-link" href="{{=URL('default', 'index.html')}}">home</a>
 				</li>
 
-				{{for key in nav.keys():}} {{if key is not "user" and key is not "prefix":}}
+				{{for key in nav.keys():}} {{if key is not "user" and key is not "prefix" and key is not "change_password":}}
 				<li class="nav-item m-1 pl-1">
 					<a class="nav-link" href="{{=nav[key]}}">{{=key}}</a>
 				</li>
