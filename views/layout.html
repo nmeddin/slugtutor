@@ -5,13 +5,19 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
+<<<<<<< HEAD
 
 	<link href="{{=URL('static','css/calendar.css')}}" rel="stylesheet" type="text/css" />
+=======
+	<script type="text/javascript" src="https://addevent.com/libs/atc/1.6.1/atc.min.js" async defer></script>
+	<!-- <link href="{{=URL('static','css/calendar.css')}}" rel="stylesheet" type="text/css" /> -->
+>>>>>>> origin/nick_josh_workingBranch
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link href="{{=URL('static','css/web2py.css')}}" rel="stylesheet" type="text/css" />
 	<link href="{{=URL('static','css/myapp.css')}}" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" href="{{=URL('static', 'font-awesome-4.6.3/css/font-awesome.min.css')}}"> {{include "web2py_ajax.html"}}
 </head>
+
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<a class="navbar-brand" href="{{=URL('default', 'index.html')}}">
@@ -25,7 +31,7 @@
 				<li class="nav-item m-1 pl-1">
 					<a class="nav-link" href="{{=URL('default', 'index.html')}}">home</a>
 				</li>
-			
+
 				{{for key in nav.keys():}} {{if key is not "user" and key is not "prefix":}}
 				<li class="nav-item m-1 pl-1">
 					<a class="nav-link" href="{{=nav[key]}}">{{=key}}</a>
@@ -64,10 +70,10 @@
 	});
 
 	window.setTimeout(function() {
-    $(".alert").fadeTo(500, 0).slideUp(500, function(){
-        $(this).remove(); 
-    });
-}, 4000);
+		$(".alert").fadeTo(500, 0).slideUp(500, function() {
+			$(this).remove();
+		});
+	}, 4000);
 
 </script>
 

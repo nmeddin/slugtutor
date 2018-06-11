@@ -15,7 +15,7 @@ def get_initial_user_info():
 		#print(row.image_url)
 		posts.append(row)
 		
-	return response.json(dict(posts=posts,curr_user=auth.user.id))
+	return response.json(dict(posts=posts,curr_user=auth.user.id,curr_email=auth.user.email))
 
 def get_initial_class_info():
 	departments = []
@@ -58,6 +58,16 @@ def get_search():
 		posts.append(row)
 	return response.json(dict(posts=posts))
 
+def get_demand():
+	row_info = {}
+#	search = request.vars.search.split()
+	query = (db.classes.class_id==request.vars.search) & (db.classes.department_id==request.vars.dept)
+	for row in db(query).select():
+		print('we matched something')
+		row_info = {'title' : row.title, 'department' : row.department, 'class_id' : row.class_id}
+		
+	return response.json(dict(row_info=row_info))
+
 
 #@auth.requires_signature()
 #def set_price():
@@ -70,7 +80,38 @@ def update_post():
 		row.update_record(leader_name=request.vars.first_name)
 		row.update_record(email=request.vars.email)
 pass
-		
+
+def join_post():
+	print('this posting: ')
+	print(request.vars.posting)
+	print(' this user: ')
+	print(auth.user_id)
+	db.ownership.insert(post=request.vars.posting, student=auth.user_id)
+pass
+
+#@auth.requires_signature()
+#def get_initial_user_info():
+#	posts = []
+#	for row in db(db.post.created_by==auth.user.id).select(orderby=~db.post.day_of):
+#		row.update_record(leader_name=auth.user.first_name)
+#		row.update_record(leader_email=auth.user.email)
+#		#print(row.image_url)
+#		posts.append(row)
+#		
+#	return response.json(dict(posts=posts,curr_user=auth.user.id,curr_email=auth.user.email))
+
+def get_joined_posts():
+	print('This user called get joined posts:')
+	print(auth.user.id)
+	results = []
+	for row in db(db.ownership.student==auth.user_id).select():
+		print('printing ownership row')
+		print(row.post)
+		print(row.student)
+		if(row.student == auth.user_id):
+			results.append(row.post)
+	return response.json(dict(results=results))
+
 
 
 
