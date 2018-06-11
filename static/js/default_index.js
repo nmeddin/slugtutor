@@ -51,7 +51,7 @@ var app = function () {
 				classname: this.post.classname,
 				dept: this.post.department,
 				self_post: this.post.leader_email == self.vue.current_email,
-				type: ''
+				already_joined: self.vue.joined_post_array.indexOf(this.post.id) >= 0
 			}
 		},
 		events: {
@@ -60,10 +60,20 @@ var app = function () {
 		methods: {
 			join: function () {
 				console.log(self.vue.user_list[0].email + ' wants to join posting ' + this.post.id)
+				if (self.vue.joined_post_array.indexOf(this.post.id) >= 0) {
+					console.log('already joined')
+					return
+				}
 				$.post(api_join_post_url, {
 					email: self.vue.current_email,
 					posting: this.post.id
 				})
+
+				self.vue.curr_post.leader_name = this.post.leader_name;
+				self.vue.curr_post.meeting_location = this.post.meeting_location;
+				self.vue.curr_post.day_of = this.post.day_of;
+				self.vue.curr_post.start_time = this.post.start_time;
+
 				self.vue.goto('student_dashboard');
 
 			},
@@ -72,20 +82,26 @@ var app = function () {
 			}
 
 		},
-		template: `<div class="card" style="width: 18rem;">
-  <img v-if="this.post.department=='CMPS'" class="card-img-top" src="https://comps.canstockphoto.com/happy-computer-drawing_csp1651204.jpg" alt="Card image cap">
-  <img v-if="this.post.department=='CMPE'" class="card-img-top" src="http://www.clipartquery.com/images/39/gallery-for-computer-engineering-clipart-IARWQW.jpg" alt="Card image cap">
-  <img v-if="this.post.department=='EE'" class="card-img-top" src="http://fscomps.fotosearch.com/compc/CSP/CSP500/dangerous-work-with-electricity-clipart__k40115174.jpg" alt="Card image cap">
-
-  <div class="card-body">
-    <h5 class="card-title">{{post.classname}}</h5>
-	<h6>{{post.department}}{{post.classnum}}</h6>
-    <p class="card-text">Tutor: {{post.leader_name}}<br>Email: {{post.leader_email}}<br></p>
-    <a v-if="!this.self_post" v-on:click="this.join" class="btn btn-primary">Join</a>
-	<a v-if="this.self_post" v-on:click="this.edit" class="btn btn-primary">Edit</a>
-
-  </div>
-</div>`
+		template: `<div class="container" style="padding:30px; margin:10px">
+			<div class="row justify-content-md-left ">
+				<div class="col col-lg-2 border-top-0">
+					<h5>CMPS109</h5>
+					<h6>Advanced Programming</h6>
+				</div>
+				<div class="col-md-auto">
+					{{post.leader_name}}, {{post.leader_email}}<br>
+					*****<br>
+					{{post.start_time}}-{{post.end_time}}, {{post.meeting_location}}
+					
+				</div>
+				<div class="col col-lg-2 pull-right">
+					<br>
+ 						<a v-if="!this.self_post && !this.already_joined" v-on:click="this.join" class="btn btn-primary pull-right">Join</a>
+						<a v-if="this.already_joined && !this.self_post" class="btn btn-default disabled">Joined</a>
+						<a v-if="this.self_post" v-on:click="this.edit" class="btn btn-primary pull-right">Edit</a>
+				</div>
+			</div>
+		</div>`
 	})
 
 
@@ -164,14 +180,15 @@ var app = function () {
 		}
 	})
 
-	self.get_joined_posts = function (u_id) {
+	self.get_joined_posts = function () {
 
-		console.log(u_id)
-		$.get(api_get_joined_posts_url, {
+		console.log('get joined posts')
+		$.get(api_get_joined_posts_url,
 			function (data) {
+				current_email: self.vue.current_email
 				self.vue.joined_post_array = data.results
-			}
-		});
+
+			});
 
 	};
 
@@ -265,6 +282,12 @@ var app = function () {
 			self.get_initial_user_info();
 		}
 
+		if (page == 'student_dashboard') {
+			setTimeout(function () {
+				self.get_joined_posts();
+			}, 1500)
+		}
+
 	};
 
 	self.get_initial_user_info = function () {
@@ -328,7 +351,36 @@ var app = function () {
 			selected_dept: "CMPS",
 			gridColumns: ['department', 'class_id', 'title'],
 			gridData: [],
-			searchQuery: ""
+			searchQuery: "",
+			locations: ['Academic Resources Center 221 (front desk)',
+'Coastal Biology Building',
+'Crown Library',
+'Kresge Study Center',
+'Learning Support Services/HSI Cowell College Mobile Office - Conference Room', 'Learning Support Services/HSI Cowell College Mobile Office - Lobby',
+'McHenry Library Circulation Desk', 'Merrill Library/Casa Latina',
+'Namaste Lounge, College 10',
+'Oakes Learning Center',
+'Paige Smith Library (Open till 2AM)',
+'Perk Coffee Bar, Earth & Marine Sciences',
+'Perk Coffee Bar, J. Baskin Engineering',
+'Porter College Mailroom',
+'Science & Engineering Library, Front Desk',
+'Stevenson Library',
+'Thimann Labs Second Floor Entrance'],
+			styleObject: {
+				color: '#8c4191',
+				backgroundImage: 'url(https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/jPLiQ-9/mountains-background-for-titles-intro-projects-and-etc_ew22rur3l__F0000.png)'
+			},
+			curr_post: {
+				leader_name: '',
+				class_name: '',
+				class_dept: '',
+				start_time: '',
+				meeting_location: '',
+				day_of: '',
+				show_this: true
+			}
+
 
 		},
 		events: {
@@ -347,7 +399,8 @@ var app = function () {
 			get_initial_class_info: self.get_initial_class_info,
 			update_post: self.update_post,
 			join: self.join,
-			get_gridData: self.get_gridData
+			get_gridData: self.get_gridData,
+			get_joined_posts: self.get_joined_posts
 		},
 		created: function () {
 
@@ -366,6 +419,8 @@ var app = function () {
 	self.get_users();
 
 	self.get_gridData();
+
+	self.get_joined_posts();
 
 	return self;
 };

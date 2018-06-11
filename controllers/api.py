@@ -100,12 +100,16 @@ pass
 #		
 #	return response.json(dict(posts=posts,curr_user=auth.user.id,curr_email=auth.user.email))
 
-@auth.requires_signature()
 def get_joined_posts():
+	print('This user called get joined posts:')
+	print(auth.user.id)
 	results = []
-	for row in db(db.ownership.student==auth.user.id).select():
+	for row in db(db.ownership.student==auth.user_id).select():
+		print('printing ownership row')
 		print(row.post)
-		results.append(row.post)
+		print(row.student)
+		if(row.student == auth.user_id):
+			results.append(row.post)
 	return response.json(dict(results=results))
 
 

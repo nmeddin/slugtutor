@@ -1,0 +1,14 @@
+`<div class="card" style="width: 18rem;">
+  <img v-if="this.post.department=='CMPS'" class="card-img-top" src="https://comps.canstockphoto.com/happy-computer-drawing_csp1651204.jpg" alt="Card image cap">
+  <img v-if="this.post.department=='CMPE'" class="card-img-top" src="http://www.clipartquery.com/images/39/gallery-for-computer-engineering-clipart-IARWQW.jpg" alt="Card image cap">
+  <img v-if="this.post.department=='EE'" class="card-img-top" src="http://fscomps.fotosearch.com/compc/CSP/CSP500/dangerous-work-with-electricity-clipart__k40115174.jpg" alt="Card image cap">
+
+  <div class="card-body">
+    <h5 class="card-title">{{post.classname}}</h5>
+	<h6>{{post.department}}{{post.classnum}}</h6>
+    <p class="card-text">Tutor: {{post.leader_name}}<br>Email: {{post.leader_email}}<br>Meeting Location: {{post.meeting_location}}</p>
+    <a v-if="!this.self_post" v-on:click="this.join" class="btn btn-primary">Join</a>
+	<a v-if="this.self_post" v-on:click="this.edit" class="btn btn-primary">Edit</a>
+
+  </div>
+</div>`
