@@ -105,8 +105,6 @@ var app = function () {
 		</div>`
 	})
 
-
-
 	Vue.component('demo-grid', {
 		template: ` 
 	    <table>
