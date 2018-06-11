@@ -48,7 +48,7 @@ var app = function () {
 		},
 		data: function () {
 			return {
-				classname: this.post.classname,
+				classname: this.post.class_name,
 				dept: this.post.department,
 				self_post: this.post.leader_email == self.vue.current_email,
 				already_joined: self.vue.joined_post_array.indexOf(this.post.id) >= 0
