@@ -113,13 +113,8 @@ db.define_table('ownership',
                     Field('student', 'reference auth_user'))
 
 
-"""
-db.define_table('category',Field('name'))
-db.define_table('product',Field('name'),Field('category'))
-db.product.category.widget = SQLFORM.widgets.autocomplete(
-     request, db.category.name, limitby=(0,10), min_length=2)
 
-"""
+
 
 #db.post.department.requires = IS_IN_DB(db, 'classes.department', "%(department)s", zero=T('choose one'))
 				

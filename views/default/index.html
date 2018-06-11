@@ -94,7 +94,8 @@
 								<div class="py-2">{{=form.custom.widget.start_time}}</div>
 								To:
 								<div class="py-2">{{=form.custom.widget.end_time}}</div>
-								<div v-on:click="update_post" class="py-2 w-20 my-sm-0">{{=form.custom.submit}}</div>
+
+								<div class="py-2 w-20 my-sm-0" @click="goto('tutor_dashboard')">{{=form.custom.submit}}</div>
 								{{=form.custom.end}}
 
 							</div>

@@ -12,6 +12,7 @@ def get_initial_user_info():
 	for row in db(db.post.created_by==auth.user.id).select(orderby=~db.post.day_of):
 		row.update_record(leader_name=auth.user.first_name)
 		row.update_record(leader_email=auth.user.email)
+		print(auth.user.first_name)
 		#print(row.image_url)
 		posts.append(row)
 		

@@ -34,7 +34,6 @@ var app = function () {
 	}
 
 
-
 	self.get_in_demand_classes = function () {
 
 		self.vue.in_demand = self.vue.class_list;
@@ -120,8 +119,6 @@ var app = function () {
 			</div>
 		</div>`
 	})
-
-
 
 	Vue.component('demo-grid', {
 		template: ` 
@@ -209,8 +206,9 @@ var app = function () {
 
 	};
 
-	self.get_initial_user_info = function () {
-		$.get(api_get_initial_user_info_url,
+
+	self.get_classes = function () {
+		$.get(api_get_classes_url,
 			function (data) {
 				self.vue.post_array = data.posts
 
@@ -245,6 +243,8 @@ var app = function () {
 			self.append_in_demand(search);
 
 			self.goto('tutor_result_page');
+		} else {
+			self.get_classes();
 		}
 	}
 
@@ -297,6 +297,7 @@ var app = function () {
 
 		if (page == 'tutor_dashboard') {
 			self.get_initial_user_info();
+			self.update_post();
 		}
 
 		if (page == 'student_dashboard') {
@@ -327,6 +328,7 @@ var app = function () {
 				console.log(self.vue.departments)
 			});
 
+
 	};
 
 	self.get_users = function () {
@@ -337,9 +339,6 @@ var app = function () {
 			});
 
 	};
-
-
-
 
 
 
@@ -433,6 +432,7 @@ var app = function () {
 	self.get_initial_user_info();
 
 	self.get_initial_class_info();
+
 
 	self.get_users();
 
