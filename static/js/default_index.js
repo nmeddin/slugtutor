@@ -292,7 +292,7 @@ var app = function () {
 
 		if (page == 'tutor_dashboard') {
 			self.get_initial_user_info();
-			self.update_post();
+			//self.update_post();
 		}
 
 		if (page == 'student_dashboard') {
@@ -307,7 +307,7 @@ var app = function () {
 		//console.log("get initial user info");
 		$.get(api_get_initial_user_info_url,
 			function (data) {
-				// self.vue.post_array = data.posts
+				self.vue.post_array = data.posts
 				self.vue.current_user = data.curr_user
 				self.vue.current_email = data.curr_email
 				console.log(self.vue.current_user)
