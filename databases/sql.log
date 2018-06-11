@@ -136,3 +136,17 @@ CREATE TABLE "ownership"(
     "student" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  
 );
 success!
+<<<<<<< HEAD
+=======
+timestamp: 2018-06-09T21:48:42.325240
+CREATE TABLE "web2py_session_slugtutor183"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "locked" CHAR(1),
+    "client_ip" CHAR(64),
+    "created_datetime" TIMESTAMP,
+    "modified_datetime" TIMESTAMP,
+    "unique_key" CHAR(64),
+    "session_data" BLOB
+);
+success!
+>>>>>>> 232e01a1fe68811549692f8cdb97fdcec2aa99a2
