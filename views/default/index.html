@@ -139,7 +139,7 @@
 		</transition>
 
 		<div id="student_dash" v-if="page=='student_dashboard'">
-			<div v-if="curr_post.show_this" class="jumbotron">
+			<div v-if="curr_post.leader_name.length>0" class="jumbotron">
 
 				<h3>You're all signed up!</h3>
 				<h4>You're meeting ${curr_post.leader_name} at LOCATION on ${curr_post.day_of} at ${curr_post.start_time}.</h4>
