@@ -33,7 +33,6 @@ var app = function () {
 		});
 	}
 
-
 	self.get_in_demand_classes = function () {
 
 		self.vue.in_demand = self.vue.class_list;
@@ -207,13 +206,7 @@ var app = function () {
 	};
 
 
-	self.get_classes = function () {
-		$.get(api_get_classes_url,
-			function (data) {
-				self.vue.post_array = data.posts
 
-			});
-	};
 
 	self.update_post = function () {
 
@@ -244,7 +237,9 @@ var app = function () {
 
 			self.goto('tutor_result_page');
 		} else {
-			self.get_classes();
+			
+			console.log('empty search');
+
 		}
 	}
 
@@ -276,7 +271,7 @@ var app = function () {
 
 	self.get_search = function (search) {
 		$.get(api_get_search_url, {
-				search: parseInt(search)
+				search: search
 			},
 			function (data) {
 				console.log("in get search")
@@ -312,7 +307,7 @@ var app = function () {
 		//console.log("get initial user info");
 		$.get(api_get_initial_user_info_url,
 			function (data) {
-				self.vue.post_array = data.posts
+				// self.vue.post_array = data.posts
 				self.vue.current_user = data.curr_user
 				self.vue.current_email = data.curr_email
 				console.log(self.vue.current_user)
@@ -340,8 +335,6 @@ var app = function () {
 
 	};
 
-
-
 	// Complete as needed.
 	self.vue = new Vue({
 		el: "#vue-div",
@@ -360,7 +353,6 @@ var app = function () {
 			tutor_result_page: false,
 			class_list: [],
 			page: 'main',
-			picked: "",
 			post_array: [],
 			joined_post_array: [],
 			departments: [],
@@ -368,21 +360,6 @@ var app = function () {
 			gridColumns: ['department', 'class_id', 'title'],
 			gridData: [],
 			searchQuery: "",
-			locations: ['Academic Resources Center 221 (front desk)',
-'Coastal Biology Building',
-'Crown Library',
-'Kresge Study Center',
-'Learning Support Services/HSI Cowell College Mobile Office - Conference Room', 'Learning Support Services/HSI Cowell College Mobile Office - Lobby',
-'McHenry Library Circulation Desk', 'Merrill Library/Casa Latina',
-'Namaste Lounge, College 10',
-'Oakes Learning Center',
-'Paige Smith Library (Open till 2AM)',
-'Perk Coffee Bar, Earth & Marine Sciences',
-'Perk Coffee Bar, J. Baskin Engineering',
-'Porter College Mailroom',
-'Science & Engineering Library, Front Desk',
-'Stevenson Library',
-'Thimann Labs Second Floor Entrance'],
 			styleObject: {
 				color: '#8c4191',
 				backgroundImage: 'url(https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/jPLiQ-9/mountains-background-for-titles-intro-projects-and-etc_ew22rur3l__F0000.png)'
@@ -432,7 +409,6 @@ var app = function () {
 	self.get_initial_user_info();
 
 	self.get_initial_class_info();
-
 
 	self.get_users();
 

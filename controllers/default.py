@@ -8,7 +8,6 @@
 # - download is for downloading files uploaded in the db (does streaming)
 # -------------------------------------------------------------------------
 
-
 def index():
     """
     example action using the internationalization operator T and flash
@@ -21,7 +20,7 @@ def index():
 	https://piazza.com/class/jf2geiytvic7ao?cid=192
     """
     logger.info('The session is: %r' % session)
-    checklists = db(db.checklist.is_public == True).select(db.checklist.ALL)
+    # checklists = db(db.checklist.is_public == True).select(db.checklist.ALL)
 
     form = SQLFORM(db.post)
 

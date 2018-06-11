@@ -1,4 +1,4 @@
-timestamp: 2018-06-11T12:27:40.356000
+timestamp: 2018-06-11T12:37:19.192000
 CREATE TABLE "web2py_session_slugtutor183_"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "locked" CHAR(1),
@@ -9,7 +9,7 @@ CREATE TABLE "web2py_session_slugtutor183_"(
     "session_data" BLOB
 );
 success!
-timestamp: 2018-06-11T12:27:40.396000
+timestamp: 2018-06-11T12:37:19.231000
 CREATE TABLE "auth_user"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "first_name" CHAR(128),
@@ -21,21 +21,21 @@ CREATE TABLE "auth_user"(
     "registration_id" CHAR(512)
 );
 success!
-timestamp: 2018-06-11T12:27:40.448000
+timestamp: 2018-06-11T12:37:19.333000
 CREATE TABLE "auth_group"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "role" CHAR(512),
     "description" TEXT
 );
 success!
-timestamp: 2018-06-11T12:27:40.493000
+timestamp: 2018-06-11T12:37:19.369000
 CREATE TABLE "auth_membership"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
     "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  
 );
 success!
-timestamp: 2018-06-11T12:27:40.530000
+timestamp: 2018-06-11T12:37:19.423000
 CREATE TABLE "auth_permission"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  ,
@@ -44,7 +44,7 @@ CREATE TABLE "auth_permission"(
     "record_id" INTEGER
 );
 success!
-timestamp: 2018-06-11T12:27:40.599000
+timestamp: 2018-06-11T12:37:19.453000
 CREATE TABLE "auth_event"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "time_stamp" TIMESTAMP,
@@ -54,7 +54,7 @@ CREATE TABLE "auth_event"(
     "description" TEXT
 );
 success!
-timestamp: 2018-06-11T12:27:40.652000
+timestamp: 2018-06-11T12:37:19.489000
 CREATE TABLE "auth_cas"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
@@ -64,7 +64,7 @@ CREATE TABLE "auth_cas"(
     "renew" CHAR(1)
 );
 success!
-timestamp: 2018-06-11T12:27:40.688000
+timestamp: 2018-06-11T12:37:19.522000
 CREATE TABLE "checklist"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "user_email" CHAR(512),
@@ -73,7 +73,7 @@ CREATE TABLE "checklist"(
     "is_public" CHAR(1)
 );
 success!
-timestamp: 2018-06-11T12:27:40.742000
+timestamp: 2018-06-11T12:37:19.549000
 CREATE TABLE "appointments"(
     "classname" CHAR(512),
     "appointment" TIMESTAMP NOT NULL,
@@ -83,7 +83,7 @@ CREATE TABLE "appointments"(
     "rate" DOUBLE,
     PRIMARY KEY("appointment", "tutor")) ;
 success!
-timestamp: 2018-06-11T12:27:40.800000
+timestamp: 2018-06-11T12:37:19.578000
 CREATE TABLE "tutor"(
     "name" CHAR(512) NOT NULL,
     "email" CHAR(512) NOT NULL,
@@ -93,7 +93,7 @@ CREATE TABLE "tutor"(
     "rating" DOUBLE,
     PRIMARY KEY("name", "email", "major")) ;
 success!
-timestamp: 2018-06-11T12:27:40.861000
+timestamp: 2018-06-11T12:37:19.616000
 CREATE TABLE "classes"(
     "title" CHAR(512) NOT NULL,
     "class_id" CHAR(512) NOT NULL,
@@ -102,7 +102,7 @@ CREATE TABLE "classes"(
     "department_id" CHAR(512),
     PRIMARY KEY("title", "class_id", "department")) ;
 success!
-timestamp: 2018-06-11T12:27:40.919000
+timestamp: 2018-06-11T12:37:19.688000
 CREATE TABLE "post"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "department" CHAR(512),
@@ -110,18 +110,18 @@ CREATE TABLE "post"(
     "classnum" CHAR(512),
     "classname" CHAR(512),
     "day_of" DATE,
-    "start_time" TIME,
-    "end_time" TIME,
+    "start_time" CHAR(512),
+    "end_time" CHAR(512),
     "meeting_location" CHAR(512),
     "created_by" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
-    "capacity" INTEGER,
+    "capacity" CHAR(512),
     "students_joined" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
     "num_students_joined" INTEGER,
     "leader_email" CHAR(512),
     "leader_name" CHAR(512)
 );
 success!
-timestamp: 2018-06-11T12:27:40.985000
+timestamp: 2018-06-11T12:37:19.732000
 CREATE TABLE "student"(
     "name" CHAR(512) NOT NULL,
     "email" CHAR(512) NOT NULL,
@@ -129,7 +129,7 @@ CREATE TABLE "student"(
     "acadmic_year" INTEGER NOT NULL,
     PRIMARY KEY("name", "email", "acadmic_year")) ;
 success!
-timestamp: 2018-06-11T12:27:41.040000
+timestamp: 2018-06-11T12:37:19.767000
 CREATE TABLE "ownership"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "post" INTEGER REFERENCES "post" ("id") ON DELETE CASCADE  ,

@@ -12,7 +12,6 @@ def get_initial_user_info():
 	for row in db(db.post.created_by==auth.user.id).select(orderby=~db.post.day_of):
 		row.update_record(leader_name=auth.user.first_name)
 		row.update_record(leader_email=auth.user.email)
-		print(auth.user.first_name)
 		#print(row.image_url)
 		posts.append(row)
 		
@@ -44,18 +43,18 @@ def get_users():
 	return response.json(dict(user_list=user_list))
 
 
-def get_classes():
-	posts = []
-	for row in db(db.post).select(db.post.classnum==request.vars.search):
-		#print(row)
-		posts.append(row)
-	return response.json(dict(posts=posts))
+# def get_classes():
+# 	posts = []
+# 	for row in db(db.post).select(db.post.classnum==request.vars.search):
+# 		#print(row)
+# 		posts.append(row)
+# 	return response.json(dict(posts=posts))
 
 
 def get_search():
 	posts = []
-	for row in db(db.post.classnum==request.vars.search).select(db.post.ALL):
-		print(row)
+	for row in db(db.post.classnum==request.vars.search).select():
+		#print(row)
 		posts.append(row)
 	return response.json(dict(posts=posts))
 
