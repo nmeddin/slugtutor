@@ -33,18 +33,6 @@ var app = function () {
 		});
 	}
 
-<<<<<<< HEAD
-	self.get_initial_user_info = function () {
-		$.get(api_get_initial_user_info_url,
-			function (data) {
-				self.vue.post_array = data.posts
-			});
-		//if(self.vue.post_array.length>0)
-	};
-=======
-
->>>>>>> origin/nick_josh_workingBranch
-
 	self.get_in_demand_classes = function () {
 
 		self.vue.in_demand = self.vue.class_list;
@@ -288,8 +276,6 @@ var app = function () {
 			self.get_gridData();
 		}
 
-<<<<<<< HEAD
-=======
 		if (page == 'tutor_dashboard') {
 			self.get_initial_user_info();
 		}
@@ -300,7 +286,6 @@ var app = function () {
 			}, 1500)
 		}
 
->>>>>>> origin/nick_josh_workingBranch
 	};
 
 	self.get_initial_user_info = function () {
@@ -364,21 +349,6 @@ var app = function () {
 			gridColumns: ['department', 'class_id', 'title'],
 			gridData: [],
 			searchQuery: "",
-			locations: ['Academic Resources Center 221 (front desk)',
-'Coastal Biology Building',
-'Crown Library',
-'Kresge Study Center',
-'Learning Support Services/HSI Cowell College Mobile Office - Conference Room', 'Learning Support Services/HSI Cowell College Mobile Office - Lobby',
-'McHenry Library Circulation Desk', 'Merrill Library/Casa Latina',
-'Namaste Lounge, College 10',
-'Oakes Learning Center',
-'Paige Smith Library (Open till 2AM)',
-'Perk Coffee Bar, Earth & Marine Sciences',
-'Perk Coffee Bar, J. Baskin Engineering',
-'Porter College Mailroom',
-'Science & Engineering Library, Front Desk',
-'Stevenson Library',
-'Thimann Labs Second Floor Entrance'],
 			styleObject: {
 				color: '#8c4191',
 				backgroundImage: 'url(https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/jPLiQ-9/mountains-background-for-titles-intro-projects-and-etc_ew22rur3l__F0000.png)'
@@ -430,12 +400,9 @@ var app = function () {
 
 	self.get_users();
 
-<<<<<<< HEAD
-=======
 	self.get_gridData();
 
 	self.get_joined_posts();
->>>>>>> origin/nick_josh_workingBranch
 
 	return self;
 };
