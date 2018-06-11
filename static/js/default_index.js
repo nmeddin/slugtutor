@@ -22,7 +22,7 @@ var app = function () {
 		}
 	};
 
-	//This is the random quote generator endpoint 
+	//This is the random quote generator endpoint
 
 	const quote_endpoint = 'https://quotes.rest/qod?category=students';
 
@@ -49,7 +49,8 @@ var app = function () {
 				classname: this.post.classname,
 				dept: this.post.department,
 				self_post: this.post.leader_email == self.vue.current_email,
-				already_joined: self.vue.joined_post_array.indexOf(this.post.id) >= 0
+				already_joined: self.vue.joined_post_array.indexOf(this.post.id) >= 0,
+				rating: -1,
 			}
 		},
 		events: {
@@ -71,13 +72,23 @@ var app = function () {
 				self.vue.curr_post.meeting_location = this.post.meeting_location;
 				self.vue.curr_post.day_of = this.post.day_of;
 				self.vue.curr_post.start_time = this.post.start_time;
-
+				self.vue.curr_post.rating =this.post.rating;
 				self.vue.goto('student_dashboard');
 
 			},
 			edit: function () {
 				console.log('edit')
-			}
+			},
+			get_rating_for_post: function() {
+				$.get(api_get_tutor,
+					{
+						tutor_email: this.post.leader_email
+					},
+					function(data){
+						// self.vue.tutor_email = data.tutor_email;
+						this.rating = data.rating;
+					})
+				},
 
 		},
 		template: `<div class="container" style="padding:30px; margin:10px">
@@ -88,9 +99,13 @@ var app = function () {
 				</div>
 				<div class="col-md-auto">
 					{{post.leader_name}}, {{post.leader_email}}<br>
-					*****<br>
+					Rating:
+					<div v-for="index in this.rating">
+						<i class="fa fa-star"></i>
+					</div>
+					<br>
 					{{post.start_time}}-{{post.end_time}}, {{post.meeting_location}}
-					
+
 				</div>
 				<div class="col col-lg-2 pull-right">
 					<br>
@@ -105,7 +120,7 @@ var app = function () {
 
 
 	Vue.component('demo-grid', {
-		template: ` 
+		template: `
 	    <table>
 	    <thead>
 	      <tr>
@@ -322,8 +337,6 @@ var app = function () {
 
 
 
-
-
 	// Complete as needed.
 	self.vue = new Vue({
 		el: "#vue-div",
@@ -360,7 +373,8 @@ var app = function () {
 				start_time: '',
 				meeting_location: '',
 				day_of: '',
-				show_this: true
+				show_this: true,
+				rating: 5
 			}
 
 
