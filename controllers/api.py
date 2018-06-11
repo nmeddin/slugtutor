@@ -100,16 +100,21 @@ pass
 #		
 #	return response.json(dict(posts=posts,curr_user=auth.user.id,curr_email=auth.user.email))
 
+"""
+db((db.person.id == db.ownership.person) &
+                            (db.thing.id == db.ownership.thing))
+"""
+
 def get_joined_posts():
 	print('This user called get joined posts:')
 	print(auth.user.id)
 	results = []
-	for row in db(db.ownership.student==auth.user_id).select():
-		print('printing ownership row')
+	for row in db((db.post.id==db.ownership.post)&(db.ownership.student==auth.user_id)).select():
+		print('printing post this student joined')
 		print(row.post)
-		print(row.student)
-		if(row.student == auth.user_id):
-			results.append(row.post)
+		print('printing ownership student')
+		print(row.ownership.student)
+		results.append(row.post)
 	return response.json(dict(results=results))
 
 
