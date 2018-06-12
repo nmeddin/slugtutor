@@ -54,18 +54,15 @@ def get_users():
 def get_search():
 	posts = []
 	for row in db(db.post.classnum==request.vars.search).select():
-		#print(row)
 		posts.append(row)
 	return response.json(dict(posts=posts))
 
 def get_demand():
 	row_info = {}
-#	search = request.vars.search.split()
 	query = (db.classes.class_id==request.vars.search) & (db.classes.department_id==request.vars.dept)
 	for row in db(query).select():
-		print('we matched something')
-		row_info = {'title' : row.title, 'department' : row.department, 'class_id' : row.class_id}
-
+		row_info = {'title' : row.title, 'department' : row.department, 'number' : row.class_id}
+		
 	return response.json(dict(row_info=row_info))
 
 
