@@ -386,6 +386,12 @@ var app = function () {
 			});
 
 	};
+	
+	self.toggle_create = function () {
+		
+		self.vue.creating_post = !self.vue.creating_post
+		
+	}
 
 	// Complete as needed.
 	self.vue = new Vue({
@@ -399,6 +405,7 @@ var app = function () {
 			user_list: [],
 			student_search: "",
 			in_demand: [],
+			creating_post: false,
 			quoteText: "",
 			quoteAuthor: "",
 			main_page: true,
@@ -446,7 +453,8 @@ var app = function () {
 			update_post: self.update_post,
 			join: self.join,
 			get_gridData: self.get_gridData,
-			get_joined_posts: self.get_joined_posts
+			get_joined_posts: self.get_joined_posts,
+			toggle_create: self.toggle_create
 		},
 		created: function () {
 

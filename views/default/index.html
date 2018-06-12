@@ -17,7 +17,7 @@
 {{end}}
 
 <div class="main_content">
-	
+
 	<transition name="fade">
 
 		<div id="vue-div" class="display:none">
@@ -51,23 +51,16 @@
 					<h1 class="display-4">Welcome back {{=auth.user["first_name"]}}</h1>
 					<button @click="goto('tutor_dashboard')" v-if="post_array.length > 0">
 										View your postings</button>
-					<button @click="goto('student_dashboard')" v-if="joined_post_array.length > 0">View your upcoming appointments</button>
-					{{pass}}
-					<hr class="my-2"> 
+					<button @click="goto('student_dashboard')" v-if="joined_post_array.length > 0">View your upcoming appointments</button> {{pass}}
+					<hr class="my-2">
 
 				</div>
 				<div class="row">
 
+
 					<div class="offset-md-2 col-md-8 col-sm-12">
 
-						<div class="jumbotron">
-							<h4 class="mx-2 font-weight-light"> Most recently searched classes</h4>
-							<!-- <form id="search">
-								Search <input name="query" v-model="searchQuery">
-								</form> -->
-							<demo-grid :data="gridData" :columns="gridColumns" :filter-key="searchQuery">
-							</demo-grid>
-						</div>
+
 
 						<div class="module-primary rounded">
 							<h4 class="mx-2 font-weight-light">Search for classes to find tutors who can help you:</h4>
@@ -78,7 +71,7 @@
   								</option>
 							</select>
 							<span></span>
-							<input class="w-80" v-model="student_search" placeholder="183"  v-on:keyup.enter="search_for_tutors(student_search)">
+							<input class="w-80" v-model="student_search" placeholder="183" v-on:keyup.enter="search_for_tutors(student_search)">
 							<button type="button" class="btn btn-outline-success w-20 my-sm-0" v-on:click="search_for_tutors(student_search)">Search</button>
 						</div>
 
@@ -87,54 +80,49 @@
 							{{if auth.user is None:}}
 							<h6 class="mx-2 font-weight-light">Login or Sign up to create a new posting.</h6>
 							{{else:}}
-							<h5 class="mx-2 font-weight-light">Create a posting so students can find you.</h5>
+							<h5 class="mx-2 font-weight-light"><button @click="toggle_create" class="btn btn-outline-success w-20 my-sm-0">Create</button> a posting so students can find you.</h5>
 							{{=form.custom.begin}}
-							<div class="row">
+							<div class="row" v-if="creating_post">
 								<div class="col-md-6 font-weight-light">
-										Department:
-										<div class="py-2">{{=form.custom.widget.department}}</div>
-										Class Number:
-										<div class="py-2">{{=form.custom.widget.classnum}}</div>
-										Class Name:
-										<div class="py-2">{{=form.custom.widget.classname}}</div>
-										Location:
-										<div class="py-2">{{=form.custom.widget.meeting_location}}</div>
+									Department:
+									<div class="py-2">{{=form.custom.widget.department}}</div>
+									Class Number:
+									<div class="py-2">{{=form.custom.widget.classnum}}</div>
+									Class Name:
+									<div class="py-2">{{=form.custom.widget.classname}}</div>
+									Location:
+									<div class="py-2">{{=form.custom.widget.meeting_location}}</div>
 								</div>
 								<div class="col-md-6">
-										On:
-										<div class="py-2">{{=form.custom.widget.day_of}}</div>
-										From:
-										<div class="py-2">{{=form.custom.widget.start_time}}</div>
-										To:
-										<div class="py-2">{{=form.custom.widget.end_time}}</div>
-										Student Capacity:
-										<div class="py-2">{{=form.custom.widget.capacity}}</div>
+									On:
+									<div class="py-2">{{=form.custom.widget.day_of}}</div>
+									From:
+									<div class="py-2">{{=form.custom.widget.start_time}}</div>
+									To:
+									<div class="py-2">{{=form.custom.widget.end_time}}</div>
+									Student Capacity:
+									<div class="py-2">{{=form.custom.widget.capacity}}</div>
 								</div>
 							</div>
-							<div class="py-2 w-20 my-sm-0">{{=form.custom.submit}}</div>
-							{{=form.custom.end}}
-						{{pass}}
+							<div v-if="creating_post" class="py-2 w-20 my-sm-0">{{=form.custom.submit}}</div>
+							{{=form.custom.end}} {{pass}}
 
-
-							<!-- <button class="btn btn-outline-success w-20 my-sm-0" v-on:click="add_post(tutor_input)">Create</button> -->
 						</div>
+
+
 						<div class="module-primary rounded">
 							<h6 class="mx-2">Quote of the day:</h6>
 							<div id="new-quote">
 
 								<p>${ quoteText }</p>
 								<i>${ quoteAuthor }</i>
-								<!--                  <button class="btn btn-outline-success  my-sm-0" v-on:click="getQuote">New Quote</button>-->
+
 							</div>
 						</div>
 
 
-
 					</div>
-					<div class="col-md-2">
 
-
-					</div>
 				</div>
 			</div>
 
@@ -156,11 +144,11 @@
 
 					<button @click="show_join_success = false">Dismiss</button>
 
+				</div>
+				<div class="jumbotron">
+					<h3>Upcoming appointments</h3>
+					<post-card v-for="post in joined_post_array" v-bind:post="post" v-bind:style="styleObject"></post-card>
+				</div>
 			</div>
-			<div class="jumbotron">
-				<h3>Upcoming appointments</h3>
-				<post-card v-for="post in joined_post_array" v-bind:post="post" v-bind:style="styleObject"></post-card>
-			</div>
-		</div>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
-		<script src="{{=URL('static', 'js/default_index.js')}}"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
+			<script src="{{=URL('static', 'js/default_index.js')}}"></script>
