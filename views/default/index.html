@@ -108,9 +108,16 @@
 							{{=form.custom.end}} {{pass}}
 
 						</div>
-						
-						
 
+
+						<div class="module-primary rounded">
+							<h4 class="mx-2 font-weight-light"> Most recently searched classes</h4>
+							<!-- <form id="search">
+								Search <input name="query" v-model="searchQuery">
+								</form> -->
+							<demo-grid :data="gridData" :columns="gridColumns" :filter-key="searchQuery">
+							</demo-grid>
+						</div>
 
 						<div class="module-primary rounded">
 							<h6 class="mx-2">Quote of the day:</h6>
