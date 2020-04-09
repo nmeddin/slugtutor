@@ -8,4 +8,4 @@ Excel in a class? Interested in helping others and earning some extra cash? Sign
 
 Credit to: 
 
-//https://freshman.tech/random-quote-machine/
+https://freshman.tech/random-quote-machine/
